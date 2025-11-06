@@ -547,6 +547,7 @@ nav a.active::after {
     gap: 5px;
     cursor: pointer;
     padding: 10px;
+    background: transparent;
 }
 
 .burger span {
@@ -918,6 +919,7 @@ footer {
     .burger {
         display: flex;
         z-index: 1001; /* Ensure it's above other header content */
+        border: none; /*no border around*/
     }
 
     nav {
