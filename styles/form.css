@@ -217,3 +217,52 @@ form button[type="submit"]:hover {
         gap: 0;
     }
 }
+
+
+/* ===================================================================
+   FORM FILTER & TOGGLE SWITCHES
+=================================================================== */
+
+.form-filter-switches {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem; /* Adds space between the switch and the form */
+    background-color: #f0f4f8; /* Light background for the container */
+    border-radius: 50px; /* Fully rounded corners for a "pill" shape */
+    padding: 0.5rem;
+    width: fit-content; /* Adjusts width to content */
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+}
+
+.form-filter-switches button,
+.form-filter-switches a { /* Targeting both button and anchor tag */
+    padding: 0.8rem 1.8rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--gray); /* Default text color for inactive button */
+    background-color: transparent; /* No background for inactive state */
+    border: none;
+    border-radius: 50px; /* Match the container's rounding */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none; /* Remove underline from anchor tag */
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+/* --- Active State --- */
+.form-filter-switches button.active,
+.form-filter-switches a.active {
+    background-color: var(--primary); /* Use your primary theme color */
+    color: var(--white);
+    box-shadow: 0 4px 10px rgba(0, 119, 190, 0.25); /* Subtle shadow for depth */
+    transform: scale(1.05); /* Slightly enlarges the active button */
+}
+
+/* --- Hover State for Inactive Buttons --- */
+.form-filter-switches button:not(.active):hover,
+.form-filter-switches a:not(.active):hover {
+    color: var(--dark);
+    background-color: #e9ecef; /* A light hover effect */
+}

@@ -61,7 +61,7 @@
   <nav>
     <a href="#home">Home</a>
     <a href="services.html">Services</a>
-    <a href="#pricing">Pricing</a>
+    <a href="#manage-bookings">Quote</a>
     <a href="#about">About</a>
     <a href="contact.html" class="cta-nav">Contact</a>
   </nav>
@@ -151,51 +151,59 @@
     </section>
 
 
-    <section id="pricing" class="pricing">
-      <div class="container">
-        <h2 class="section-title">Clear, Transparent Pricing</h2>
-        <p class="section-subtitle">Choose the plan that fits your needs. No hidden fees, just spotless cleaning.</p>
-        <div class="pricing-grid">
-          <div class="pricing-card">
-            <h3>Essential Plan</h3>
-            <div class="price">From R95<span>/hr</span></div>
-            <p>(R95/hr Dbn | R105/hr Jhb)</p>
-            <p class="pricing-note">*Pricing based on time and size of space</p>
-            <ul>
-              <li>Recurring (Weekly/Bi-weekly)</li>
-              <li>Ideal for Homes & Small Offices</li>
-              <li>Consistent, Reliable Service</li>
-              <li>Flexible Scheduling</li>
-            </ul>
-            <a href="contact.html" class="cta-price">Book Recurring</a>
-          </div>
-          <div class="pricing-card popular">
-            <h3>Classic Comprehensive</h3>
-            <div class="price">From R350</div>
-            <p>(Based on space size & type)</p>
-            <ul>
-              <li>Once-Off / Deep Cleans</li>
-              <li>Move-in / Move-out</li>
-              <li>Airbnb & Guest Turnovers</li>
-              <li>Studio / Apartments (R850 - R3500)</li>
-            </ul>
-            <a href="contact.html" class="cta-price">Get Once-Off Quote</a>
-          </div>
-          <div class="pricing-card">
-            <h3>Executive Plan</h3>
-            <div class="price">R20<span>/m²</span></div>
-            <p>(From R1k)</p>
-            <ul>
-              <li>Commercial Contracts (from R8/m²)</li>
-              <li>Post-Construction Cleanup</li>
-              <li>Event Cleanup Specialists</li>
-              <li>Custom Team Rates (R200-R450 p/hr)</li>
-            </ul>
-            <a href="contact.html" class="cta-price">Request Custom Quote</a>
-          </div>
-        </div>
+    <section id="manage-bookings" class="bookings">
+  <div class="container">
+    <h2 class="section-title">Smart, Flexible Bookings</h2>
+    <p class="section-subtitle">
+      Create a custom cleaning schedule that fits your lifestyle and budget. Pricing is calculated instantly — based on your items, space size, and frequency of service.
+    </p>
+
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <h3>Home & Apartment</h3>
+        <p class="pricing-note">Perfect for small homes, apartments, and shared spaces.</p>
+        <ul>
+          <li>Book weekly, bi-weekly, or once-off</li>
+          <li>Pricing adjusts by room size and number of items</li>
+          <li>Bedrooms, kitchens, lounges & bathrooms included</li>
+          <li>Custom add-ons like windows, carpets, and appliances</li>
+        </ul>
+        <a href="booking.html" class="cta-price">Book Home Cleaning</a>
       </div>
-    </section>
+
+      <div class="pricing-card popular">
+        <h3>Office & Workspace</h3>
+        <p class="pricing-note">Ideal for small to medium offices and business premises.</p>
+        <ul>
+          <li>Recurring or once-off service options</li>
+          <li>Pricing based on floor area and cleaning frequency</li>
+          <li>Desks, floors, glass, and sanitization included</li>
+          <li>Customizable contracts for regular upkeep</li>
+        </ul>
+        <a href="booking.html" class="cta-price">Book Office Cleaning</a>
+      </div>
+
+      <div class="pricing-card">
+        <h3>Deep & Specialized</h3>
+        <p class="pricing-note">Tailored for move-ins, events, or post-construction spaces.</p>
+        <ul>
+          <li>Once-off or scheduled deep cleans</li>
+          <li>Pricing calculated per square meter or per item</li>
+          <li>Includes walls, ceilings, fixtures, and heavy-duty areas</li>
+          <li>Custom quotes for large or complex properties</li>
+        </ul>
+        <a href="booking.html" class="cta-price">Request Custom Quote</a>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 2.5rem;">
+      <h3>Get an Instant Quote</h3>
+      <p>View your pricing, select your items, and confirm your booking — all online.</p><br>
+      <a href="booking.html" class="cta-btn primary-accent">Build Your Booking Now</a>
+    </div>
+  </div>
+</section>
+
 
     <section id="about" class="about">
       <div class="container">
@@ -255,13 +263,19 @@
     </section>
 
     <!-- ENHANCED CONTACT SECTION -->
-    <section id="contact" class="contact">
-      <div class="container">
-        <h2 class="section-title">Get Your Free Quote</h2>
-        <p class="section-subtitle">Tell us about your space. We'll respond promptly with a custom quote.</p>
-        <div class="contact-grid" style="grid-template-columns: 1fr;">
-          <form id="quote-form" novalidate>
-            <h3 style="text-align: center; margin-bottom: 1rem;">Get a Precise Quote</h3>
+  <section id="contact" class="contact">
+  <div class="container">
+    <h2 class="section-title">Get Your Free Quote</h2>
+    <p class="section-subtitle">Tell us about your space. We'll respond promptly with a custom quote.</p>
+    <div class="contact-grid" style="grid-template-columns: 1fr;">
+      <form id="quote-form" novalidate>
+        <!-- START: MODIFIED TOGGLE SWITCH -->
+        <div class="form-filter-switches">
+          <button type="button" id="show-inquiry-form" class="active">Inquiry Form</button>
+          <a href="booking.html" id="show-booking-form">Booking Form</a>
+        </div>
+        <!-- END: MODIFIED TOGGLE SWITCH -->
+            <h3 style="text-align: center; margin-bottom: 1rem;">Send Us an Inquiry</h3>
             <input type="hidden" name="access_key" value="9d215b07-c824-40ed-a51e-aa79fd714e28">
             <input type="hidden" name="subject" value="New Quote Request from XYZSolutions Website">
             <input type="hidden" name="from_name" value="XYZSolutions Quote Form">
