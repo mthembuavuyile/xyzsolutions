@@ -30,19 +30,19 @@
         <nav>
             <a href="index.html#home">Home</a>
             <a href="services.html">Services</a>
-            <a href="index.html#pricing">Pricing</a>
             <a href="index.html#about">About</a>
-            <a href="contact.html" class="cta-nav">Contact</a>
+            <a href="contact.html">Contact</a>
+            <a href="booking.html" class="cta-nav">Book now</a>
+
         </nav>
-        <div class="burger">
+        <button class="burger" type="button" aria-label="Toggle navigation menu">
             <span></span>
             <span></span>
             <span></span>
-        </div>
+        </button>
     </header>
 
     <main>
-        <!-- CONTACT HEADER -->
         <section class="page-header contact-header">
             <div class="header-content">
                 <h1>Get In Touch</h1>
@@ -50,14 +50,15 @@
             </div>
         </section>
 
-        <!-- CONTACT FORM & INFO -->
         <section class="contact-page">
             <div class="container">
                 <div class="contact-grid">
                     <div class="contact-info">
                         <h3>Contact Information</h3>
-                        <p style="margin-bottom: 2rem; color: var(--gray);">We operate in both Johannesburg and Durban.
-                            Feel free to call, WhatsApp, or email us. We respond promptly during business hours.</p>
+                        <p class="contact-description">
+                            We operate in both Johannesburg and Durban.
+                            Feel free to call, WhatsApp, or email us. We respond promptly during business hours.
+                        </p>
                         <div class="info-item">
                             <i class="fas fa-phone"></i>
                             <div>
@@ -68,28 +69,34 @@
                         </div>
                         <div class="info-item">
                             <i class="fas fa-envelope"></i>
-                            <div><strong>Email Us</strong><br><a
-                                    href="mailto:quotes@xyzsolutions.co.za">quotes@xyzsolutions.co.za</a></div>
+                            <div>
+                                <strong>Email Us</strong><br>
+                                <a href="mailto:quotes@xyzsolutions.co.za">quotes@xyzsolutions.co.za</a>
+                            </div>
                         </div>
                         <div class="info-item">
                             <i class="fas fa-map-marker-alt"></i>
-                            <div><strong>Service Areas</strong><br>Johannesburg, Gauteng & Durban, KZN</div>
+                            <div>
+                                <strong>Service Areas</strong><br>
+                                Johannesburg, Gauteng & Durban, KZN
+                            </div>
                         </div>
                         <div class="info-item">
                             <i class="fas fa-clock"></i>
-                            <div><strong>Business Hours</strong><br>Mon–Fri: 8:00 AM – 5:00 PM<br>Sat: 9:00 AM – 1:00 PM
+                            <div>
+                                <strong>Business Hours</strong><br>
+                                Mon–Fri: 8:00 AM – 5:00 PM<br>
+                                Sat: 9:00 AM – 1:00 PM
                             </div>
                         </div>
                     </div>
 
                     <form id="quote-form" novalidate>
-                        <!-- START: MODIFIED TOGGLE SWITCH -->
                         <div class="form-filter-switches">
                             <button type="button" id="show-inquiry-form" class="active">Inquiry Form</button>
                             <a href="booking.html" id="show-booking-form">Booking Form</a>
                         </div>
-                        <!-- END: MODIFIED TOGGLE SWITCH -->
-                        <h3 style="text-align: center; margin-bottom: 1rem;">Send Us an Inquiry</h3>
+                        <h3>Send Us an Inquiry</h3>
                         <input type="hidden" name="access_key" value="9d215b07-c824-40ed-a51e-aa79fd714e28">
                         <input type="hidden" name="subject" value="New Quote Request from XYZSolutions Website">
                         <input type="hidden" name="from_name" value="XYZSolutions Quote Form">
@@ -135,7 +142,6 @@
                             <label for="service_type">Select Service Type</label>
                         </div>
 
-                        <!-- Conditionally Shown Field -->
                         <div id="frequency-options" class="form-options-group hidden">
                             <label class="options-label">Service Frequency:</label>
                             <div class="radio-group">
@@ -151,7 +157,6 @@
                             <label for="message">Tell us more (e.g., number of rooms, special requirements)</label>
                         </div>
 
-                        <!-- Conditionally Shown Field -->
                         <div id="additional-services" class="form-options-group hidden">
                             <label class="options-label">Additional Services (optional):</label>
                             <div class="checkbox-group">
@@ -165,8 +170,7 @@
                         <div class="privacy-notice">
                             <p>
                                 By submitting this form, you acknowledge that your personal information will be used to
-                                respond to your
-                                service request.
+                                respond to your service request.
                                 See our <a href="policy.html#privacy-policy">Privacy Policy</a> for details.
                             </p>
                         </div>
@@ -185,10 +189,8 @@
                 </div>
             </div>
         </section>
-        </div>
-        </div>
-        </section>
-    </main>
+        
+        </main>
 
     <footer>
         <div class="container footer-grid">
