@@ -1,9 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- DATA STORE ---
-    // MODIFIED: This object is now structured to match your specific services.
-    // Some services have 'items' for instant quotes, while others have 'requiresConsultation'.
     const pricingData = {
+        // ... (your existing pricingData object remains unchanged)
         regular_domestic: {
             name: 'Regular Domestic Cleaning',
             items: [
@@ -69,24 +68,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
     const submitBtn = document.getElementById('submit-btn');
-    const serviceSelectionBtns = document.querySelectorAll('.service-card-select');
+    
+    // REMOVED: const serviceSelectionBtns = document.querySelectorAll('.service-card-select');
+    // NEW: Custom select elements
+    const serviceSelectContainer = document.getElementById('service-select-container');
+    const serviceSelectTrigger = serviceSelectContainer.querySelector('.custom-select-trigger');
+    const serviceSelectOptions = serviceSelectContainer.querySelectorAll('.custom-select-option');
+    const selectedServiceText = document.getElementById('selected-service-text');
+    const hiddenServiceInput = document.getElementById('service_type');
+
     const itemListContainer = document.getElementById('item-list');
     const quoteFloater = document.getElementById('quote-summary-floater');
     const discountCheckbox = document.getElementById('contractual_discount');
-    const allSelects = document.querySelectorAll('.input-container select');
+    const allSelects = document.querySelectorAll('select'); // Native selects
 
     // --- FLOATING SELECT LABELS HANDLER ---
     const handleSelectChange = (selectElement) => {
         selectElement.classList.toggle('has-value', !!selectElement.value);
     };
     allSelects.forEach(select => {
-        handleSelectChange(select); 
+        handleSelectChange(select);
         select.addEventListener('change', (event) => handleSelectChange(event.target));
     });
 
     // --- CORE FUNCTIONS ---
 
     const renderCurrentStep = () => {
+        // ... (this function remains unchanged)
         formSteps.forEach(step => step.classList.remove('active'));
         document.getElementById(`form-step-${currentStep}`)?.classList.add('active');
         
@@ -111,14 +119,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const updateStep = (increment) => {
         if (increment > 0) {
             if (currentStep === 1) {
+                // MODIFIED: Validation now checks the hidden input
                 const area = document.getElementById('service_area').value;
-                if (!selectedServiceKey || !area) {
+                if (!hiddenServiceInput.value || !area) {
                     alert('Please select a service area and a service type to continue.');
                     return;
                 }
             }
-            // MODIFIED: Validation now bypasses the item check if the service requires a consultation.
             if (currentStep === 2) {
+                // ... (rest of the function is unchanged)
                 const service = pricingData[selectedServiceKey];
                 if (!service.requiresConsultation && Object.keys(cart).length === 0) {
                     alert('Please add at least one item to your quote.');
@@ -141,14 +150,18 @@ document.addEventListener('DOMContentLoaded', () => {
         selectedServiceKey = serviceKey;
         Object.keys(cart).forEach(key => delete cart[key]);
         
-        serviceSelectionBtns.forEach(btn => btn.classList.remove('selected'));
-        document.querySelector(`[data-service="${serviceKey}"]`)?.classList.add('selected');
-        
+        // NEW: Update the custom dropdown's display
+        const selectedOption = document.querySelector(`.custom-select-option[data-service="${serviceKey}"]`);
+        selectedServiceText.innerText = selectedOption.querySelector('span').innerText;
+        hiddenServiceInput.value = serviceKey;
+        serviceSelectContainer.classList.add('has-value'); // For floating label
+        serviceSelectContainer.classList.remove('open'); // Close dropdown
+
         populateItemList();
         calculateTotal();
     };
     
-    // MODIFIED: This function now handles both item lists and consultation messages.
+    // ... (populateItemList, updateQuantity, calculateTotal, renderBookingSummary, getFinalTotals functions remain unchanged)
     const populateItemList = () => {
         const service = pricingData[selectedServiceKey];
         if (!service) return;
@@ -221,7 +234,6 @@ document.addEventListener('DOMContentLoaded', () => {
         quoteFloater.style.display = currentStep >= 2 && Object.keys(cart).length > 0 ? 'block' : 'none';
     };
     
-    // MODIFIED: Now generates a different summary for consultation-based services.
     const renderBookingSummary = () => {
         const summaryContainer = document.getElementById('booking-summary');
         const service = pricingData[selectedServiceKey];
@@ -287,13 +299,34 @@ document.addEventListener('DOMContentLoaded', () => {
         return { subtotal, total, discountAmount, feeApplied };
     }
 
+
     // --- EVENT LISTENERS ---
     prevBtn.addEventListener('click', () => updateStep(-1));
     nextBtn.addEventListener('click', () => updateStep(1));
     
-    serviceSelectionBtns.forEach(btn => btn.addEventListener('click', () => selectService(btn.dataset.service)));
+    // REMOVED: Old button listeners
+    // serviceSelectionBtns.forEach(btn => btn.addEventListener('click', () => selectService(btn.dataset.service)));
     
+    // NEW: Listeners for the custom dropdown
+    serviceSelectTrigger.addEventListener('click', () => {
+        serviceSelectContainer.classList.toggle('open');
+    });
+
+    serviceSelectOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            selectService(option.dataset.service);
+        });
+    });
+
+    // Close dropdown if user clicks outside of it
+    window.addEventListener('click', (e) => {
+        if (!serviceSelectContainer.contains(e.target)) {
+            serviceSelectContainer.classList.remove('open');
+        }
+    });
+
     itemListContainer.addEventListener('click', (e) => {
+        // ... (this listener remains unchanged)
         const target = e.target.closest('.quantity-btn');
         if (target) {
             const row = target.closest('.item-row');
@@ -304,6 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
     discountCheckbox.addEventListener('change', calculateTotal);
     
     bookingForm.addEventListener('submit', (e) => {
+        // ... (this listener remains unchanged)
         e.preventDefault();
         const formResult = document.getElementById('form-result');
         formResult.style.display = 'block';
@@ -311,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
         formResult.innerText = 'Thank you! Your booking request has been sent. We will contact you shortly to confirm.';
         
         submitBtn.disabled = true;
-        submitBtn.innerText = 'Sent!';
+        submitBtn.innerText = 'Sent!✅';
         prevBtn.style.display = 'none';
     });
 
