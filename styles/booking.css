@@ -6,13 +6,13 @@
     1.0 Page Header & Section Layout
 ------------------------------------------------------------------- */
 .booking-header {
-    min-height: 40vh; /* A slightly shorter header for this page */
-    background-image: url('../images/xyzsol.jpeg'); /* Ensure path is correct */
+    min-height: 40vh;
+    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../images/xyzsol.jpeg'); /* Added overlay for text readability */
 }
 
 .booking-page-section {
     padding: 4rem 5%;
-    background-color: #f0f4f8; /* A very light blue-gray background */
+    background-color: #f0f4f8;
 }
 
 /* -------------------------------------------------------------------
@@ -20,7 +20,7 @@
 ------------------------------------------------------------------- */
 .booking-wrapper {
     display: grid;
-    grid-template-columns: 1fr 320px; /* Main content and a sidebar for the quote */
+    grid-template-columns: 1fr 360px; /* Main content and a slightly wider sidebar for the quote */
     gap: 2.5rem;
     align-items: start;
 }
@@ -43,11 +43,10 @@
     position: relative;
 }
 
-/* The connecting line */
 .progress-bar::before {
     content: '';
     position: absolute;
-    top: 20px; /* Vertically center with the icons */
+    top: 20px;
     left: 10%;
     width: 80%;
     height: 4px;
@@ -60,7 +59,7 @@
     position: relative;
     text-align: center;
     z-index: 2;
-    width: 80px; /* Give steps a defined width */
+    width: 80px;
 }
 
 .step .step-icon {
@@ -86,51 +85,29 @@
     transition: var(--transition);
 }
 
-/* Active State */
 .step.active .step-icon {
     background-color: var(--primary);
     color: var(--white);
     border-color: var(--primary);
 }
-
-.step.active p {
-    color: var(--primary);
-    font-weight: 600;
-}
-
-/* Completed State */
+.step.active p { color: var(--primary); font-weight: 600; }
 .step.completed .step-icon {
     background-color: var(--secondary);
     color: var(--white);
     border-color: var(--secondary);
 }
-
-.step.completed p {
-    color: var(--secondary);
-}
+.step.completed p { color: var(--secondary); }
 
 
 /* -------------------------------------------------------------------
     4.0 Form Steps & Content
 ------------------------------------------------------------------- */
-.form-step {
-    display: none;
-    animation: fadeIn 0.5s ease-in-out;
-}
-
-.form-step.active {
-    display: block;
-}
+.form-step { display: none; animation: fadeIn 0.5s ease-in-out; }
+.form-step.active { display: block; }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(15px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .step-title {
@@ -142,14 +119,7 @@
 }
 
 /* --- Step 1: Custom Dropdown Styles --- */
-
-/* Container for the custom select, works with the floating label */
-.custom-select-container {
-    position: relative;
-    margin-top: 1.5rem;
-}
-
-/* The visible part of the dropdown, styled to look like an input */
+.custom-select-container { position: relative; margin-top: 1.5rem; }
 .custom-select-trigger {
     display: flex;
     justify-content: space-between;
@@ -161,385 +131,154 @@
     border-radius: var(--radius);
     cursor: pointer;
     transition: var(--transition);
-    height: 56px; /* Match height of other inputs */
+    height: 56px;
     box-sizing: border-box;
 }
-
 .custom-select-trigger:hover,
 .custom-select-container.open .custom-select-trigger {
     border-color: var(--primary);
     box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
 }
+.custom-select-trigger span { color: var(--dark); font-size: 1rem; }
+.select-arrow { color: var(--gray); transition: transform 0.3s ease; }
 
-.custom-select-trigger span {
-    color: var(--dark);
-    font-size: 1rem;
-}
-
-.select-arrow {
-    color: var(--gray);
-    transition: transform 0.3s ease;
-}
-
-/* The options panel that appears on click */
 .custom-select-options {
-    position: absolute;
-    top: calc(100% + 5px);
-    left: 0;
-    right: 0;
-    background: var(--white);
-    border: 1px solid #e0e0e0;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    z-index: 10;
-    max-height: 250px;
-    overflow-y: auto;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
+    position: absolute; top: calc(100% + 5px); left: 0; right: 0;
+    background: var(--white); border: 1px solid #e0e0e0; border-radius: var(--radius);
+    box-shadow: var(--shadow); z-index: 10; max-height: 250px; overflow-y: auto;
+    opacity: 0; visibility: hidden; transform: translateY(-10px);
     transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
 }
+.custom-select-container.open .custom-select-options { opacity: 1; visibility: visible; transform: translateY(0); }
+.custom-select-container.open .select-arrow { transform: rotate(180deg); }
 
-/* Style for when the dropdown is open */
-.custom-select-container.open .custom-select-options {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.custom-select-container.open .select-arrow {
-    transform: rotate(180deg);
-}
-
-/* Individual option items */
 .custom-select-option {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 1rem;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    text-align: left;
-    font-size: 1rem;
-    color: var(--dark);
-    border-bottom: 1px solid #f0f0f0;
+    display: flex; align-items: center; justify-content: space-between;
+    width: 100%; padding: 1rem; border: none; background: transparent; cursor: pointer;
+    text-align: left; font-size: 1rem; color: var(--dark); border-bottom: 1px solid #f0f0f0;
 }
+.custom-select-option:last-child { border-bottom: none; }
+.custom-select-option:hover { background-color: #f0f4f8; }
+.custom-select-option i { font-size: 1.2rem; color: var(--primary); margin-left: 1rem; }
 
-.custom-select-option:last-child {
-    border-bottom: none;
-}
-
-.custom-select-option:hover {
-    background-color: #f0f4f8; /* Light background on hover */
-}
-
-.custom-select-option i {
-    font-size: 1.2rem; /* Smaller icon size */
-    color: var(--primary);
-    margin-left: 1rem;
-}
-
-/* Floating label adjustment */
-.custom-select-container .custom-select-trigger~label {
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    padding: 0 5px;
-}
-
-.custom-select-container.has-value .custom-select-trigger~label {
-    top: 0;
-    font-size: 0.8rem;
-    background: var(--white);
-    color: var(--primary);
+/* Floating label adjustment for custom select */
+.custom-select-container .custom-select-trigger~label { top: 50%; transform: translateY(-50%); background: none; padding: 0 5px; }
+.custom-select-container.has-value .custom-select-trigger~label,
+.custom-select-container.open .custom-select-trigger~label {
+    top: 0; font-size: 0.8rem; background: var(--white); color: var(--primary);
 }
 
 
-/* --- Step 2: Item List --- */
-.item-list-container {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
+/* --- Step 2: Item & Package List --- */
+.item-list-container { display: flex; flex-direction: column; gap: 1.5rem; }
+.item-list-subtitle { font-size: 1.2rem; color: var(--dark); margin-bottom: 0; border-bottom: 2px solid #f0f4f8; padding-bottom: .5rem; }
+.consultation-message { background-color: #e9f5ff; border-left: 4px solid var(--primary); padding: 1rem; font-size: 1rem; }
+
+.package-option { display: block; border: 1px solid #e0e0e0; border-radius: var(--radius); padding: 1rem; cursor: pointer; transition: var(--transition); }
+.package-option:has(input:checked), .package-option:hover { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2); }
+.package-option input { display: none; }
+.package-details .package-name { font-weight: 600; font-size: 1.1rem; color: var(--dark); }
+.package-details .package-desc { font-size: 0.9rem; color: var(--gray); margin-top: 0.25rem; display: block; }
+
 
 .item-row {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    align-items: center;
-    padding: 1rem;
-    border: 1px solid #e8e8e8;
-    border-radius: 10px;
-    gap: 1rem;
+    display: grid; grid-template-columns: 1fr auto; align-items: center;
+    padding: 1rem; border: 1px solid #e8e8e8; border-radius: 10px; gap: 1rem;
 }
+.item-info .item-name { font-weight: 600; color: var(--dark); display: block; }
+.item-info .item-price { font-size: 0.9rem; color: var(--gray); }
 
-.item-info .item-name {
-    font-weight: 600;
-    color: var(--dark);
-    display: block;
-}
-
-.item-info .item-price {
-    font-size: 0.9rem;
-    color: var(--gray);
-}
-
-.quantity-selector {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
+.quantity-selector { display: flex; align-items: center; justify-content: flex-end; }
 .quantity-btn {
-    width: 35px;
-    height: 35px;
-    border: 1px solid #ccc;
-    background: #f9f9f9;
-    color: var(--dark);
-    font-size: 1.5rem;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 50%;
-    line-height: 30px; /* Aligns minus sign */
+    width: 35px; height: 35px; border: 1px solid #ccc; background: #f9f9f9;
+    color: var(--dark); font-size: 1.5rem; font-weight: bold; cursor: pointer;
+    border-radius: 50%; line-height: 30px; transition: var(--transition);
 }
-
-.quantity-btn:hover {
-    background: #e0e0e0;
-}
-
-.quantity-input {
-    width: 50px;
-    text-align: center;
-    border: none;
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--primary);
-}
-
-.item-total {
-    font-size: 1.1rem;
-    font-weight: 600;
-    text-align: right;
-    color: var(--secondary);
-}
+.quantity-btn:hover { background: #e0e0e0; }
+.quantity-input { width: 50px; text-align: center; border: none; font-size: 1.2rem; font-weight: 600; color: var(--primary); background: transparent; }
 
 /* --- Step 4: Summary --- */
-#booking-summary {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
+#booking-summary { display: flex; flex-direction: column; gap: 2rem; }
+.summary-section h5 { font-size: 1.2rem; margin-bottom: 1rem; padding-bottom: .5rem; border-bottom: 2px solid #eee; }
+.summary-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: .8rem; font-size: 0.95rem; }
+.summary-item .item-name { color: var(--gray); }
+.summary-item .item-value { font-weight: 600; color: var(--dark); text-align: right; }
+.summary-item.discount .item-value { color: #28a745; }
+.final-total-summary { font-size: 1.2rem; font-weight: bold; margin-top: 1rem; }
+.final-total-summary .item-value { color: var(--secondary); }
 
-.summary-section h5 {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-    padding-bottom: .5rem;
-    border-bottom: 2px solid #eee;
-}
-
-.summary-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: .8rem;
-    font-size: 0.95rem;
-}
-
-.summary-item .item-name {
-    color: var(--gray);
-}
-
-.summary-item .item-value {
-    font-weight: 600;
-    color: var(--dark);
-}
-
-.final-total-summary {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-top: 1rem;
-}
-
-.final-total-summary .item-value {
-    color: var(--secondary);
-}
 
 /* -------------------------------------------------------------------
-    5.0 Form Navigation
+    5.0 Form Navigation & Result Message
 ------------------------------------------------------------------- */
 .form-navigation {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 2.5rem;
-    border-top: 1px solid #eee;
-    padding-top: 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 2.5rem; border-top: 1px solid #eee; padding-top: 2rem;
 }
-
-/* Re-style nav buttons for this context */
-.form-navigation .cta-btn {
-    padding: 0.9rem 2.2rem;
-    font-size: 1rem;
-    box-shadow: none; /* simpler buttons */
-}
-
+.form-navigation .cta-btn { padding: 0.9rem 2.2rem; font-size: 1rem; box-shadow: none; }
 .form-navigation .cta-btn.secondary-outline {
-    background: transparent;
-    border: 2px solid var(--gray);
-    color: var(--gray);
+    background: transparent; border: 2px solid var(--gray); color: var(--gray);
 }
+.form-navigation .cta-btn.secondary-outline:hover { background: var(--gray); color: var(--white); }
+.success-message { padding: 1rem; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: var(--radius); text-align: center; margin-top: 1.5rem; }
 
-.form-navigation .cta-btn.secondary-outline:hover {
-    background: var(--gray);
-    color: var(--white);
-}
 
 /* -------------------------------------------------------------------
-    6.0 Floating Quote Summary
+    6.0 Quote Summary (Desktop & Mobile)
 ------------------------------------------------------------------- */
-.quote-summary-floater {
-    position: sticky;
-    top: 90px; /* Position below fixed header */
-    padding: 1.5rem;
-    background: var(--white);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    border: 1px solid #e8e8e8;
+.quote-summary-container { position: sticky; top: 90px; }
+.quote-summary-desktop {
+    padding: 1.5rem; background: var(--white); border-radius: var(--radius);
+    box-shadow: var(--shadow); border: 1px solid #e8e8e8;
 }
+.quote-summary-desktop h4 { font-size: 1.3rem; margin-bottom: 1.5rem; text-align: center; }
+.summary-line { display: flex; justify-content: space-between; margin-bottom: 1rem; font-size: 0.95rem; }
+.summary-line span:first-child { color: var(--gray); }
+.summary-line span:last-child { font-weight: 600; }
+.summary-line.subtle { color: var(--primary); }
+.summary-line.discount span:last-child { color: #28a745; }
+.summary-line.total { font-size: 1.2rem; font-weight: 700; color: var(--dark); }
+.summary-line.total span:last-child { color: var(--secondary); }
+.quote-summary-desktop hr { border: 0; border-top: 1px solid #eee; margin: 1rem 0; }
+.summary-notice { font-size: 0.85rem; text-align: center; color: var(--gray); margin-top: 1.5rem; }
+.quote-summary-mobile { display: none; } /* Hidden on desktop */
 
-.quote-summary-floater h4 {
-    font-size: 1.3rem;
-    margin-bottom: 1.5rem;
-    text-align: center;
-}
-
-.summary-line {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-    font-size: 0.95rem;
-}
-
-.summary-line span:first-child {
-    color: var(--gray);
-}
-
-.summary-line span:last-child {
-    font-weight: 600;
-}
-
-.summary-line.total {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--dark);
-}
-
-.summary-line.total span:last-child {
-    color: var(--secondary);
-}
-
-.quote-summary-floater hr {
-    border: 0;
-    border-top: 1px solid #eee;
-    margin: 1rem 0;
-}
-
-.summary-notice {
-    font-size: 0.85rem;
-    text-align: center;
-    color: var(--gray);
-    margin-top: 1.5rem;
-}
-
-
-/* ===================================================================
-    7.0 RESPONSIVE STYLES
-=================================================================== */
 
 /* -------------------------------------------------------------------
-    7.1 Tablet (max-width: 992px)
+    7.0 RESPONSIVE STYLES
 ------------------------------------------------------------------- */
 @media (max-width: 992px) {
-    .booking-wrapper {
-        grid-template-columns: 1fr; /* Stack form and summary */
+    .booking-wrapper { grid-template-columns: 1fr; }
+    .quote-summary-container { position: static; }
+    .quote-summary-desktop { display: none; } /* Hide desktop view */
+    .quote-summary-mobile {
+        display: flex; justify-content: space-between; align-items: center;
+        position: fixed; bottom: 0; left: 0; right: 0;
+        background-color: var(--dark); color: var(--white);
+        padding: 1rem 1.5rem; box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+        z-index: 1000; font-size: 1.1rem; font-weight: 600;
+        animation: slideUp 0.5s ease-out;
     }
-
-    .quote-summary-floater {
-        position: static; /* No longer sticky */
-        top: auto;
-        margin-top: 2rem;
-    }
-
-    .form-content {
-        padding: 2rem;
-    }
+    .booking-page-section { padding-bottom: 6rem; } /* Add padding to prevent overlap with mobile bar */
 }
 
-/* -------------------------------------------------------------------
-    7.2 Mobile (max-width: 768px)
-------------------------------------------------------------------- */
+@keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+}
+
+
 @media (max-width: 768px) {
-    .booking-page-section {
-        padding: 2rem 3%; /* More breathing room */
-    }
-
-    .form-content {
-        padding: 1.5rem;
-    }
-
-    .step-title {
-        font-size: 1.4rem;
-    }
-
-    /* Responsive Progress Bar */
-    .progress-bar::before {
-        left: 5%;
-        width: 90%;
-    }
-
-    .progress-bar .step p {
-        /* On small screens, hide the text to avoid clutter */
-        /* The number and its state (color) is clear enough */
-        display: none;
-    }
-
-    .step .step-icon {
-        width: 35px;
-        height: 35px;
-        font-size: 1rem;
-    }
-
-    /* Responsive Item Rows */
-    .item-row {
-        grid-template-columns: 1fr; /* Stack everything vertically */
-        text-align: center;
-        gap: 0.8rem;
-    }
-
-    .item-total {
-        text-align: center;
-        background: #f9f9f9;
-        padding: 0.5rem;
-        border-radius: 8px;
-        margin-top: 0.5rem;
-    }
-
-    /* Form rows for contact details */
-    .form-row {
-        flex-direction: column;
-    }
-
-    .input-container {
-        margin-bottom: 1rem; /* Add space between stacked inputs */
-    }
-
-    .form-navigation {
-        flex-direction: column-reverse; /* Puts 'Next' button on top */
-        gap: 1rem;
-    }
-
-    .form-navigation .cta-btn {
-        width: 100%;
-    }
+    .booking-page-section { padding: 2rem 3%; padding-bottom: 6rem; }
+    .form-content { padding: 1.5rem; }
+    .step-title { font-size: 1.4rem; }
+    .progress-bar::before { left: 5%; width: 90%; }
+    .progress-bar .step p { display: none; } /* Hide text on small screens */
+    .step .step-icon { width: 35px; height: 35px; font-size: 1rem; }
+    .item-row { grid-template-columns: 1fr; text-align: center; gap: 0.8rem; }
+    .quantity-selector { justify-content: center; }
+    .form-row { flex-direction: column; }
+    .input-container { margin-bottom: 1rem; }
+    .form-navigation { flex-direction: column-reverse; gap: 1rem; }
+    .form-navigation .cta-btn { width: 100%; }
 }

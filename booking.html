@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -55,25 +56,14 @@
 
                     <div class="form-content">
                         <div class="progress-bar">
-                            <div class="step active" id="progress-step-1">
-                                <div class="step-icon">1</div>
-                                <p>Service</p>
-                            </div>
-                            <div class="step" id="progress-step-2">
-                                <div class="step-icon">2</div>
-                                <p>Details</p>
-                            </div>
-                            <div class="step" id="progress-step-3">
-                                <div class="step-icon">3</div>
-                                <p>Your Info</p>
-                            </div>
-                            <div class="step" id="progress-step-4">
-                                <div class="step-icon">4</div>
-                                <p>Confirm</p>
-                            </div>
+                            <div class="step active" id="progress-step-1"><div class="step-icon">1</div><p>Service</p></div>
+                            <div class="step" id="progress-step-2"><div class="step-icon">2</div><p>Details</p></div>
+                            <div class="step" id="progress-step-3"><div class="step-icon">3</div><p>Your Info</p></div>
+                            <div class="step" id="progress-step-4"><div class="step-icon">4</div><p>Confirm</p></div>
                         </div>
 
                         <form id="booking-form" novalidate>
+                            <!-- Step 1: Service Selection -->
                             <div class="form-step active" id="form-step-1">
                                 <h3 class="step-title">Select Your Service</h3>
                                 <div class="input-container">
@@ -82,82 +72,47 @@
                                         <option value="jhb">Johannesburg / Gauteng</option>
                                         <option value="dbn">Durban / KZN</option>
                                     </select>
-                                    <label for="service_area">Select province</label>
+                                    <label for="service_area">Select Your Area</label>
                                 </div>
 
                                 <div class="input-container custom-select-container" id="service-select-container">
                                     <input type="hidden" id="service_type" name="service_type" required>
-                                    <label for="service_type">Select your service</label>
+                                    <label for="service_type">Select Your Service</label>
                                     <div class="custom-select-trigger" tabindex="0">
                                         <span id="selected-service-text"></span>
                                         <i class="fas fa-chevron-down select-arrow"></i>
                                     </div>
                                     <div class="custom-select-options">
-                                        <button type="button" class="custom-select-option" data-service="regular_domestic">
-                                            <span>Regular Domestic</span>
-                                            <i class="fas fa-house-user"></i>
-                                        </button>
-                                        <button type="button" class="custom-select-option" data-service="deep_clean">
-                                            <span>Deep Clean / Move Out</span>
-                                            <i class="fas fa-soap"></i>
-                                        </button>
-                                        <button type="button" class="custom-select-option" data-service="airbnb">
-                                            <span>Airbnb & Rentals</span>
-                                            <i class="fas fa-key"></i>
-                                        </button>
-                                        <button type="button" class="custom-select-option" data-service="commercial">
-                                            <span>Commercial & Office</span>
-                                            <i class="fas fa-building"></i>
-                                        </button>
-                                        <button type="button" class="custom-select-option" data-service="post_construction">
-                                            <span>Post-Construction</span>
-                                            <i class="fas fa-hard-hat"></i>
-                                        </button>
-                                        <button type="button" class="custom-select-option" data-service="event_cleanup">
-                                            <span>Event Clean-ups</span>
-                                            <i class="fas fa-glass-cheers"></i>
-                                        </button>
-                                        <button type="button" class="custom-select-option" data-service="complex_common">
-                                            <span>Complex & Common Areas</span>
-                                            <i class="fas fa-sitemap"></i>
-                                        </button>
+                                        <button type="button" class="custom-select-option" data-service="regular_domestic"><span>Regular Domestic</span><i class="fas fa-house-user"></i></button>
+                                        <button type="button" class="custom-select-option" data-service="deep_clean"><span>Deep Clean / Move Out</span><i class="fas fa-soap"></i></button>
+                                        <button type="button" class="custom-select-option" data-service="airbnb"><span>Airbnb & Rentals</span><i class="fas fa-key"></i></button>
+                                        <button type="button" class="custom-select-option" data-service="commercial"><span>Commercial & Office</span><i class="fas fa-building"></i></button>
+                                        <button type="button" class="custom-select-option" data-service="post_construction"><span>Post-Construction</span><i class="fas fa-hard-hat"></i></button>
+                                        <button type="button" class="custom-select-option" data-service="event_cleanup"><span>Event Clean-ups</span><i class="fas fa-glass-cheers"></i></button>
+                                        <button type="button" class="custom-select-option" data-service="complex_common"><span>Complex & Common Areas</span><i class="fas fa-sitemap"></i></button>
                                     </div>
                                 </div>
                             </div>
 
+                            <!-- Step 2: Build Quote -->
                             <div class="form-step" id="form-step-2">
                                 <h3 class="step-title" id="quote-builder-title">Build Your Quote</h3>
-                                <div id="item-list" class="item-list-container">
-                                    </div>
+                                <div id="item-list" class="item-list-container"></div>
                             </div>
 
+                            <!-- Step 3: Contact & Booking Details -->
                             <div class="form-step" id="form-step-3">
                                 <h3 class="step-title">Your Contact & Booking Details</h3>
                                 <div class="form-row">
-                                    <div class="input-container">
-                                        <input type="text" id="name" name="name" required placeholder=" ">
-                                        <label for="name">Your Name</label>
-                                    </div>
-                                    <div class="input-container">
-                                        <input type="email" id="email" name="email" required placeholder=" ">
-                                        <label for="email">Email Address</label>
-                                    </div>
+                                    <div class="input-container"><input type="text" id="name" name="name" required placeholder=" "><label for="name">Your Name</label></div>
+                                    <div class="input-container"><input type="email" id="email" name="email" required placeholder=" "><label for="email">Email Address</label></div>
                                 </div>
                                 <div class="form-row">
-                                    <div class="input-container">
-                                        <input type="tel" id="phone" name="phone" required placeholder=" ">
-                                        <label for="phone">Phone Number</label>
-                                    </div>
-                                    <div class="input-container">
-                                        <input type="text" id="address" name="address" required placeholder=" ">
-                                        <label for="address">Full Address for Service</label>
-                                    </div>
+                                    <div class="input-container"><input type="tel" id="phone" name="phone" required placeholder=" "><label for="phone">Phone Number</label></div>
+                                    <div class="input-container"><input type="text" id="address" name="address" required placeholder=" "><label for="address">Full Address for Service</label></div>
                                 </div>
                                 <div class="form-row">
-                                    <div class="input-container">
-                                        <input type="date" id="booking_date" name="booking_date" required placeholder=" ">
-                                        <label for="booking_date">Preferred Date</label>
-                                    </div>
+                                    <div class="input-container"><input type="date" id="booking_date" name="booking_date" required placeholder=" "><label for="booking_date">Preferred Date</label></div>
                                     <div class="input-container">
                                         <select id="booking_time" name="booking_time" required>
                                             <option value="" disabled selected></option>
@@ -175,10 +130,10 @@
                                 </div>
                             </div>
 
+                            <!-- Step 4: Confirmation -->
                             <div class="form-step" id="form-step-4">
                                 <h3 class="step-title">Review Your Booking Request</h3>
-                                <div id="booking-summary">
-                                    </div>
+                                <div id="booking-summary"></div>
                             </div>
 
                             <div class="form-navigation">
@@ -190,26 +145,41 @@
                         </form>
                     </div>
 
-                    <aside class="quote-summary-floater" id="quote-summary-floater" style="display: none;">
-                        <h4>Quote Estimate</h4>
-                        <div class="summary-line">
-                            <span>Subtotal</span>
-                            <span id="summary-subtotal">R0.00</span>
+                    <aside class="quote-summary-container" id="quote-summary-container" style="display: none;">
+                        <div class="quote-summary-desktop">
+                            <h4>Quote Estimate</h4>
+                            <div class="summary-line">
+                                <span>Call-Out Fee</span>
+                                <span id="summary-base-fee">R 0.00</span>
+                            </div>
+                            <div class="summary-line" id="summary-package-line" style="display: none;">
+                                <span>Service Package</span>
+                                <span id="summary-package-total">R 0.00</span>
+                            </div>
+                            <div class="summary-line" id="summary-item-line" style="display: none;">
+                                <span>Add-Ons Subtotal</span>
+                                <span id="summary-item-subtotal">R 0.00</span>
+                            </div>
+                            <hr>
+                            <div class="summary-line subtle" id="summary-minimum-charge-line" style="display: none;">
+                                <span>Minimum Charge Applied</span>
+                                <span id="minimum-charge-value">R 950.00</span>
+                            </div>
+                            <div class="summary-line discount" id="summary-discount-line" style="display: none;">
+                                <span>Contractual Discount (25%)</span>
+                                <span id="summary-discount">- R 0.00</span>
+                            </div>
+                            <div class="summary-line total">
+                                <span>Total Estimate</span>
+                                <span id="summary-total-desktop">R 0.00</span>
+                            </div>
+                            <p class="summary-notice">Final price will be confirmed upon booking.</p>
                         </div>
-                        <div class="summary-line" id="summary-fee-line" style="display: none;">
-                            <span>Minimum Call-out Fee</span>
-                            <span id="summary-fee">R950.00</span>
+
+                        <div class="quote-summary-mobile">
+                            <span>Total Estimate:</span>
+                            <span id="summary-total-mobile">R 0.00</span>
                         </div>
-                        <div class="summary-line" id="summary-discount-line" style="display: none;">
-                            <span>Contractual Discount (25%)</span>
-                            <span id="summary-discount">- R0.00</span>
-                        </div>
-                        <hr>
-                        <div class="summary-line total">
-                            <span>Total</span>
-                            <span id="summary-total">R0.00</span>
-                        </div>
-                        <p class="summary-notice">This is an estimate. Final price will be confirmed upon booking.</p>
                     </aside>
 
                 </div>
@@ -228,6 +198,7 @@
                 <a href="services.html">Our Services</a>
                 <a href="contact.html">Contact Us</a>
                 <a href="index.html#about">About Us</a>
+                <a href="#">Vacancies</a>
                 <a href="policy.html">Company Policy</a>
                 <a href="faq.html">FAQs</a>
             </div>
@@ -237,6 +208,7 @@
                 <p><strong>Dbn:</strong> <a href="tel:+27622976614">+27 62 297 6614</a></p>
                 <p><a href="mailto:quotes@xyzsolutions.co.za">quotes@xyzsolutions.co.za</a></p>
             </div>
+
             <div class="footer-col">
                 <h4>Follow Us</h4>
                 <div class="social-links">
@@ -251,7 +223,6 @@
         </div>
     </footer>
 
-    <script src="js/main.js"></script>
     <script src="js/booking.js"></script>
 
 </body>
