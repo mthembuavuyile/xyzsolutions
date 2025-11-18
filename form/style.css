@@ -1,0 +1,544 @@
+/* =========================================
+   1. Variables & Reset
+   ========================================= */
+:root {
+    --primary: #1976d2;
+    --primary-dark: #1565c0;
+    --accent: #ff4757;
+    --accent-dark: #e84118;
+    --success: #8bc34a;
+
+    --secondary: #1e293b;
+    --bg: #f1f5f9;
+    --white: #ffffff;
+    --border: #e2e8f0;
+    --text: #334155;
+    --text-light: #64748b;
+
+    --radius: 8px;
+    --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    padding: 20px;
+    padding-bottom: 80px;
+}
+
+/* =========================================
+   2. Main Layout Structure
+   ========================================= */
+.main-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 24px;
+    align-items: start;
+}
+
+.booking-container {
+    background: var(--white);
+    padding: 30px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    min-height: 500px;
+}
+
+/* =========================================
+   3. Progress Tracker & Headers
+   ========================================= */
+.form-header h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--secondary);
+}
+
+.progress-container {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin-bottom: 40px;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.progress-track {
+    position: absolute;
+    top: 15px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--border);
+    z-index: 1;
+}
+
+.step {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    width: 60px;
+}
+
+.step-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--bg);
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    margin: 0 auto 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+    transition: all 0.3s;
+    font-size: 0.9rem;
+}
+
+.step span {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-light);
+}
+
+.step.active .step-icon,
+.step.completed .step-icon {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--white);
+}
+
+.step.active span {
+    color: var(--primary);
+}
+
+/* =========================================
+   4. Form Controls & Inputs
+   ========================================= */
+.form-step {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+.form-step.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h3 {
+    color: var(--secondary);
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+}
+
+.label-title {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--secondary);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 1rem;
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--success);
+    box-shadow: 0 0 0 3px rgba(139,195,74,0.2);
+}
+
+.form-control.active-selection {
+    border-color: var(--success);
+}
+
+.helper-text {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-top: 5px;
+}
+
+/* =========================================
+   5. Step Specifics
+   ========================================= */
+.step-one-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s forwards;
+}
+
+.grid-options {
+    display: none;
+}
+
+.package-item, .addon-item {
+    border: 1px solid var(--border);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.package-item:hover {
+    background: #f8fafc;
+}
+
+.item-details h4 {
+    font-size: 1rem;
+    margin-bottom: 4px;
+}
+
+.item-details p {
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.input-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.checkbox-container {
+    display: flex;
+    gap: 10px;
+    cursor: pointer;
+    align-items: center;
+}
+
+.checkbox-container input {
+    width: 20px;
+    height: 20px;
+}
+
+.review-group {
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+}
+
+.review-group h4 {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    color: var(--text-light);
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.review-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+/* =========================================
+   6. Sidebar Summary
+   ========================================= */
+.sidebar-summary {
+    position: sticky;
+    top: 20px;
+}
+
+.sidebar-content {
+    background: var(--secondary);
+    color: var(--white);
+    padding: 25px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.line-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
+.line-item.discount {
+    color: #4ade80;
+}
+
+.sidebar-content hr {
+    border-color: rgba(255,255,255,0.1);
+    margin: 15px 0;
+}
+
+.total-section {
+    text-align: right;
+}
+
+.big-price {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--white);
+}
+
+.warning-msg {
+    background: rgba(239,68,68,0.2);
+    color: #fca5a5;
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 15px;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.discount-box {
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+/* =========================================
+   7. Components
+   ========================================= */
+.qty-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.qty-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--white);
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.qty-btn:hover {
+    background: var(--bg);
+}
+
+.qty-val {
+    width: 30px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.btn-wrapper {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-wrapper.right {
+    justify-content: flex-end;
+}
+
+button {
+    padding: 12px 24px;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: background 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-next,
+.btn-submit,
+.btn-next-salmon,
+.btn-submit-salmon {
+    background-color: var(--accent);
+    color: white;
+}
+
+.btn-next:hover,
+.btn-submit:hover,
+.btn-next-salmon:hover,
+.btn-submit-salmon:hover {
+    background-color: var(--accent-dark);
+}
+
+.btn-back {
+    background: var(--border);
+    color: var(--text);
+}
+
+.btn-back:hover {
+    background: #cbd5e1;
+}
+
+.loader {
+    text-align: center;
+    padding: 40px;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 15px;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+.hidden {
+    display: none;
+}
+
+/* =========================================
+   8. Mobile & Responsive
+   ========================================= */
+.mobile-footer {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: var(--white);
+    padding: 15px 20px;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+
+.mf-text small {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-light);
+}
+
+.mf-text span {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+
+#mf-btn {
+    background: var(--accent);
+    color: white;
+    padding: 10px 25px;
+}
+
+@media (max-width: 900px) {
+    .main-wrapper {
+        grid-template-columns: 1fr;
+    }
+    .sidebar-summary {
+        display: none;
+    }
+    .mobile-footer {
+        display: flex;
+    }
+    .input-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================
+   FIX: Step 1 Layout & Long Text Handling
+   ========================================= */
+.step-one-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.select-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.styled-select {
+    width: 100%;
+    height: 55px;
+    padding: 10px 45px 10px 20px;
+    appearance: none;
+    background-color: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 1rem;
+    color: var(--text);
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.select-wrapper::after {
+    content: "\f078";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary);
+    pointer-events: none;
+    font-size: 0.9rem;
+}
+
+.styled-select:hover {
+    border-color: var(--primary);
+    background-color: #f8fafc;
+}
+
+.styled-select:focus {
+    outline: none;
+    border-color: var(--success);
+    box-shadow: 0 0 0 4px rgba(139,195,74,0.15);
+}
+
+@media (max-width: 600px) {
+    .step-one-layout {
+        max-width: 100%;
+    }
+    .styled-select {
+        font-size: 0.9rem;
+        padding-left: 15px;
+        height: 50px;
+    }
+}
