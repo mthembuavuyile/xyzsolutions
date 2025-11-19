@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Enterprise Cleaning Quote Calculator">
+    <title>XYZ Premium Services | Comprehensive Quote Builder</title>
+    
+    <!-- Font Import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* 
+         * --------------------------------------------------------------------------
+         *  CSS FRAMEWORK & STYLES
+         *  Contains: Reset, Variables, Grid System, Components, Animations
+         * --------------------------------------------------------------------------
+         */
+        :root {
+            /* Brand Colors */
+            --primary: #0f172a;
+            --primary-light: #334155;
+            --accent: #2563eb; /* Royal Blue */
+            --accent-hover: #1d4ed8;
+            --accent-soft: #eff6ff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            
+            /* Surface Colors */
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-input: #f1f5f9;
+            
+            /* Typography */
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --text-light: #94a3b8;
+            
+            /* Borders & Shadows */
+            --border: #e2e8f0;
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        /* Reset */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        button, input, select, textarea { font: inherit; }
+        
+        /* Layout Wrapper */
+        .app-wrapper {
+            display: grid;
+            grid-template-columns: 1fr;
+            min-height: 100vh;
+        }
+        
+        @media (min-width: 1024px) {
+            .app-wrapper {
+                grid-template-columns: minmax(0, 1fr) 400px;
+                max-width: 1400px;
+                margin: 0 auto;
+                box-shadow: var(--shadow-lg);
+            }
+        }
+
+        /* ----------------------
+           LEFT COLUMN: WIZARD
+           ---------------------- */
+        .wizard-container {
+            background: var(--bg-card);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        @media (min-width: 768px) { .wizard-container { padding: 40px; } }
+
+        /* Header */
+        .brand-header { margin-bottom: 30px; display: flex; align-items: center; gap: 12px; }
+        .brand-logo { width: 40px; height: 40px; background: var(--accent); border-radius: 8px; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px; }
+        .brand-text h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.025em; color: var(--primary); }
+        .brand-text p { font-size: 0.8rem; color: var(--text-muted); }
+
+        /* Progress Bar */
+        .progress-track {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        .progress-track::before {
+            content: ''; position: absolute; top: 15px; left: 0; right: 0; height: 2px; background: var(--bg-input); z-index: 0;
+        }
+        .step-item {
+            position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; width: 20%;
+        }
+        .step-circle {
+            width: 32px; height: 32px; border-radius: 50%; background: var(--bg-card); border: 2px solid var(--border); color: var(--text-muted);
+            display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; transition: all 0.3s ease;
+        }
+        .step-label { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+        
+        /* Active/Completed States */
+        .step-item.active .step-circle { border-color: var(--accent); background: var(--accent); color: white; box-shadow: 0 0 0 4px var(--accent-soft); }
+        .step-item.active .step-label { color: var(--accent); }
+        .step-item.completed .step-circle { border-color: var(--success); background: var(--success); color: white; }
+        
+        /* Form Steps */
+        .form-step { display: none; animation: fadeIn 0.4s ease; }
+        .form-step.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .step-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 10px; color: var(--primary); }
+        .step-desc { color: var(--text-muted); margin-bottom: 30px; font-size: 0.95rem; }
+
+        /* Grid Layouts for Options */
+        .option-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 20px; }
+        @media (min-width: 640px) { .option-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .option-grid { grid-template-columns: repeat(3, 1fr); } }
+
+        /* Selection Card */
+        .selection-card {
+            border: 2px solid var(--border); border-radius: var(--radius-md); padding: 20px; cursor: pointer;
+            transition: all 0.2s ease; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; background: white;
+        }
+        .selection-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .selection-card.selected { border-color: var(--accent); background: var(--accent-soft); }
+        .card-icon { font-size: 24px; color: var(--text-muted); }
+        .selection-card.selected .card-icon { color: var(--accent); }
+        .card-title { font-weight: 700; font-size: 1rem; }
+        .card-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; }
+
+        /* Item Rows (Addons) */
+        .item-group { margin-bottom: 30px; border-bottom: 1px dashed var(--border); padding-bottom: 20px; }
+        .group-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 15px; color: var(--primary-light); display: flex; align-items: center; gap: 8px; }
+        
+        .item-row {
+            display: flex; justify-content: space-between; align-items: center; padding: 12px;
+            border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 10px; background: white; transition: 0.2s;
+        }
+        .item-row:hover { border-color: var(--accent); }
+        
+        .item-info { flex: 1; }
+        .item-name { font-weight: 600; font-size: 0.95rem; display: block; }
+        .item-price { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; }
+        .item-controls { display: flex; align-items: center; gap: 10px; }
+        
+        .qty-btn {
+            width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border); background: white; color: var(--primary);
+            font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s;
+        }
+        .qty-btn:hover { background: var(--accent); color: white; border-color: var(--accent); }
+        .qty-display { width: 30px; text-align: center; font-weight: 700; font-size: 1rem; }
+
+        /* Inputs */
+        .input-group { margin-bottom: 20px; }
+        .input-label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; color: var(--primary-light); }
+        .form-control {
+            width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+            font-size: 1rem; background: var(--bg-input); transition: 0.3s;
+        }
+        .form-control:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); background: white; }
+        .input-row { display: grid; grid-template-columns: 1fr; gap: 15px; }
+        @media(min-width:640px){ .input-row { grid-template-columns: 1fr 1fr; } }
+
+        /* Navigation Buttons */
+        .wizard-nav {
+            margin-top: auto; padding-top: 30px; display: flex; justify-content: space-between; border-top: 1px solid var(--border);
+        }
+        .btn {
+            padding: 14px 28px; border-radius: var(--radius-md); font-weight: 600; cursor: pointer; border: none; font-size: 1rem; transition: 0.3s;
+        }
+        .btn-primary { background: var(--accent); color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
+        .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+        .btn-secondary { background: transparent; color: var(--text-muted); border: 1px solid var(--border); }
+        .btn-secondary:hover { background: var(--bg-input); color: var(--primary); }
+        .btn-submit { background: var(--success); color: white; width: 100%; }
+
+        /* ----------------------
+           RIGHT COLUMN: SUMMARY
+           ---------------------- */
+        .summary-sidebar {
+            background: var(--bg-body);
+            border-left: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        .sticky-summary {
+            position: sticky;
+            top: 0;
+            padding: 30px;
+            height: 100vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .summary-header { margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
+        .summary-header h2 { font-size: 1.2rem; font-weight: 800; color: var(--primary); }
+        
+        .summary-list { flex: 1; margin-bottom: 20px; }
+        .summary-item { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.9rem; }
+        .summary-item span:first-child { color: var(--text-muted); }
+        .summary-item span:last-child { font-weight: 600; color: var(--primary); }
+        
+        .summary-divider { height: 1px; background: var(--border); margin: 15px 0; border-style: dashed; }
+        
+        .min-charge-notice {
+            background: #fffbeb; border: 1px solid #fcd34d; color: #92400e; padding: 10px; border-radius: var(--radius-sm);
+            font-size: 0.8rem; margin-bottom: 15px; display: none;
+        }
+        .min-charge-notice.active { display: block; }
+
+        .summary-total { margin-top: auto; background: var(--primary); color: white; padding: 20px; border-radius: var(--radius-md); }
+        .total-row { display: flex; justify-content: space-between; align-items: flex-end; }
+        .total-label { font-size: 0.9rem; opacity: 0.8; }
+        .total-amount { font-size: 1.8rem; font-weight: 800; line-height: 1; }
+
+        /* Mobile Summary Toggle */
+        .mobile-summary-bar {
+            display: none; position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1); z-index: 100; justify-content: space-between; align-items: center;
+        }
+        @media (max-width: 1023px) { 
+            .mobile-summary-bar { display: flex; } 
+            .summary-sidebar { display: none; } /* Hidden on mobile by default */
+        }
+
+        /* Utilities */
+        .hidden { display: none !important; }
+        .text-center { text-align: center; }
+        .tag { display: inline-block; padding: 2px 8px; font-size: 0.7rem; border-radius: 10px; font-weight: 700; text-transform: uppercase; }
+        .tag-blue { background: var(--accent-soft); color: var(--accent); }
+
+    </style>
+</head>
+<body>
+
+<div class="app-wrapper">
+    
+    <!-- MAIN WIZARD CONTENT -->
+    <main class="wizard-container">
+        
+        <div class="brand-header">
+            <div class="brand-logo">X</div>
+            <div class="brand-text">
+                <h1>XYZ Solutions</h1>
+                <p>Premium Cleaning & Maintenance</p>
+            </div>
+        </div>
+
+        <!-- Steps Indicator -->
+        <div class="progress-track">
+            <div class="step-item active" id="indicator-1">
+                <div class="step-circle">1</div>
+                <span class="step-label">Service</span>
+            </div>
+            <div class="step-item" id="indicator-2">
+                <div class="step-circle">2</div>
+                <span class="step-label">Details</span>
+            </div>
+            <div class="step-item" id="indicator-3">
+                <div class="step-circle">3</div>
+                <span class="step-label">Scope</span>
+            </div>
+            <div class="step-item" id="indicator-4">
+                <div class="step-circle">4</div>
+                <span class="step-label">Book</span>
+            </div>
+        </div>
+
+        <form id="quoteForm" onsubmit="return false;">
+            
+            <!-- STEP 1: REGION & CATEGORY -->
+            <div class="form-step active" id="step-1">
+                <div class="step-title">Select Area & Category</div>
+                <div class="step-desc">We currently serve Gauteng and KZN regions.</div>
+
+                <div class="input-group">
+                    <label class="input-label">Service Region</label>
+                    <div class="option-grid">
+                        <div class="selection-card" onclick="app.setRegion('JHB', this)">
+                            <i class="fas fa-city card-icon"></i>
+                            <span class="card-title">Gauteng (JHB)</span>
+                            <span class="card-desc">Johannesburg, Pretoria, Sandton</span>
+                        </div>
+                        <div class="selection-card" onclick="app.setRegion('KZN', this)">
+                            <i class="fas fa-water card-icon"></i>
+                            <span class="card-title">KwaZulu-Natal</span>
+                            <span class="card-desc">Durban, Umhlanga, Ballito</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">Service Category</label>
+                    <div class="option-grid" id="category-grid">
+                        <!-- Dynamically Populated -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 2: SPECIFIC SERVICE -->
+            <div class="form-step" id="step-2">
+                <div class="step-title">Choose Service Type</div>
+                <div class="step-desc">Select the specific package that fits your needs.</div>
+                <div class="option-grid" id="service-type-grid">
+                    <!-- Dynamically Populated -->
+                </div>
+            </div>
+
+            <!-- STEP 3: ITEMIZATION / SCOPE -->
+            <div class="form-step" id="step-3">
+                <div class="step-title">Customize Quote</div>
+                <div class="step-desc">Add specific items to build your comprehensive quote.</div>
+                
+                <!-- Dynamic Item Container -->
+                <div id="items-container"></div>
+
+                <!-- Custom Requests -->
+                <div class="input-group" style="margin-top:30px;">
+                    <label class="input-label">Special Instructions / Access Codes</label>
+                    <textarea class="form-control" rows="3" placeholder="E.g., Key under mat, aggressive dog locked away, need extra long ladder..."></textarea>
+                </div>
+            </div>
+
+            <!-- STEP 4: CONTACT & CONFIRM -->
+            <div class="form-step" id="step-4">
+                <div class="step-title">Finalize Booking</div>
+                <div class="step-desc">Enter your details to receive this formal quote.</div>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label class="input-label">Full Name *</label>
+                        <input type="text" class="form-control" id="contact-name" required>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Email Address *</label>
+                        <input type="email" class="form-control" id="contact-email" required>
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label class="input-label">Phone Number *</label>
+                        <input type="tel" class="form-control" id="contact-phone" required>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Preferred Date</label>
+                        <input type="date" class="form-control" id="booking-date">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">Property Address *</label>
+                    <textarea class="form-control" id="property-address" rows="2" required></textarea>
+                </div>
+
+                <div class="input-group" style="background: var(--accent-soft); padding: 15px; border-radius: var(--radius-sm); border: 1px solid var(--accent);">
+                    <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+                        <input type="checkbox" id="contract-discount" onchange="app.toggleDiscount()">
+                        <span style="font-weight:600; color:var(--primary);">Apply Monthly Contract Discount (25%)</span>
+                    </label>
+                    <p style="font-size:0.85rem; color:var(--text-muted); margin-left:24px; margin-top:4px;">
+                        Valid for recurring services booked for 6+ months.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="wizard-nav">
+                <button type="button" class="btn btn-secondary" id="prevBtn" onclick="app.prevStep()">Back</button>
+                <button type="button" class="btn btn-primary" id="nextBtn" onclick="app.nextStep()">Next Step</button>
+            </div>
+
+        </form>
+    </main>
+
+    <!-- SIDEBAR SUMMARY (Desktop) -->
+    <aside class="summary-sidebar">
+        <div class="sticky-summary">
+            <div class="summary-header">
+                <h2>Quote Estimate</h2>
+                <p style="font-size:0.85rem; color:var(--text-muted);">Ref #<span id="quote-ref">PENDING</span></p>
+            </div>
+
+            <div class="min-charge-notice" id="min-charge-notice">
+                <i class="fas fa-exclamation-triangle"></i> Minimum charge of R300 applied.
+            </div>
+
+            <div class="summary-list" id="summary-list">
+                <div class="text-center" style="color:var(--text-light); padding-top:40px;">
+                    <i class="fas fa-calculator" style="font-size:40px; margin-bottom:10px;"></i>
+                    <p>Select items to see breakdown</p>
+                </div>
+            </div>
+
+            <div class="summary-total">
+                <div class="total-row">
+                    <div>
+                        <div class="total-label">Total Estimate</div>
+                        <div style="font-size:0.7rem; opacity:0.7;">Vat Inclusive</div>
+                    </div>
+                    <div class="total-amount" id="total-display">R0.00</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MOBILE BOTTOM BAR -->
+    <div class="mobile-summary-bar">
+        <div>
+            <div style="font-size:0.75rem; color:var(--text-muted);">Estimated Total</div>
+            <div style="font-size:1.2rem; font-weight:800; color:var(--primary);" id="mobile-total">R0.00</div>
+        </div>
+        <button class="btn btn-primary" onclick="app.nextStep()" id="mobile-next-btn">Next</button>
+    </div>
+
+</div>
+
+<script src="script/main.js"></script>
+<script src="script/pricing-data.js"></script>
+<script src="script/quote-engine.js"></script>
+
+</body>
+</html>
