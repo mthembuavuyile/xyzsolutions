@@ -111,7 +111,7 @@ const PRICING_DB = {
                     {
                         name: 'Area Cleaning',
                         items: [
-                            { id: 'sqm_office', name: 'Office Space (per m²)', price: 15 },
+                            { id: 'sqm_office', name: 'Office Space (per m²)', price: 21 },
                             { id: 'sqm_warehouse', name: 'Warehouse Floor (per m²)', price: 8 },
                             { id: 'toilet_deep', name: 'Ablution Block Deep Clean', price: 450 }
                         ]
