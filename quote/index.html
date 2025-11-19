@@ -17,31 +17,23 @@
         /* 
          * --------------------------------------------------------------------------
          *  CSS FRAMEWORK & STYLES
-         *  Contains: Reset, Variables, Grid System, Components, Animations
          * --------------------------------------------------------------------------
          */
         :root {
-            /* Brand Colors */
             --primary: #0f172a;
             --primary-light: #334155;
-            --accent: #2563eb; /* Royal Blue */
+            --accent: #2563eb;
             --accent-hover: #1d4ed8;
             --accent-soft: #eff6ff;
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
-            
-            /* Surface Colors */
             --bg-body: #f8fafc;
             --bg-card: #ffffff;
             --bg-input: #f1f5f9;
-            
-            /* Typography */
             --text-main: #0f172a;
             --text-muted: #64748b;
             --text-light: #94a3b8;
-            
-            /* Borders & Shadows */
             --border: #e2e8f0;
             --radius-sm: 6px;
             --radius-md: 12px;
@@ -55,6 +47,7 @@
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; -webkit-font-smoothing: antialiased; }
         button, input, select, textarea { font: inherit; }
+        a { text-decoration: none; }
         
         /* Layout Wrapper */
         .app-wrapper {
@@ -85,21 +78,84 @@
 
         @media (min-width: 768px) { .wizard-container { padding: 40px; } }
 
-        /* Header */
-        .brand-header { margin-bottom: 30px; display: flex; align-items: center; gap: 12px; }
-        .brand-logo { width: 40px; height: 40px; background: var(--accent); border-radius: 8px; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px; }
-        .brand-text h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.025em; color: var(--primary); }
-        .brand-text p { font-size: 0.8rem; color: var(--text-muted); }
+        /* --- NEW HEADER STYLES --- */
+        .nav-header {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-        /* Progress Bar */
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Top Back Arrow */
+        .top-back-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: 0.2s;
+            visibility: hidden; /* Hidden on Step 1 */
+            opacity: 0;
+        }
+        .top-back-btn.visible {
+            visibility: visible;
+            opacity: 1;
+        }
+        .top-back-btn:hover {
+            background: var(--bg-input);
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .brand-logo { width: 40px; height: 40px; background: var(--accent); border-radius: 8px; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px; flex-shrink: 0; }
+        .brand-text h1 { font-size: 1.1rem; font-weight: 700; color: var(--primary); line-height: 1.2; }
+        .brand-text p { font-size: 0.75rem; color: var(--text-muted); margin: 0; }
+
+        /* Book Call Button */
+        .book-call-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--success);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: 0.2s;
+            box-shadow: 0 2px 5px rgba(16, 185, 129, 0.2);
+        }
+        .book-call-btn:hover {
+            background: #059669;
+            transform: translateY(-1px);
+        }
+        
+        @media (max-width: 480px) {
+            .book-call-text { display: none; }
+            .book-call-btn { padding: 10px; border-radius: 50%; width: 40px; height: 40px; justify-content: center; }
+        }
+
+        /* Progress Track */
         .progress-track {
             display: flex;
             justify-content: space-between;
             margin-bottom: 40px;
             position: relative;
+            padding: 0 10px;
         }
         .progress-track::before {
-            content: ''; position: absolute; top: 15px; left: 0; right: 0; height: 2px; background: var(--bg-input); z-index: 0;
+            content: ''; position: absolute; top: 15px; left: 10px; right: 10px; height: 2px; background: var(--bg-input); z-index: 0;
         }
         .step-item {
             position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; width: 20%;
@@ -123,7 +179,7 @@
         .step-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 10px; color: var(--primary); }
         .step-desc { color: var(--text-muted); margin-bottom: 30px; font-size: 0.95rem; }
 
-        /* Grid Layouts for Options */
+        /* Grid Layouts */
         .option-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 20px; }
         @media (min-width: 640px) { .option-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (min-width: 1024px) { .option-grid { grid-template-columns: repeat(3, 1fr); } }
@@ -228,65 +284,23 @@
         .total-label { font-size: 0.9rem; opacity: 0.8; }
         .total-amount { font-size: 1.8rem; font-weight: 800; line-height: 1; }
 
-        /* ------------------------------
-   Mobile Summary Toggle
------------------------------- */
-.mobile-summary-bar {
-    display: none;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: white;
-    padding: 15px;
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
-    z-index: 100;
-    justify-content: space-between;
-    align-items: center;
-}
+        /* Mobile Summary Bar */
+        .mobile-summary-bar {
+            display: none; position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1); z-index: 100; justify-content: space-between; align-items: center;
+        }
 
-/* Mobile Layout Rules */
-@media (max-width: 1023px) { 
-    .mobile-summary-bar { 
-        display: flex; 
-    }
+        @media (max-width: 1023px) { 
+            .mobile-summary-bar { display: flex; }
+            .summary-sidebar { display: none; }
+            .wizard-container { padding-bottom: 120px; }
+        }
 
-    .summary-sidebar { 
-        display: none; 
-    }
-
-    /* Ensures form content never hides behind the bar */
-    .wizard-container {
-        padding-bottom: 120px; 
-    }
-}
-
-/* ------------------------------
-   Utilities
------------------------------- */
-.hidden { 
-    display: none !important; 
-}
-
-.text-center { 
-    text-align: center; 
-}
-
-.tag { 
-    display: inline-block; 
-    padding: 2px 8px; 
-    font-size: 0.7rem; 
-    border-radius: 10px; 
-    font-weight: 700; 
-    text-transform: uppercase; 
-}
-
-.tag-blue { 
-    background: var(--accent-soft); 
-    color: var(--accent); 
-}
-
-
+        /* Utilities */
+        .hidden { display: none !important; }
+        .text-center { text-align: center; }
+        .tag { display: inline-block; padding: 2px 8px; font-size: 0.7rem; border-radius: 10px; font-weight: 700; text-transform: uppercase; }
+        .tag-blue { background: var(--accent-soft); color: var(--accent); }
     </style>
 </head>
 <body>
@@ -296,13 +310,27 @@
     <!-- MAIN WIZARD CONTENT -->
     <main class="wizard-container">
         
-        <div class="brand-header">
-            <div class="brand-logo">X</div>
-            <div class="brand-text">
-                <h1>XYZ Solutions</h1>
-                <p>Premium Cleaning & Maintenance</p>
+        <!-- UPDATED HEADER -->
+        <header class="nav-header">
+            <div class="nav-left">
+                <!-- Top Back Arrow (Hidden on Step 1) -->
+                <button type="button" class="top-back-btn" id="topBackBtn" onclick="app.prevStep()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                
+                <div class="brand-logo">X</div>
+                <div class="brand-text">
+                    <h1>XYZ Solutions</h1>
+                    <p>Premium Cleaning</p>
+                </div>
             </div>
-        </div>
+
+            <!-- Book a Call Button -->
+            <a href="contact.html" class="book-call-btn">
+                <i class="fas fa-phone-alt"></i> 
+                <span class="book-call-text">Book a Call</span>
+            </a>
+        </header>
 
         <!-- Steps Indicator -->
         <div class="progress-track">
@@ -476,6 +504,25 @@
 <script src="script/main.js"></script>
 <script src="script/pricing-data.js"></script>
 <script src="script/quote-engine.js"></script>
+
+<!-- Extra script to handle Top Arrow Visibility -->
+<script>
+    // We extend the original app to listen to changes
+    const originalUpdateUI = QuoteApp.prototype.updateUI;
+    QuoteApp.prototype.updateUI = function() {
+        originalUpdateUI.call(this); // Call original logic
+        
+        // Handle Top Back Button Visibility
+        const topBackBtn = document.getElementById('topBackBtn');
+        if(topBackBtn) {
+            if(this.state.step > 1) {
+                topBackBtn.classList.add('visible');
+            } else {
+                topBackBtn.classList.remove('visible');
+            }
+        }
+    };
+</script>
 
 </body>
 </html>
