@@ -1,6 +1,6 @@
 /**
  * --------------------------------------------------------------------------
- * FILE 1: PRICING DATABASE (pricing-data.js)
+ * FILE 2: PRICING DATABASE (pricing-data.js)
  * Comprehensive list of all services, items, prices, and metadata.
  * --------------------------------------------------------------------------
  */
@@ -8,257 +8,415 @@ const PRICING_DB = {
     categories: [
         {
             id: 'RES',
-            name: 'Residential Cleaning',
-            icon: 'fa-home',
-            desc: 'Houses, Apartments, Townhouses, and similar residences'
+            name: 'Residential & Upholstery',
+            icon: 'fa-couch',
+            desc: 'Couches, Carpets, Curtains, Vehicles & General Upholstery'
+        },
+        {
+            id: 'KITCHEN',
+            name: 'Kitchen & Braai',
+            icon: 'fa-fire-burner', // Ensure you have FontAwesome 6 or use 'fa-burn'
+            desc: 'Ovens, Hobs, Extractors, and Braai cleaning'
         },
         {
             id: 'CORP',
             name: 'Corporate & Industrial',
             icon: 'fa-building',
-            desc: 'Offices, Hospitals, Schools, Warehouses, Parks, and similar commercial spaces'
+            desc: 'Offices, Schools, Warehousing, and Volume Carpeting'
         },
         {
             id: 'HOSP',
             name: 'Hospitality',
             icon: 'fa-hotel',
-            desc: 'Hotels, BnBs, Guesthouses, Lodges, Resorts, and similar accommodations'
+            desc: 'Hotels, BnBs, Lodges: Room Rates & Fixed Floor Spaces'
         },
         {
             id: 'SPEC',
-            name: 'Specialized Services',
-            icon: 'fa-star',
-            desc: 'Solar panels, Pest control, Construction cleaning, and other specialized services'
+            name: 'Windows & Solar',
+            icon: 'fa-window-maximize',
+            desc: 'Comprehensive Window cleaning, Solar Panels & Balustrades'
+        },
+        {
+            id: 'PEST',
+            name: 'Pest Control',
+            icon: 'fa-bug',
+            desc: 'Specialized treatment for Ants, Rodents, Bed Bugs & more'
         }
     ],
 
     services: {
-        // --- RESIDENTIAL SERVICES ---
+        // --- RESIDENTIAL / UPHOLSTERY ---
         'RES': [
-            { 
-                id: 'res_deep', name: 'Deep / Spring Clean', icon: 'fa-sparkles', callOut: 0, minCharge: 450,
-                desc: 'Top-to-bottom deep clean including walls, skirting, and windows.',
+            {
+                id: 'res_upholstery', 
+                name: 'Couches & Chairs', 
+                icon: 'fa-chair', 
+                callOut: 0, 
+                minCharge: 950,
+                desc: 'Deep cleaning for couches, armchairs, and ottomans.',
                 groups: [
                     {
-                        name: 'Property Size (Base)',
+                        name: 'Couches',
                         items: [
-                            { id: 'studio', name: 'Studio / Bachelor', price: 450 },
-                            { id: 'bed1_bath1', name: '1 Bed / 1 Bath', price: 550 },
-                            { id: 'bed2_bath1', name: '2 Bed / 1 Bath', price: 750 },
-                            { id: 'bed2_bath2', name: '2 Bed / 2 Bath', price: 850 },
-                            { id: 'bed3_bath2', name: '3 Bed / 2 Bath', price: 1100 },
-                            { id: 'bed4_bath3', name: '4 Bed / 3 Bath', price: 1500 },
+                            { id: 'couch_1', name: '1-Seater Couch', price: 275.00 },
+                            { id: 'couch_2', name: '2-Seater Couch', price: 395.00 },
+                            { id: 'couch_3', name: '3-Seater Couch', price: 455.00 },
+                            { id: 'couch_4', name: '4-Seater Couch', price: 625.00 },
+                            { id: 'couch_5', name: '5-Seater Couch', price: 755.00 },
+                            { id: 'couch_l_u', name: 'L-shape or U-shape Couch', price: 845.00 },
+                            { id: 'couch_patio', name: 'Patio/Outside Couch (Per Seat)', price: 95.00 },
+                            { id: 'daybed', name: 'Daybed', price: 395.00 }
                         ]
                     },
                     {
-                        name: 'Add-ons',
+                        name: 'Chairs & Seating',
                         items: [
-                            { id: 'oven', name: 'Oven Deep Clean', price: 250 },
-                            { id: 'fridge', name: 'Fridge Interior', price: 150 },
-                            { id: 'garage', name: 'Garage Sweep & Wash', price: 180 },
-                            { id: 'patio', name: 'Patio Pressure Wash', price: 250 }
+                            { id: 'chair_special', name: 'Wingback/Lazy Boy/Arm/Occasional', price: 275.00 },
+                            { id: 'chair_dining', name: 'Dining Room Chair', price: 95.00 },
+                            { id: 'stool_bar', name: 'Bar Stool', price: 95.00 },
+                            { id: 'stool_foot', name: 'Foot Stool', price: 65.00 },
+                            { id: 'bean_bag', name: 'Bean Bag', price: 249.00 },
+                            { id: 'ottoman', name: 'Ottoman (per sq surface)', price: 145.00 }
+                        ]
+                    },
+                    {
+                        name: 'Extras',
+                        items: [
+                            { id: 'pillow_loose', name: 'Loose/Scatter Pillow', price: 25.00 },
+                            { id: 'pet_bed', name: 'Dog/Cat Bed', price: 145.00 }
                         ]
                     }
                 ]
             },
             {
-                id: 'res_upholstery', name: 'Upholstery & Carpets', icon: 'fa-couch', callOut: 0, minCharge: 500,
-                desc: 'Steam cleaning extraction for furniture and soft furnishings.',
+                id: 'res_carpets', 
+                name: 'Loose Rugs & Mats', 
+                icon: 'fa-rug', 
+                callOut: 0, 
+                minCharge: 950,
+                desc: 'Cleaning of loose carpets, rugs, and mats.',
                 groups: [
                     {
-                        name: 'Couches & Seating',
+                        name: 'Loose Carpets',
                         items: [
-                            { id: 'couch_1', name: '1 Seater / Armchair', price: 275 },
-                            { id: 'couch_2', name: '2 Seater Couch', price: 395 },
-                            { id: 'couch_3', name: '3 Seater Couch', price: 455 },
-                            { id: 'couch_l', name: 'L-Shape (Up to 5 seater)', price: 845 },
-                            { id: 'couch_u', name: 'U-Shape / Corner Suite', price: 1100 },
-                            { id: 'dining_chair', name: 'Dining Chair (Seat & Back)', price: 95 },
-                            { id: 'ottoman', name: 'Ottoman', price: 145 }
+                            { id: 'rug_small', name: 'Loose Carpet/Rug (< 2m x 2m)', price: 245.00 },
+                            { id: 'rug_large', name: 'Loose Carpet/Rug (2m x 2m +)', price: 295.00 },
+                            { id: 'floor_mat', name: 'Floor Mat', price: 45.00 }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 'res_vehicle', 
+                name: 'Vehicle Interiors', 
+                icon: 'fa-car', 
+                callOut: 0, 
+                minCharge: 950,
+                desc: 'Deep clean of vehicle upholstery and carpets.',
+                groups: [
+                    {
+                        name: 'Full Interior Valet',
+                        items: [
+                            { id: 'car_5', name: 'Vehicle Interior (5 seats)', price: 545.00 },
+                            { id: 'car_9', name: 'Vehicle Interior (6–9 seats)', price: 675.00 },
+                            { id: 'car_14', name: 'Vehicle Interior (10–14 seats)', price: 955.00 },
+                            { id: 'car_seat_baby', name: 'Infant Car Seat', price: 155.00 }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 'res_curtains', 
+                name: 'Curtains & Blinds', 
+                icon: 'fa-layer-group', 
+                callOut: 0, 
+                minCharge: 950,
+                desc: 'Cleaning done while hanging (where applicable).',
+                groups: [
+                    {
+                        name: 'Curtains',
+                        items: [
+                            { id: 'curtain_std', name: 'Curtains Standard (~220cm)', price: 175.00 },
+                            { id: 'curtain_xl', name: 'Curtains Extra Length (~250cm+)', price: 285.00 }
                         ]
                     },
                     {
-                        name: 'Carpets & Rugs',
+                        name: 'Blinds',
                         items: [
-                            { id: 'rug_small', name: 'Small Rug (<2m)', price: 245 },
-                            { id: 'rug_large', name: 'Large Rug (>2m)', price: 295 },
-                            { id: 'fitted_room', name: 'Fitted Carpet (Standard Room)', price: 350 },
-                            { id: 'fitted_stairs', name: 'Staircase (Per flight)', price: 250 }
+                            { id: 'blind_std', name: 'Blinds Standard (~220cm)', price: 175.00 },
+                            { id: 'blind_xl', name: 'Blinds Extra Length (~250cm+)', price: 285.00 }
+                        ]
+                    }
+                ]
+            }
+        ],
+
+        // --- KITCHEN & BRAAI ---
+        'KITCHEN': [
+            {
+                id: 'kit_appliances',
+                name: 'Oven, Hob & Extractor',
+                icon: 'fa-fire-burner',
+                callOut: 0,
+                minCharge: 950,
+                desc: 'Deep degreasing and cleaning.',
+                groups: [
+                    {
+                        name: 'Ovens',
+                        items: [
+                            { id: 'oven_s_std', name: 'Single Oven 60–80cm', price: 1450.00 },
+                            { id: 'oven_s_lrg', name: 'Single Oven 90–110cm', price: 1650.00 },
+                            { id: 'oven_d_std', name: 'Double Oven 60–80cm', price: 1950.00 },
+                            { id: 'oven_d_lrg', name: 'Double Oven 90–110cm', price: 2250.00 }
                         ]
                     },
+                    {
+                        name: 'Hobs & Extractors',
+                        items: [
+                            { id: 'hob_std', name: 'Hob Standard 4 Plate', price: 750.00 },
+                            { id: 'extractor', name: 'Extractor / Hood', price: 750.00 },
+                            { id: 'filter_rep', name: 'Cotton Filter Replacement', price: 120.00 }
+                        ]
+                    },
+                    {
+                        name: 'Complete Stoves',
+                        items: [
+                            { id: 'stove_mod_std', name: 'Modern Complete Stove 60–80cm', price: 1950.00 },
+                            { id: 'stove_mod_lrg', name: 'Modern Complete Stove 90–110cm', price: 2150.00 },
+                            { id: 'stove_vintage', name: 'Vintage Complete Stove', price: 3250.00 }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 'kit_braai',
+                name: 'Braai Cleaning',
+                icon: 'fa-fire',
+                callOut: 0,
+                minCharge: 950,
+                desc: 'Portable and Built-in Braai cleaning.',
+                groups: [
+                    {
+                        name: 'Units',
+                        items: [
+                            { id: 'braai_port', name: 'Portable Braai', price: 1550.00 },
+                            { id: 'braai_built', name: 'Built-in Braai', price: 1750.00 }
+                        ]
+                    }
+                ]
+            }
+        ],
+
+        // --- CORPORATE ---
+        'CORP': [
+            {
+                id: 'corp_general', 
+                name: 'Corporate & Office', 
+                icon: 'fa-building', 
+                callOut: 0, 
+                minCharge: 950,
+                desc: 'Offices, Hospitals, Schools, Warehousing.',
+                groups: [
+                    {
+                        name: 'Flooring',
+                        items: [
+                            { id: 'corp_carpet', name: 'Office Carpet (per m²)', price: 21.00 },
+                            { id: 'corp_common', name: 'Common Areas Carpet/Tiles (per m²)', price: 21.00 }
+                        ]
+                    },
+                    {
+                        name: 'Office Furniture',
+                        items: [
+                            { id: 'corp_chair_std', name: 'Office Chair (Standard)', price: 85.00 },
+                            { id: 'corp_chair_exec', name: 'Office Chair (Executive/Leather)', price: 195.00 }
+                        ]
+                    }
+                ]
+            }
+        ],
+
+        // --- HOSPITALITY ---
+        'HOSP': [
+            {
+                id: 'hosp_fixed', 
+                name: 'Fixed Floor Spaces', 
+                icon: 'fa-kaaba', 
+                callOut: 0, 
+                minCharge: 950,
+                desc: 'Carpet or Tile cleaning for fixed rooms.',
+                groups: [
+                    {
+                        name: 'Bedrooms',
+                        items: [
+                            { id: 'room_master', name: 'Master Bedroom (4m x 4m +)', price: 395.00 },
+                            { id: 'room_std', name: 'Standard Bedroom (<4m x 4m)', price: 375.00 },
+                            { id: 'room_closet', name: 'Dressing/Closet Space', price: 195.00 }
+                        ]
+                    },
+                    {
+                        name: 'Living Areas',
+                        items: [
+                            { id: 'room_living', name: 'Dining/Lounge/TV/Kitchen', price: 395.00 },
+                            { id: 'room_study', name: 'Study/Office', price: 255.00 },
+                            { id: 'room_passage', name: 'Passage/Staircase/Extra', price: 245.00 }
+                        ]
+                    },
+                    {
+                        name: 'Outdoor/Utility',
+                        items: [
+                            { id: 'area_patio_lrg', name: 'Patio/Outside Tiles (4m x 4m +)', price: 395.00 },
+                            { id: 'area_patio_sml', name: 'Patio/Outside Tiles (<4m x 4m)', price: 375.00 },
+                            { id: 'area_garage_lrg', name: 'Garage Floor (4m x 4m +)', price: 395.00 },
+                            { id: 'area_garage_sml', name: 'Garage Floor (<4m x 4m)', price: 375.00 }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 'hosp_beds', 
+                name: 'Beds & Bedding', 
+                icon: 'fa-bed', 
+                callOut: 0, 
+                minCharge: 950,
+                desc: 'Mattress and frame cleaning.',
+                groups: [
                     {
                         name: 'Mattresses',
                         items: [
-                            { id: 'mat_single', name: 'Single Mattress', price: 295 },
-                            { id: 'mat_double', name: 'Double/Queen Mattress', price: 395 },
-                            { id: 'mat_king', name: 'King Mattress', price: 495 }
-                        ]
-                    }
-                ]
-            }
-        ],
-
-        // --- CORPORATE SERVICES ---
-        'CORP': [
-            {
-                id: 'corp_office', 
-                name: 'Office & Workspace Cleaning', 
-                icon: 'fa-briefcase', 
-                callOut: 150, 
-                minCharge: 950,
-                desc: 'Desks, meeting rooms, chairs, floors, and common office areas.',
-                groups: [
-                    {
-                        name: 'Area Cleaning',
-                        items: [
-                            { id: 'sqm_office', name: 'Office Space (per m²)', price: 21 },
-                            { id: 'sqm_warehouse', name: 'Warehouse Floor (per m²)', price: 8 },
-                            { id: 'toilet_deep', name: 'Ablution Block Deep Clean', price: 450 }
+                            { id: 'mat_lrg', name: 'Mattress (3/4, Dbl, Queen, King)', price: 495.00 },
+                            { id: 'mat_sng', name: 'Mattress (Single)', price: 295.00 },
+                            { id: 'mat_cot', name: 'Baby Cot/Carry Cot', price: 155.00 }
                         ]
                     },
                     {
-                        name: 'Furniture & Fixtures',
+                        name: 'Frames',
                         items: [
-                            { id: 'chair_office', name: 'Office Chair (Swivel)', price: 85 },
-                            { id: 'chair_visitor', name: 'Visitor Chair', price: 65 }
-                        ]
-                    }
-                ]
-            },
-            {
-                id: 'corp_special', 
-                name: 'Specialized Rooms & Facilities', 
-                icon: 'fa-building', 
-                callOut: 200, 
-                minCharge: 1200,
-                desc: 'Server rooms, labs, storage areas, and conference halls.',
-                groups: [
-                    {
-                        name: 'Area Cleaning',
-                        items: [
-                            { id: 'sqm_lab', name: 'Lab/Server Room (per m²)', price: 20 },
-                            { id: 'sqm_conference', name: 'Conference Hall (per m²)', price: 18 }
-                        ]
-                    }
-                ]
-            },
-            {
-                id: 'corp_floors', 
-                name: 'Floors & Surfaces', 
-                icon: 'fa-broom', 
-                callOut: 100, 
-                minCharge: 800,
-                desc: 'Carpets, tiles, vinyl, and high-touch surfaces throughout corporate spaces.',
-                groups: [
-                    {
-                        name: 'Surface Cleaning',
-                        items: [
-                            { id: 'carpet_clean', name: 'Carpet (per m²)', price: 22 },
-                            { id: 'tile_clean', name: 'Tile (per m²)', price: 18 },
-                            { id: 'vinyl_clean', name: 'Vinyl (per m²)', price: 15 }
+                            { id: 'headboard', name: 'Headboard', price: 185.00 },
+                            { id: 'bed_base', name: 'Bed Base', price: 195.00 }
                         ]
                     }
                 ]
             }
         ],
 
-        // --- SPECIALIZED SERVICES ---
+        // --- WINDOWS & SOLAR ---
         'SPEC': [
             {
-                id: 'spec_pest', name: 'Pest Control', icon: 'fa-bug', callOut: 550, minCharge: 850,
-                desc: 'Fumigation, Gel, and Baiting services. Includes inspection.',
+                id: 'spec_window', 
+                name: 'Windows & Glass', 
+                icon: 'fa-window-maximize', 
+                callOut: 0, 
+                minCharge: 950,
+                desc: 'Professional window cleaning per unit.',
                 groups: [
                     {
-                        name: 'Treatments',
+                        name: 'Standard Windows',
                         items: [
-                            { id: 'roach_gel', name: 'Cockroach Gel (Per Room)', price: 250 },
-                            { id: 'ant_spray', name: 'Ant Surface Spray (Per Room)', price: 200 },
-                            { id: 'rodent_station', name: 'Rodent Bait Station', price: 140 },
-                            { id: 'bedbugs', name: 'Bed Bug Fumigation (Per Room)', price: 550 },
-                            { id: 'fleas', name: 'Flea Treatment (Internal)', price: 650 }
+                            { id: 'win_sq_pl', name: 'Square Plain Window', price: 35.00 },
+                            { id: 'win_sq_cot', name: 'Square Cottage Window', price: 55.00 },
+                            { id: 'win_rec_pl', name: 'Rectangle Plain Window', price: 35.00 },
+                            { id: 'win_rec_cot', name: 'Rectangle Cottage Window', price: 55.00 }
+                        ]
+                    },
+                    {
+                        name: 'Stack & Sliding',
+                        items: [
+                            { id: 'win_stack_2', name: '2 x Stack Window', price: 35.00 },
+                            { id: 'win_stack_2u', name: '2 x Stack Uneven Window', price: 35.00 },
+                            { id: 'win_stack_3', name: '3 x Stack Window', price: 40.00 },
+                            { id: 'win_stack_3u', name: '3 x Stack Uneven Window', price: 40.00 },
+                            { id: 'win_stack_4', name: '4 x Stack Window', price: 45.00 },
+                            { id: 'door_stack', name: 'Foldable Stack Glass Door', price: 125.00 },
+                            { id: 'door_slide', name: '2 x Sliding Door Panels', price: 45.00 }
+                        ]
+                    },
+                    {
+                        name: 'Specialty Windows',
+                        items: [
+                            { id: 'win_tilt_pl', name: 'Double Tilt Plain Window', price: 35.00 },
+                            { id: 'win_tilt_cot', name: 'Double Tilt Cottage Window', price: 45.00 },
+                            { id: 'win_skylight', name: 'Skylight Window', price: 89.00 },
+                            { id: 'win_arch', name: 'Arch Window', price: 55.00 },
+                            { id: 'win_tri', name: 'Triangle Window', price: 55.00 },
+                            { id: 'win_slant', name: 'Slanted Window', price: 35.00 },
+                            { id: 'win_circ', name: 'Circle Window', price: 35.00 },
+                            { id: 'win_bay_pl', name: 'Plain Bay Window', price: 75.00 },
+                            { id: 'win_bay_cot', name: 'Cottage Bay Window', price: 95.00 }
                         ]
                     }
                 ]
             },
             {
-                id: 'spec_solar', name: 'Solar & Windows', icon: 'fa-solar-panel', callOut: 0, minCharge: 400,
-                desc: 'De-ionized water cleaning for panels and glass.',
+                id: 'spec_solar', 
+                name: 'Solar & Panels', 
+                icon: 'fa-solar-panel', 
+                callOut: 0, 
+                minCharge: 950,
+                desc: 'Solar panels and Balustrades.',
                 groups: [
                     {
-                        name: 'Solar Panels',
+                        name: 'Panels',
                         items: [
-                            { id: 'panel', name: 'Solar Panel (Standard)', price: 75 }
-                        ]
-                    },
-                    {
-                        name: 'Windows',
-                        items: [
-                            { id: 'win_small', name: 'Small/Standard Window', price: 35 },
-                            { id: 'win_large', name: 'Large/Sliding Door', price: 65 },
-                            { id: 'win_high', name: 'High Reach (2nd Story)', price: 95 }
+                            { id: 'solar_panel', name: 'Solar Panel (per panel)', price: 75.00 },
+                            { id: 'balustrade', name: 'Balustrade (any size)', price: 15.00 }
                         ]
                     }
                 ]
             }
         ],
-        
-        // --- HOSPITALITY SERVICES ---
-        'HOSP': [
+
+        // --- PEST CONTROL ---
+        'PEST': [
             {
-                id: 'hosp_rooms', 
-                name: 'Guest Room Cleaning', 
-                icon: 'fa-bed', 
-                callOut: 150, 
-                minCharge: 800,
-                desc: 'Spotless rooms for guests: beds, floors, furniture, and bathrooms.',
+                id: 'pest_general', 
+                name: 'Pest Treatments', 
+                icon: 'fa-bug', 
+                callOut: 550, // Callout Fee
+                minCharge: 950,
+                desc: 'Callout + Inspection Fee of R550 applies to all bookings.',
                 groups: [
                     {
-                        name: 'Room Units',
+                        name: 'Cockroaches',
                         items: [
-                            { id: 'room_std', name: 'Standard Room Cleaning', price: 250 },
-                            { id: 'room_suite', name: 'Suite Cleaning', price: 400 },
-                            { id: 'linen_change', name: 'Bed Linen Change', price: 75 },
-                            { id: 'bathroom_sanitize', name: 'Bathroom Sanitation', price: 120 }
+                            { id: 'roach_gel', name: 'Cockroach Gel Baiting (per Room)', price: 350.00 },
+                            { id: 'roach_drain', name: 'Drain Treatment (per drain)', price: 250.00 },
+                            { id: 'roach_xtra', name: 'Extra Charge (Room >20m²)', price: 15.00 }
                         ]
-                    }
-                ]
-            },
-            {
-                id: 'hosp_common', 
-                name: 'Common Area & Facility Cleaning', 
-                icon: 'fa-building', 
-                callOut: 200, 
-                minCharge: 1000,
-                desc: 'Maintain lobbies, corridors, dining areas, and high-traffic spaces.',
-                groups: [
+                    },
                     {
-                        name: 'Shared Areas',
+                        name: 'Ants',
                         items: [
-                            { id: 'lobby_clean', name: 'Lobby & Reception', price: 200 },
-                            { id: 'hallway_clean', name: 'Hallways & Staircases', price: 150 },
-                            { id: 'dining_clean', name: 'Dining Room / Lounge', price: 180 },
-                            { id: 'elevator_touch', name: 'Elevators & High-Touch Surfaces', price: 100 }
+                            { id: 'ant_nest', name: 'Ant Nest Location & Treatment', price: 550.00 },
+                            { id: 'ant_barr', name: 'Barrier Treatment (per linear meter)', price: 25.00 }
                         ]
-                    }
-                ]
-            },
-            {
-                id: 'hosp_deep', 
-                name: 'Deep & Specialty Cleaning', 
-                icon: 'fa-broom', 
-                callOut: 250, 
-                minCharge: 1200,
-                desc: 'Periodic deep cleaning for hygiene and upkeep of all areas.',
-                groups: [
+                    },
                     {
-                        name: 'Deep Cleaning Services',
+                        name: 'Rodents & Moles',
                         items: [
-                            { id: 'carpet_shampoo', name: 'Carpet Shampooing', price: 300 },
-                            { id: 'tile_scrub', name: 'Tile Scrubbing', price: 250 },
-                            { id: 'upholstery_clean', name: 'Upholstery & Furniture Deep Clean', price: 350 },
-                            { id: 'window_clean', name: 'Window Cleaning', price: 150 },
-                            { id: 'kitchen_clean', name: 'Kitchen / Pantry Sanitation', price: 400 },
-                            { id: 'mattress_sanitize', name: 'Mattress UV Sanitize', price: 150 }
+                            { id: 'rodent_stat', name: 'Rodent Bait Station Installation', price: 140.00 },
+                            { id: 'rodent_rebait', name: 'Re-Baiting Existing Station', price: 90.00 },
+                            { id: 'rodent_roof', name: 'Roof Rat Control (per m²)', price: 15.00 },
+                            { id: 'mole_trap', name: 'Mole Trap Installation', price: 150.00 },
+                            { id: 'mole_remove', name: 'Mole Removal from Traps', price: 1250.00 }
+                        ]
+                    },
+                    {
+                        name: 'Bed Bugs, Fleas & Ticks',
+                        items: [
+                            { id: 'bb_room', name: 'Bed Bug Treatment per Room', price: 550.00 },
+                            { id: 'bb_xtra', name: 'Bed Bug Extra (>20m²)', price: 25.00 },
+                            { id: 'flea_room', name: 'Flea/Tick Treatment (Room/Yard)', price: 550.00 },
+                            { id: 'flea_xtra', name: 'Flea/Tick Extra (>20m²)', price: 15.00 },
+                            { id: 'beetle_room', name: 'Carpet Beetle Treatment', price: 550.00 }
+                        ]
+                    },
+                    {
+                        name: 'Other Pests',
+                        items: [
+                            { id: 'silverfish', name: 'Silverfish Treatment (per Room)', price: 350.00 },
+                            { id: 'silverfish_ceil', name: 'Silverfish Attic/Ceiling', price: 350.00 },
+                            { id: 'wasp_nest', name: 'Wasp/Hornet Nest Removal', price: 75.00 },
+                            { id: 'wasp_spray', name: 'Insecticide Spray (per App)', price: 550.00 }
                         ]
                     }
                 ]
