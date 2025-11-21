@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Build your custom cleaning quote - XYZ Solutions">
+  <title>XYZSolutions | Custom Quote Builder</title>
+
+  <meta property="og:url" content="https://xyzsolutions.co.za/booking/" />
+
+  <!-- Fonts & Icons -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+  rel="stylesheet"
+>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  integrity="sha512-lJfsgf0…(add full integrity hash if needed)"
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+
+<link
+  href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+  rel="stylesheet"
+/>
+
+<link rel="stylesheet" href="main.css">
+
+</head>
+
+<body>
+
+  <!-- Header (Matched Exactly to Index) -->
+  <header>
+    <a href="index.html" class="logo">
+      <img src="../images/logo.jpg" alt="XYZ Solutions Logo">
+      <div class="logo-text">
+        XYZ<span>Solutions</span>
+        <small>&amp; Projects</small>
+      </div>
+    </a>
+
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="../services.html">Services</a>
+      <a href="#" class="active">Quote</a>
+      <a href="../index.html#about">About</a>
+      <a href="../contact.html" class="cta-nav">Contact</a>
+    </nav>
+
+    <button class="burger" aria-label="Toggle navigation"
+      onclick="document.querySelector('nav').classList.toggle('active')">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <div class="app-wrapper">
+
+    <!-- MAIN WIZARD AREA -->
+    <main class="wizard-container">
+
+      <div class="quote-header">
+        <button type="button" class="top-back-btn" id="topBackBtn" onclick="app.prevStep()">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <a href="contact.html" class="book-call-btn">
+          <i class="fas fa-phone-alt"></i>
+          <span class="book-call-text">Book a Call</span>
+        </a>
+        <div class="quote-title">
+          <h1 style="text-align: right;">Get Your Quote</h1>
+          <p style="text-align: right; font-size: 0.9rem;">Fast, transparent, and online.</p>
+        </div>
+      </div>
+
+      <!-- Steps Indicator -->
+      <div class="progress-track">
+        <div class="step-item active" id="indicator-1">
+          <div class="step-circle">1</div>
+          <span class="step-label">Service</span>
+        </div>
+        <div class="step-item" id="indicator-2">
+          <div class="step-circle">2</div>
+          <span class="step-label">Type</span>
+        </div>
+        <div class="step-item" id="indicator-3">
+          <div class="step-circle">3</div>
+          <span class="step-label">Details</span>
+        </div>
+        <div class="step-item" id="indicator-4">
+          <div class="step-circle">4</div>
+          <span class="step-label">Book</span>
+        </div>
+      </div>
+
+      <form id="quoteForm" onsubmit="return false;">
+
+        <!-- STEP 1: REGION & CATEGORY -->
+        <div class="form-step active" id="step-1">
+          <div class="step-heading">Where & What?</div>
+          <p class="step-sub">Select your region and the type of service you require.</p>
+
+          <!-- Region Selection -->
+          <div class="input-group">
+            <label class="input-label">1. Service Region</label>
+            <div class="option-grid">
+
+              <!-- Gauteng -->
+              <div class="selection-card" onclick="app.setRegion('JHB', this)">
+                <div class="card-content">
+                  <i class="fas fa-city card-icon"></i>
+                  <span class="card-title">Gauteng (Johannesburg)</span>
+                  <span class="card-desc">
+                    Johannesburg, Pretoria, Sandton, Alberton, Randburg, Westonaria, Lenasia & surrounding areas
+                  </span>
+                </div>
+                <div class="check-mark"><i class="fas fa-check"></i></div>
+              </div>
+
+              <!-- KwaZulu-Natal -->
+              <div class="selection-card" onclick="app.setRegion('KZN', this)">
+                <div class="card-content">
+                  <i class="fas fa-umbrella-beach card-icon"></i>
+                  <span class="card-title">KwaZulu-Natal (Durban)</span>
+                  <span class="card-desc">
+                    Durban North, Umhlanga, Ballito, Morningside, Musgrave, La Lucia, Hillcrest & surrounding areas
+                  </span>
+                </div>
+                <div class="check-mark"><i class="fas fa-check"></i></div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Category Selection -->
+          <div class="input-group">
+            <label class="input-label">2. Service Category</label>
+            <div class="option-grid" id="category-grid">
+              <!-- JS Injects Cards Here -->
+            </div>
+          </div>
+        </div>
+
+
+        <!-- STEP 2: SPECIFIC SERVICE TYPE -->
+        <div class="form-step" id="step-2">
+          <div class="step-heading">Select Service Package</div>
+          <p class="step-sub">Choose the specific package that best fits your needs.</p>
+          <div class="option-grid" id="service-type-grid">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+
+        <!-- STEP 3: ITEM SELECTION -->
+        <div class="form-step" id="step-3">
+          <div class="step-heading">Customize Your Quote</div>
+          <p class="step-sub">Add items to your basket to calculate the price.</p>
+
+          <div id="items-container">
+            <!-- Populated via JS -->
+          </div>
+
+          <div class="input-group" style="margin-top: 2rem;">
+            <label class="input-label">Special Requirements or Access Details</label>
+            <textarea class="form-control" rows="3"
+              placeholder="e.g. Key under mat, need extra long ladder, aggressive dog..."></textarea>
+          </div>
+        </div>
+
+        <!-- STEP 4: DETAILS & SUBMIT -->
+        <div class="form-step" id="step-4">
+          <div class="step-heading">Finalize Booking</div>
+          <p class="step-sub">Enter your contact details to receive this formal quote.</p>
+
+          <div class="input-row">
+            <div class="input-group">
+              <label class="input-label">Full Name</label>
+              <input type="text" class="form-control" id="contact-name" required>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Email Address</label>
+              <input type="email" class="form-control" id="contact-email" required>
+            </div>
+          </div>
+
+          <div class="input-row">
+            <div class="input-group">
+              <label class="input-label">Phone Number</label>
+              <input type="tel" class="form-control" id="contact-phone" required>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Preferred Date</label>
+              <input type="date" class="form-control" id="booking-date">
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label">Property Address</label>
+            <textarea class="form-control" id="property-address" rows="2" required></textarea>
+          </div>
+
+          <div class="input-group"
+            style="background: #fffde7; padding: 1rem; border-radius: 8px; border: 1px solid var(--accent);">
+            <label
+              style="display:flex; align-items:center; gap:10px; cursor:pointer; font-weight: 600; color: var(--dark);">
+              <input type="checkbox" id="contract-discount" onchange="app.toggleDiscount()">
+              Apply Monthly Contract Discount (25% Off)
+            </label>
+            <p style="font-size:0.85rem; color:var(--gray); margin-left:24px; margin-top:4px;">
+              Valid for recurring services booked for 6+ months.
+            </p>
+          </div>
+        </div>
+
+        <!-- Form Navigation -->
+        <div class="wizard-nav">
+          <button type="button" class="btn btn-secondary" id="prevBtn" onclick="app.prevStep()">Back</button>
+          <button type="button" class="btn btn-primary" id="nextBtn" onclick="app.nextStep()">Next Step</button>
+        </div>
+
+      </form>
+    </main>
+
+    <!-- SIDEBAR SUMMARY (Desktop) -->
+    <aside class="summary-sidebar">
+      <div class="summary-header">
+        <h2>Quote Estimate</h2>
+        <span class="ref-num">Ref #<span id="quote-ref">PENDING</span></span>
+      </div>
+
+      <div class="min-charge-notice" id="min-charge-notice">
+        <i class="fas fa-info-circle"></i> Minimum call-out charge of R300 applies.
+      </div>
+
+      <div class="summary-list" id="summary-list">
+        <div style="text-align: center; color: #aaa; padding-top: 2rem;">
+          <i class="fas fa-calculator" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+          <p>Select items to see breakdown</p>
+        </div>
+      </div>
+
+      <div class="summary-total">
+        <div>
+          <div class="total-label">Estimated Total</div>
+          <small style="opacity: 0.7">VAT Inclusive</small>
+        </div>
+        <div class="total-amount" id="total-display">R0.00</div>
+      </div>
+    </aside>
+
+    <!-- MOBILE SUMMARY BAR -->
+    <div class="mobile-summary-bar">
+      <div>
+        <span style="font-size: 0.8rem; color: #888; display: block;">Total Estimate</span>
+        <span class="total" id="mobile-total">R0.00</span>
+      </div>
+      <button class="btn btn-primary" style="padding: 0.6rem 1.5rem; font-size: 0.9rem;" onclick="app.nextStep()"
+        id="mobile-next-btn">Next</button>
+    </div>
+
+  </div>
+
+  <!-- Footer (Matched Exactly to Index) -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>XYZSolutions</h4>
+        <p>Premium, eco-friendly cleaning services for homes and businesses in Durban and Johannesburg.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="services.html">Our Services</a>
+        <a href="contact.html">Contact Us</a>
+        <a href="index.html#about">About Us</a>
+        <a href="#">Vacancies</a>
+        <a href="policy.html">Company Policy</a>
+        <a href="faq.html">FAQs</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <p><strong>Jhb:</strong> <a href="tel:+27680297313">+27 68 029 7313</a></p>
+        <p><strong>Dbn:</strong> <a href="tel:+27622976614">+27 62 297 6614</a></p>
+        <p><a href="mailto:quotes@xyzsolutions.co.za">quotes@xyzsolutions.co.za</a></p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Follow Us</h4>
+        <div class="social-links">
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2025 XYZ Solutions & Projects (Pty) Ltd. All Rights Reserved.
+    </div>
+  </footer>
+
+  <!-- JavaScript Hooks -->
+  <!-- NOTE: Ensure your JS files are in the folders referenced below -->
+  <script src="script/pricing-data.js"></script>
+  <script src="script/quote-engine.js"></script>
+  <script src="script/main.js"></script>
+
+  <script>
+    // Helper to manage the back button visibility in the header
+    // Overrides the default updateUI to add visual logic for the back arrow
+    const originalUpdateUI = QuoteApp.prototype.updateUI;
+    QuoteApp.prototype.updateUI = function () {
+      originalUpdateUI.call(this);
+
+      const topBackBtn = document.getElementById('topBackBtn');
+      if (topBackBtn) {
+        if (this.state.step > 1) {
+          topBackBtn.classList.add('visible');
+        } else {
+          topBackBtn.classList.remove('visible');
+        }
+      }
+    };
+  </script>
+
+</body>
+
+</html>
