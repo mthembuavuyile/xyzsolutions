@@ -1,7 +1,7 @@
 /**
  * --------------------------------------------------------------------------
  * FILE 1: INITIALIZATION (main.js)
- * Bootstraps the application when the DOM is ready.
+ * Bootstraps the app when the DOM is ready.
  * --------------------------------------------------------------------------
  */
 
