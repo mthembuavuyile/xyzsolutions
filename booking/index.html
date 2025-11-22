@@ -31,7 +31,8 @@
   rel="stylesheet"
 />
 
-<link rel="stylesheet" href="main.css">
+<link rel="stylesheet" href="../styles/main.css">
+<link rel="stylesheet" href="booking.css">
 
 </head>
 
@@ -39,29 +40,28 @@
 
   <!-- Header (Matched Exactly to Index) -->
   <header>
-    <a href="index.html" class="logo">
-      <img src="../images/logo.jpg" alt="XYZ Solutions Logo">
-      <div class="logo-text">
-        XYZ<span>Solutions</span>
-        <small>&amp; Projects</small>
-      </div>
-    </a>
+  <a href="index.html" class="logo">
+    <img src="/images/logo.jpg" alt="XYZ Solutions Logo – Professional Cleaning and Projects">
+    <div class="logo-text">
+      XYZ<span>Solutions</span>
+      <small>&amp; Projects</small>
+    </div>
+  </a>
 
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="../services.html">Services</a>
-      <a href="#" class="active">Quote</a>
-      <a href="../index.html#about">About</a>
-      <a href="../contact.html" class="cta-nav">Contact</a>
-    </nav>
+  <nav>
+    <a href="/index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="#manage-bookings">Quote</a>
+    <a href="#about">About</a>
+    <a href="contact.html" class="cta-nav">Contact</a>
+  </nav>
 
-    <button class="burger" aria-label="Toggle navigation"
-      onclick="document.querySelector('nav').classList.toggle('active')">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-  </header>
+  <button class="burger" aria-label="Toggle navigation">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</header>
 
   <div class="app-wrapper">
 
@@ -278,12 +278,13 @@
       </div>
       <div class="footer-col">
         <h4>Quick Links</h4>
-        <a href="services.html">Our Services</a>
-        <a href="contact.html">Contact Us</a>
-        <a href="index.html#about">About Us</a>
-        <a href="#">Vacancies</a>
-        <a href="policy.html">Company Policy</a>
-        <a href="faq.html">FAQs</a>
+        <a href="../services.html">Our Services</a> <!-- go up one folder -->
+<a href="../contact.html">Contact Us</a>
+<a href="../index.html#about">About Us</a>
+<a href="#">Vacancies</a>
+<a href="../policy.html">Company Policy</a>
+<a href="../faq.html">FAQs</a>
+
       </div>
       <div class="footer-col">
         <h4>Contact</h4>
@@ -305,6 +306,9 @@
       © 2025 XYZ Solutions & Projects (Pty) Ltd. All Rights Reserved.
     </div>
   </footer>
+  
+<script src="../js/main.js"></script>
+  
 
   <!-- JavaScript Hooks -->
   <!-- NOTE: Ensure your JS files are in the folders referenced below -->

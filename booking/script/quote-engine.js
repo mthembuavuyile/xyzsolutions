@@ -20,14 +20,29 @@ class QuoteApp {
                 total: 0
             }
         };
+                this.flatItemMap = new Map(); // Cache
+
     }
 
     init() {
+        this.cacheItems(); // Run once
+
         this.renderCategories();
         this.updateSummary();
         // Generate random reference
         const refEl = document.getElementById('quote-ref');
         if(refEl) refEl.innerText = 'Q-' + Math.floor(1000 + Math.random() * 9000);
+    }
+    cacheItems() {
+        Object.values(PRICING_DB.services).forEach(cat => {
+            cat.forEach(svc => {
+                svc.groups.forEach(grp => {
+                    grp.items.forEach(itm => {
+                        this.flatItemMap.set(itm.id, itm);
+                    });
+                });
+            });
+        });
     }
 
     // --- NAVIGATION ---
