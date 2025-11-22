@@ -139,14 +139,12 @@ class QuoteApp {
                 <div class="card-content">
                     <i class="fas ${cat.icon} card-icon"></i>
                     <span class="card-title">${cat.name}</span>
-                    <span class="card-desc" style="display:none;">${cat.desc}</span> 
+                    <!-- Removed style="display:none;" below -->
+                    <span class="card-desc">${cat.desc}</span> 
                 </div>
                 <div class="check-mark"><i class="fas fa-check"></i></div>
             </div>
         `).join('');
-        
-        // Note: I set card-desc to display:none above to keep the layout clean/balanced.
-        // If you want descriptions shown, remove style="display:none;"
     }
 
     renderServices(catId) {
@@ -359,25 +357,110 @@ class QuoteApp {
         }
     }
 
-    submitQuote() {
-        // Form validation
+    async submitQuote() {
+        // 1. Form validation
         const name = document.getElementById('contact-name').value;
         const email = document.getElementById('contact-email').value;
         const phone = document.getElementById('contact-phone').value;
         const addr = document.getElementById('property-address').value;
+        const date = document.getElementById('booking-date').value;
+        const notes = document.getElementById('special-req') ? document.getElementById('special-req').value : '';
+        
+        if(!name || !email || !phone || !addr) {
+            alert("Please fill in all required contact fields (Name, Email, Phone, Address).");
+            return;
+        }
 
-        if(!name || !email || !phone || !addr) return alert("Please fill in all required contact fields.");
-
-        // Success Simulation
+        // 2. UI Feedback (Loading State)
         const btn = document.getElementById('nextBtn');
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+        const originalText = btn.innerText;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
         btn.disabled = true;
 
         const ref = document.getElementById('quote-ref') ? document.getElementById('quote-ref').innerText : 'REF';
 
-        setTimeout(() => {
-            alert(`Quote Reference ${ref} has been sent to ${email}. We will contact you shortly!`);
-            window.location.reload();
-        }, 2000);
+        // 3. Prepare the Item List for the Email
+        // We use the flatItemMap (cached in init) to look up names
+        let itemsSummary = "";
+        let itemsHtml = "<ul>"; // We can send HTML to Web3Forms
+        
+        Object.keys(this.state.items).forEach(itemId => {
+            const qty = this.state.items[itemId];
+            if (qty > 0) {
+                const itemDef = this.flatItemMap.get(itemId);
+                if (itemDef) {
+                    const lineTotal = itemDef.price * qty;
+                    const line = `${itemDef.name} (x${qty}) - R${lineTotal.toFixed(2)}`;
+                    itemsSummary += line + "\n";
+                    itemsHtml += `<li>${line}</li>`;
+                }
+            }
+        });
+        itemsHtml += "</ul>";
+
+        // 4. Construct the Data Payload
+        const formData = {
+            access_key: "9d215b07-c824-40ed-a51e-aa79fd714e28", // YOUR KEY
+            subject: `New Quote Request: ${ref} from ${name}`,
+            from_name: "XYZ Website Quote",
+            
+            // --- Customer Details ---
+            reference_number: ref,
+            customer_name: name,
+            customer_email: email,
+            customer_phone: phone,
+            preferred_date: date || "Not specified",
+            property_address: addr,
+            special_notes: notes || "None",
+
+            // --- Quote Specs ---
+            region: this.state.region,
+            service_category: this.state.category,
+            service_type: this.state.serviceId,
+            
+            // --- Financials ---
+            subtotal: `R${this.state.totals.subtotal.toFixed(2)}`,
+            call_out_fee: `R${this.state.totals.callOut.toFixed(2)}`,
+            discount_applied: this.state.discountActive ? "Yes (25% Contract)" : "No",
+            discount_amount: `-R${this.state.totals.discount.toFixed(2)}`,
+            min_charge_applied: this.state.totals.minChargeApplied ? "Yes" : "No",
+            
+            // --- FINAL TOTAL ---
+            ESTIMATED_TOTAL: `R${this.state.totals.total.toFixed(2)}`,
+
+            // --- Item Breakdown (formatted as HTML for the email body) ---
+            selected_items: itemsHtml
+        };
+
+        // 5. Send to Web3Forms
+        try {
+            const response = await fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                // Success Action
+                alert(`Success! Quote ${ref} has been sent. We will contact you shortly.`);
+                // Optional: Redirect to a thank you page
+                // window.location.href = "/thank-you.html";
+                window.location.reload(); 
+            } else {
+                throw new Error(result.message || "Form submission failed");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("There was an error sending your quote. Please try again or contact us directly.");
+            
+            // Reset button
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
     }
 }

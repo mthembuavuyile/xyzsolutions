@@ -1,133 +1,37 @@
-/* 
-====================================================================
-   XYZ SOLUTIONS - COMPREHENSIVE BOOKING STYLESHEET
-   Integrated: Global Layout + Wizard Logic
-==================================================================== 
+/* booking.css
+   DEPENDENCY: ../styles/main.css must be loaded first.
 */
 
-/* --- 1. VARIABLES & RESET --- */
+/* --- 1. VARIABLES & ANIMATIONS --- */
 :root {
-  /* Brand Colors */
-  --primary: #0077be;
-  --primary-dark: #005fa3;
-  --secondary: #00b894;
-  --secondary-dark: #008e72;
-  --accent: #f1c40f;
-  
-  /* Neutrals (Mapped for compatibility) */
-  --dark: #1a1a2e;
-  --text-body: #4a5568;
-  --text-light: #a0aec0; /* Also maps to --gray */
-  --gray: #a0aec0;       /* Alias for Source 2 compatibility */
-  --bg-body: #f4f7f9;
-  --light: #f8f9fa;      /* Alias for Source 2 cards */
-  --surface: #ffffff;
-  --white: #ffffff;      /* Alias for Source 2 compatibility */
-  --border: #e2e8f0;
-
-  /* Feedback */
-  --success: #10b981;
-  --error: #ef4444;
-  --warning-bg: #fff3cd;
-  --warning-text: #856404;
-
-  /* UI Properties */
-  --radius: 12px;
-  --radius-sm: 8px;
-  --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-  --shadow-md: 0 8px 20px rgba(0,0,0,0.06);
-  --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1);
-  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  
-  /* Header Height constant for offsets */
-  --header-height: 70px;
+  --surface: #ffffff; 
+  /* Inherits --primary, --dark, --gray, --radius, --shadow from main.css */
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-html {
-  scroll-behavior: smooth;
-  font-size: 16px;
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  color: var(--text-body);
-  background-color: var(--bg-body);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-}
-
-h1, h2, h3, h4, h5 {
-  color: var(--dark);
-  line-height: 1.2;
-  font-weight: 700;
-}
-
-a { text-decoration: none; color: inherit; transition: var(--transition); }
-ul { list-style: none; }
-img { max-width: 100%; display: block; }
-button, input, textarea { font-family: inherit; }
-
-/* --- 2. HEADER & NAVIGATION --- */
-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: var(--header-height);
-  z-index: 1000;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 5%;
-  box-shadow: var(--shadow-sm);
-}
-
-
-
-
-
-/* Desktop Nav */
-nav {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-}
-
-nav a {
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: var(--dark);
-}
-
-nav a:hover, nav a.active { color: var(--primary); }
-
-
-
-/* --- 3. MAIN LAYOUT WRAPPERS --- */
+/* --- 2. LAYOUT & WRAPPERS --- */
 .app-wrapper {
-  padding-top: calc(var(--header-height) + 2rem); /* Offset header */
-  padding-bottom: 120px; /* Space for mobile bottom bar */
+  padding-top: 100px; /* Space for fixed header */
+  padding-bottom: 120px; 
   padding-left: 1rem;
   padding-right: 1rem;
   max-width: 1300px;
   margin: 0 auto;
   min-height: 100vh;
   display: grid;
-  grid-template-columns: 1fr; /* Mobile default */
+  grid-template-columns: 1fr;
   gap: 2rem;
 }
 
-/* Desktop Layout Override */
 @media (min-width: 1024px) {
   .app-wrapper {
     grid-template-columns: minmax(0, 1fr) 350px; /* Wizard | Sidebar */
@@ -137,13 +41,12 @@ nav a:hover, nav a.active { color: var(--primary); }
   }
 }
 
-/* --- 4. WIZARD CONTAINER --- */
 .wizard-container {
   background: var(--surface);
   border-radius: var(--radius);
   padding: 1.5rem;
-  box-shadow: var(--shadow-md);
-  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  border: 1px solid #e2e8f0;
   position: relative;
 }
 
@@ -151,25 +54,30 @@ nav a:hover, nav a.active { color: var(--primary); }
   .wizard-container { padding: 2.5rem; }
 }
 
-/* Quote Header (Inside Wizard) */
+/* --- 3. HEADER AREA (Title, Back Btn, Call Btn) --- */
 .quote-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 2rem;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #e2e8f0;
   padding-bottom: 1.5rem;
+  gap: 1rem;
 }
 
-/* Circular Back Button */
+.quote-title { flex: 1; }
+.quote-title h1 { font-size: 1.5rem; margin-bottom: 0.2rem; }
+.quote-title p { font-size: 0.9rem; color: var(--gray); }
+
+/* Back Button */
 .top-back-btn {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1px solid var(--border);
+  border: 1px solid #e2e8f0;
   background: white;
-  color: var(--text-body);
-  display: none; /* Hidden by default, toggled by JS */
+  color: var(--dark);
+  display: none; 
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -177,24 +85,41 @@ nav a:hover, nav a.active { color: var(--primary); }
 }
 
 .top-back-btn.visible { display: flex; animation: fadeIn 0.3s; }
-
 .top-back-btn:hover {
   border-color: var(--primary);
   color: var(--primary);
   background: #f0f9ff;
 }
 
-.quote-title { flex: 1; margin-left: 1rem; }
-.quote-title h1 { font-size: 1.5rem; margin-bottom: 0.2rem; }
-.quote-title p { font-size: 0.9rem; color: var(--text-light); }
+/* Call Button */
+.book-call-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid var(--primary);
+  border-radius: 50px;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: var(--transition);
+  background: white;
+  white-space: nowrap;
+}
+
+.book-call-btn:hover {
+  background: var(--primary);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 119, 190, 0.2);
+}
 
 @media (max-width: 600px) {
   .quote-title h1 { font-size: 1.25rem; }
   .quote-header { gap: 10px; }
-  .quote-title { margin-left: 0.5rem; }
 }
 
-/* --- 5. PROGRESS STEPPER --- */
+/* --- 4. PROGRESS STEPPER --- */
 .progress-track {
   display: flex;
   justify-content: space-between;
@@ -203,7 +128,6 @@ nav a:hover, nav a.active { color: var(--primary); }
   max-width: 500px;
 }
 
-/* The line behind */
 .progress-track::before {
   content: '';
   position: absolute;
@@ -218,7 +142,7 @@ nav a:hover, nav a.active { color: var(--primary); }
 .step-item {
   position: relative;
   z-index: 1;
-  background: var(--surface); /* Covers the line */
+  background: var(--surface);
   padding: 0 10px;
   display: flex;
   flex-direction: column;
@@ -231,8 +155,8 @@ nav a:hover, nav a.active { color: var(--primary); }
   height: 32px;
   border-radius: 50%;
   background: white;
-  border: 2px solid var(--border);
-  color: var(--text-light);
+  border: 2px solid #e2e8f0;
+  color: var(--gray);
   font-weight: 700;
   font-size: 0.9rem;
   display: flex;
@@ -245,7 +169,7 @@ nav a:hover, nav a.active { color: var(--primary); }
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
-  color: var(--text-light);
+  color: var(--gray);
   letter-spacing: 0.5px;
 }
 
@@ -266,22 +190,14 @@ nav a:hover, nav a.active { color: var(--primary); }
 }
 .step-item.completed .step-label { color: var(--secondary); }
 
-/* --- 6. FORM CONTENT & CARDS --- */
+/* --- 5. FORM SHELL & CARDS --- */
 .form-step { display: none; animation: fadeUp 0.4s ease-out; }
 .form-step.active { display: block; }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeIn {
-  from { opacity: 0; } to { opacity: 1; }
-}
-
 .step-heading { font-size: 1.4rem; color: var(--dark); margin-bottom: 0.5rem; }
-.step-sub { color: var(--text-body); margin-bottom: 2rem; opacity: 0.8; }
+.step-sub { color: var(--gray); margin-bottom: 2rem; opacity: 0.8; }
 
-/* Option Grid */
+/* Option Grid (Cards) */
 .option-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -289,7 +205,6 @@ nav a:hover, nav a.active { color: var(--primary); }
   margin-bottom: 2rem;
 }
 
-/* Selection Card (Enhanced) */
 .selection-card {
   background: var(--light);
   border: 2px solid transparent;
@@ -308,19 +223,19 @@ nav a:hover, nav a.active { color: var(--primary); }
 
 .selection-card:hover {
   transform: translateY(-5px);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow);
   border-color: rgba(0, 119, 190, 0.3);
 }
 
 .selection-card.selected {
   border-color: var(--primary);
-  background: var(--white);
-  box-shadow: 0 0 0 1px var(--primary), var(--shadow-sm);
+  background: white;
+  box-shadow: 0 0 0 1px var(--primary), var(--shadow);
 }
 
 .card-icon {
   font-size: 2.5rem;
-  color: var(--text-light);
+  color: var(--gray);
   margin-bottom: 1rem;
   transition: var(--transition);
 }
@@ -331,20 +246,9 @@ nav a:hover, nav a.active { color: var(--primary); }
   transform: scale(1.1);
 }
 
-.card-title {
-  font-weight: 700;
-  font-size: 1rem;
-  color: var(--dark);
-  margin-bottom: 0.5rem;
-}
+.card-title { font-weight: 700; font-size: 1rem; color: var(--dark); margin-bottom: 0.5rem; }
+.card-desc { font-size: 0.85rem; color: var(--gray); line-height: 1.4; }
 
-.card-desc {
-  font-size: 0.85rem;
-  color: var(--text-light);
-  line-height: 1.4;
-}
-
-/* Checkmark Badge */
 .check-mark {
   position: absolute;
   top: 10px;
@@ -363,12 +267,9 @@ nav a:hover, nav a.active { color: var(--primary); }
   transition: var(--transition);
 }
 
-.selection-card.selected .check-mark {
-  opacity: 1;
-  transform: scale(1);
-}
+.selection-card.selected .check-mark { opacity: 1; transform: scale(1); }
 
-/* --- 7. CALCULATOR / ITEMS --- */
+/* --- 6. CALCULATOR & LIST ITEMS --- */
 .item-group { margin-bottom: 2.5rem; }
 
 .group-title {
@@ -377,7 +278,7 @@ nav a:hover, nav a.active { color: var(--primary); }
   color: var(--primary);
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid var(--bg-body);
+  border-bottom: 2px solid var(--light);
 }
 
 .item-row {
@@ -385,7 +286,7 @@ nav a:hover, nav a.active { color: var(--primary); }
   justify-content: space-between;
   align-items: center;
   background: white;
-  border: 1px solid var(--border);
+  border: 1px solid #e2e8f0;
   border-radius: var(--radius-sm);
   padding: 1rem;
   margin-bottom: 0.75rem;
@@ -394,19 +295,29 @@ nav a:hover, nav a.active { color: var(--primary); }
 
 .item-row:hover {
   border-color: var(--primary);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .item-info strong { display: block; color: var(--dark); font-weight: 600; }
-.item-info small { color: var(--text-light); font-size: 0.85rem; }
+.item-info small { color: var(--gray); font-size: 0.85rem; }
 
-.qty-controls { display: flex; align-items: center; gap: 12px; }
+/* Quantity Controls (Pill Shape) */
+.item-controls { 
+  display: flex;           
+  flex-direction: row;    
+  align-items: center;   
+  gap: 15px;               
+  background: #f8fafc;
+  padding: 5px;
+  border-radius: 50px;    
+  border: 1px solid #e2e8f0;
+}
 
 .qty-btn {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  border: 1px solid var(--border);
+  border: 1px solid #cbd5e1;
   background: white;
   color: var(--primary);
   font-weight: bold;
@@ -416,6 +327,8 @@ nav a:hover, nav a.active { color: var(--primary); }
   justify-content: center;
   cursor: pointer;
   transition: var(--transition);
+  padding-bottom: 3px; 
+  flex-shrink: 0;     
   line-height: 1;
 }
 
@@ -423,15 +336,21 @@ nav a:hover, nav a.active { color: var(--primary); }
   background: var(--primary);
   border-color: var(--primary);
   color: white;
+  transform: scale(1.1);
 }
+
+.qty-btn:active { transform: scale(0.95); }
 
 .qty-display {
   font-weight: 700;
-  min-width: 20px;
+  font-size: 1.1rem;
+  min-width: 24px; 
   text-align: center;
+  color: var(--dark);
+  user-select: none;
 }
 
-/* --- 8. INPUTS & CONTROLS --- */
+/* --- 7. STANDARD INPUTS --- */
 .input-row {
   display: grid;
   grid-template-columns: 1fr;
@@ -455,7 +374,7 @@ nav a:hover, nav a.active { color: var(--primary); }
   font-size: 1rem;
   color: var(--dark);
   background: #fcfcfc;
-  border: 1px solid var(--border);
+  border: 1px solid #e2e8f0;
   border-radius: var(--radius-sm);
   transition: var(--transition);
 }
@@ -467,90 +386,32 @@ nav a:hover, nav a.active { color: var(--primary); }
   box-shadow: 0 0 0 4px rgba(0, 119, 190, 0.1);
 }
 
-textarea.form-control { min-height: 100px; resize: vertical; }
-
-/* Discount Box */
-.discount-box {
-  background: #e6fffa;
-  border: 1px solid var(--secondary);
-  padding: 1rem;
-  border-radius: var(--radius-sm);
-  margin-top: 1rem;
-  color: var(--secondary-dark);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.9rem;
-}
-input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary); }
-
-/* --- 9. NAVIGATION BUTTONS --- */
+/* --- 8. WIZARD NAVIGATION --- */
 .wizard-nav {
   display: flex;
   justify-content: space-between;
   margin-top: 3rem;
   padding-top: 1.5rem;
-  border-top: 1px solid var(--border);
-}
-
-.btn {
-  padding: 0.9rem 2rem;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: var(--transition);
-  border: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.btn-primary {
-  background: var(--primary);
-  color: white;
-  box-shadow: 0 4px 15px rgba(0, 119, 190, 0.3);
-}
-
-.btn-primary:hover {
-  background: var(--primary-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 119, 190, 0.4);
+  border-top: 1px solid #e2e8f0;
 }
 
 .btn-secondary {
   background: transparent;
-  color: var(--text-light);
-  border: 1px solid var(--border);
+  color: var(--gray);
+  border: 1px solid #e2e8f0;
 }
 
-.btn-secondary:hover {
-  border-color: var(--dark);
-  color: var(--dark);
-}
-
-.btn-submit {
-  background: var(--secondary);
-  color: white;
-  width: 100%;
-}
-.btn-submit:hover {
-  background: var(--secondary-dark);
-  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-}
-
-/* --- 10. SIDEBAR SUMMARY (Desktop) --- */
+/* --- 9. SIDEBAR SUMMARY (Desktop) --- */
 .summary-sidebar {
-  background: var(--white);
+  background: white;
   border-radius: var(--radius);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow);
   padding: 2rem;
   height: fit-content;
   position: sticky;
-  top: 100px; /* Sticks below header */
-  border: 1px solid var(--border);
-  display: none; /* Hidden on mobile */
+  top: 100px;
+  border: 1px solid #e2e8f0;
+  display: none;
 }
 
 @media (min-width: 1024px) {
@@ -558,7 +419,7 @@ input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary)
 }
 
 .summary-header {
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #e2e8f0;
   padding-bottom: 1rem;
   margin-bottom: 1.5rem;
 }
@@ -566,7 +427,7 @@ input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary)
 .ref-num {
   display: block;
   font-size: 0.8rem;
-  color: var(--text-light);
+  color: var(--gray);
   margin-top: 4px;
 }
 
@@ -576,15 +437,13 @@ input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary)
   margin-bottom: 1.5rem;
   padding-right: 5px;
 }
-.summary-list::-webkit-scrollbar { width: 6px; }
-.summary-list::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
 
 .summary-item {
   display: flex;
   justify-content: space-between;
   font-size: 0.9rem;
   margin-bottom: 0.8rem;
-  color: var(--text-body);
+  color: var(--gray);
 }
 .summary-item span:last-child { font-weight: 600; color: var(--dark); }
 
@@ -602,21 +461,20 @@ input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary)
 
 .total-amount { color: var(--accent); font-size: 1.4rem; }
 
-/* Min Charge Notice */
 .min-charge-notice {
-  background: var(--warning-bg);
-  color: var(--warning-text);
+  background: #fff3cd;
+  color: #856404;
   border: 1px solid #fbd38d;
   padding: 0.75rem;
   border-radius: var(--radius-sm);
   font-size: 0.85rem;
   margin-bottom: 1rem;
-  display: none; /* Toggled by JS */
+  display: none;
   line-height: 1.4;
 }
 .min-charge-notice.active { display: block; }
 
-/* --- 11. MOBILE SUMMARY BAR --- */
+/* --- 10. SUMMARY BAR (Mobile) --- */
 .mobile-summary-bar {
   position: fixed;
   bottom: 0;
@@ -629,84 +487,18 @@ input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary)
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid #e2e8f0;
 }
 
 @media (min-width: 1024px) {
   .mobile-summary-bar { display: none; }
 }
 
-.mini-total { font-size: 0.9rem; color: var(--text-light); }
+.mini-total { font-size: 0.9rem; color: var(--gray); }
 .mini-total span {
   display: block;
   font-size: 1.4rem;
   font-weight: 800;
   color: var(--primary);
   line-height: 1;
-}
-
-
-
-.social-links { display: flex; gap: 10px; }
-.social-links a {
-  width: 40px;
-  height: 40px;
-  background: #222;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  color: white;
-  transition: var(--transition);
-}
-.social-links a:hover { background: var(--primary); transform: translateY(-3px); }
-
-.footer-bottom {
-  border-top: 1px solid #333;
-  padding-top: 2rem;
-  text-align: center;
-  font-size: 0.85rem;
-  color: #666;
-}
-
-/* --- 13. UTILITIES & MOBILE NAV LOGIC --- */
-.hidden { display: none !important; }
-.text-right { text-align: right; }
-
-@media (max-width: 992px) {
-  .burger { display: flex; }
-  
-  nav {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: white;
-    flex-direction: column;
-    padding: 2rem;
-    box-shadow: 0 15px 20px rgba(0,0,0,0.1);
-    transform: translateY(-10px);
-    opacity: 0;
-    pointer-events: none;
-    transition: var(--transition);
-    align-items: flex-start;
-  }
-  
-  nav.active {
-    transform: translateY(0);
-    opacity: 1;
-    pointer-events: auto;
-  }
-  
-  nav a {
-    width: 100%;
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .cta-nav {
-    margin-top: 1rem;
-    text-align: center;
-    width: 100%;
-  }
 }
