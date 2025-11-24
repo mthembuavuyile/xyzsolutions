@@ -36,12 +36,7 @@ const PRICING_DB = {
             icon: 'fa-window-maximize',
             desc: 'Comprehensive Window cleaning, Solar Panels & Balustrades'
         },
-        {
-            id: 'PEST',
-            name: 'Pest Control',
-            icon: 'fa-bug',
-            desc: 'Specialized treatment for Ants, Rodents, Bed Bugs & more'
-        }
+        
     ],
 
     services: {
@@ -365,62 +360,6 @@ const PRICING_DB = {
             }
         ],
 
-        // --- PEST CONTROL ---
-        'PEST': [
-            {
-                id: 'pest_general', 
-                name: 'Pest Treatments', 
-                icon: 'fa-bug', 
-                callOut: 550, // Callout Fee
-                minCharge: 950,
-                desc: 'Callout + Inspection Fee of R550 applies to all bookings.',
-                groups: [
-                    {
-                        name: 'Cockroaches',
-                        items: [
-                            { id: 'roach_gel', name: 'Cockroach Gel Baiting (per Room)', price: 350.00 },
-                            { id: 'roach_drain', name: 'Drain Treatment (per drain)', price: 250.00 },
-                            { id: 'roach_xtra', name: 'Extra Charge (Room >20m²)', price: 15.00 }
-                        ]
-                    },
-                    {
-                        name: 'Ants',
-                        items: [
-                            { id: 'ant_nest', name: 'Ant Nest Location & Treatment', price: 550.00 },
-                            { id: 'ant_barr', name: 'Barrier Treatment (per linear meter)', price: 25.00 }
-                        ]
-                    },
-                    {
-                        name: 'Rodents & Moles',
-                        items: [
-                            { id: 'rodent_stat', name: 'Rodent Bait Station Installation', price: 140.00 },
-                            { id: 'rodent_rebait', name: 'Re-Baiting Existing Station', price: 90.00 },
-                            { id: 'rodent_roof', name: 'Roof Rat Control (per m²)', price: 15.00 },
-                            { id: 'mole_trap', name: 'Mole Trap Installation', price: 150.00 },
-                            { id: 'mole_remove', name: 'Mole Removal from Traps', price: 1250.00 }
-                        ]
-                    },
-                    {
-                        name: 'Bed Bugs, Fleas & Ticks',
-                        items: [
-                            { id: 'bb_room', name: 'Bed Bug Treatment per Room', price: 550.00 },
-                            { id: 'bb_xtra', name: 'Bed Bug Extra (>20m²)', price: 25.00 },
-                            { id: 'flea_room', name: 'Flea/Tick Treatment (Room/Yard)', price: 550.00 },
-                            { id: 'flea_xtra', name: 'Flea/Tick Extra (>20m²)', price: 15.00 },
-                            { id: 'beetle_room', name: 'Carpet Beetle Treatment', price: 550.00 }
-                        ]
-                    },
-                    {
-                        name: 'Other Pests',
-                        items: [
-                            { id: 'silverfish', name: 'Silverfish Treatment (per Room)', price: 350.00 },
-                            { id: 'silverfish_ceil', name: 'Silverfish Attic/Ceiling', price: 350.00 },
-                            { id: 'wasp_nest', name: 'Wasp/Hornet Nest Removal', price: 75.00 },
-                            { id: 'wasp_spray', name: 'Insecticide Spray (per App)', price: 550.00 }
-                        ]
-                    }
-                ]
-            }
-        ]
+        
     }
 };
