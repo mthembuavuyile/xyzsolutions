@@ -10,58 +10,81 @@
   <meta property="og:url" content="https://xyzsolutions.co.za/booking/" />
 
   <!-- Fonts & Icons -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link
-  href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-  rel="stylesheet"
->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
 
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-  integrity="sha512-lJfsgf0…(add full integrity hash if needed)"
-  crossorigin="anonymous"
-  referrerpolicy="no-referrer"
-/>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous"
+    referrerpolicy="no-referrer" />
 
-<link
-  href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
-  rel="stylesheet"
-/>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
 
-<link rel="stylesheet" href="../styles/main.css">
-<link rel="stylesheet" href="booking.css">
+  <link rel="stylesheet" href="../styles/main.css">
+  <link rel="stylesheet" href="booking.css">
+
+  <style>
+  /* --- Chatbot Footer Integration --- */
+  
+  /* 1. Make the container fit into the footer column flow */
+  #chatbot-container {
+    display: block;
+    margin-top: 15px;
+  }
+
+  /* 2. Customize the Button (Toggler) to sit like a static button */
+  #chatbot-container .chatbot-toggler {
+    position: static !important; /* Stop floating */
+    transform: none !important;
+    margin: 0 !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    /* Optional: Add a label next to icon if needed, or keep as round button */
+  }
+
+  /* 3. Ensure the actual Chat Window opens as a popup (Fixed on screen), not inside the footer */
+  #chatbot-container .chatbot {
+    position: fixed !important; 
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 99999 !important; /* Ensure it sits on top of everything */
+    transform: none !important;
+  }
+</style>
 
 </head>
 
 <body>
 
-  <!-- Header (Matched Exactly to Index) -->
+  <!-- Header -->
   <header>
-  <a href="index.html" class="logo">
-    <img src="/images/logo.jpg" alt="XYZ Solutions Logo – Professional Cleaning and Projects">
-    <div class="logo-text">
-      XYZ<span>Solutions</span>
-      <small>&amp; Projects</small>
-    </div>
-  </a>
+    <a href="index.html" class="logo">
+      <img src="/images/logo.jpg" alt="XYZ Solutions Logo – Professional Cleaning and Projects">
+      <div class="logo-text">
+        XYZ<span>Solutions</span>
+        <small>&amp; Projects</small>
+      </div>
 
-  <nav>
-    <a href="/index.html">Home</a>
-    <a href="services.html">Services</a>
-    <a href="#manage-bookings">Quote</a>
-    <a href="#about">About</a>
-    <a href="contact.html" class="cta-nav">Contact</a>
-  </nav>
+    </a>
 
-  <button class="burger" aria-label="Toggle navigation">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
-</header>
+    <nav>
+      <a href="../index.html">Home</a>
+      <a href="../services.html">Services</a>
+      <a href="#">Quote</a>
+      <a href="../index.html#about">About</a>
+      <a href="../contact.html" class="cta-nav">Contact</a>
+    </nav>
+
+    <button class="burger" aria-label="Toggle navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
 
   <div class="app-wrapper">
 
@@ -269,28 +292,35 @@
 
   </div>
 
-  <!-- Footer (Matched Exactly to Index) -->
+  <!-- Footer -->
   <footer>
     <div class="footer-grid">
       <div class="footer-col">
         <h4>XYZSolutions</h4>
         <p>Premium, eco-friendly cleaning services for homes and businesses in Durban and Johannesburg.</p>
       </div>
+      
       <div class="footer-col">
         <h4>Quick Links</h4>
-        <a href="../services.html">Our Services</a> <!-- go up one folder -->
-<a href="../contact.html">Contact Us</a>
-<a href="../index.html#about">About Us</a>
-<a href="#">Vacancies</a>
-<a href="../policy.html">Company Policy</a>
-<a href="../faq.html">FAQs</a>
-
+        <a href="../services.html">Our Services</a>
+        <a href="../contact.html">Contact Us</a>
+        <a href="../index.html#about">About Us</a>
+        <a href="#">Vacancies</a>
+        <a href="../policy.html">Company Policy</a>
+        <a href="../faq.html">FAQs</a>
       </div>
+      
       <div class="footer-col">
         <h4>Contact</h4>
         <p><strong>Jhb:</strong> <a href="tel:+27680297313">+27 68 029 7313</a></p>
         <p><strong>Dbn:</strong> <a href="tel:+27622976614">+27 62 297 6614</a></p>
         <p><a href="mailto:quotes@xyzsolutions.co.za">quotes@xyzsolutions.co.za</a></p>
+        
+        <!-- Chatbot Button Placed Here -->
+        <div style="margin-top: 15px;">
+            <p style="margin-bottom:5px; font-size: 0.9em; opacity: 0.7;">Chat with us:</p>
+            <div id="chatbot-container"></div>
+        </div>
       </div>
 
       <div class="footer-col">
@@ -302,38 +332,60 @@
         </div>
       </div>
     </div>
+    
     <div class="footer-bottom">
       © 2025 XYZ Solutions & Projects (Pty) Ltd. All Rights Reserved.
     </div>
   </footer>
-  
+
+<!-- Core Scripts -->
+<script src="script/main.js"></script>
 <script src="../js/main.js"></script>
-  
 
-  <!-- JavaScript Hooks -->
-  <!-- NOTE: Ensure your JS files are in the folders referenced below -->
-  <script src="script/pricing-data.js"></script>
-  <script src="script/quote-engine.js"></script>
-  <script src="script/main.js"></script>
+<!-- Application Logic -->
+<script src="script/pricing-data.js"></script>
+<script src="script/quote-engine.js"></script>
+<script src="../js/chatbot.js"></script>
 
-  <script>
-    // Helper to manage the back button visibility in the header
-    // Overrides the default updateUI to add visual logic for the back arrow
-    const originalUpdateUI = QuoteApp.prototype.updateUI;
-    QuoteApp.prototype.updateUI = function () {
-      originalUpdateUI.call(this);
+<!-- UI Enhancement: Back Button Logic -->
+<script>
+  const originalUpdateUI = QuoteApp.prototype.updateUI;
 
-      const topBackBtn = document.getElementById('topBackBtn');
-      if (topBackBtn) {
-        if (this.state.step > 1) {
-          topBackBtn.classList.add('visible');
-        } else {
-          topBackBtn.classList.remove('visible');
+  QuoteApp.prototype.updateUI = function () {
+    originalUpdateUI.call(this);
+
+    const topBackBtn = document.getElementById('topBackBtn');
+    if (!topBackBtn) return;
+
+    if (this.state.step > 1) {
+      topBackBtn.classList.add('visible');
+    } else {
+      topBackBtn.classList.remove('visible');
+    }
+  };
+</script>
+
+<!-- Chatbot Loader -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const chatbotContainer = document.getElementById('chatbot-container');
+    if (!chatbotContainer) return;
+
+    fetch('../chatbot.html')
+      .then(res => {
+        if (!res.ok) throw new Error('Chatbot HTML not found');
+        return res.text();
+      })
+      .then(html => {
+        chatbotContainer.innerHTML = html;
+
+        if (typeof initializeChatbot === 'function') {
+          initializeChatbot();
         }
-      }
-    };
-  </script>
+      })
+      .catch(err => console.error('Error loading chatbot:', err));
+  });
+</script>
 
 </body>
-
 </html>
