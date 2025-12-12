@@ -297,3 +297,12 @@ form button[type="submit"]:hover {
 .hidden {
   display: none;
 }
+
+
+/* Add red border to checkbox group when invalid */
+.checkbox-group.invalid {
+    border: 1px solid #dc3545; /* Red color */
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #fff8f8;
+}
