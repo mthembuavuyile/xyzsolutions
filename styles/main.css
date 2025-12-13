@@ -617,6 +617,26 @@ footer {
   border-top: 1px solid #333;
 }
 
+/* --- Developer Footer Credit --- */
+#dev-credit {
+  font-size: 0.85rem;
+  color: #504d6d;
+}
+
+#dev-credit a {
+  text-decoration: none;
+  background: linear-gradient(90deg, #6a5acd, #00c6ff, #6a5acd);
+  background-size: 200% auto;        /* wider gradient for motion */
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;     /* Safari fix */
+  animation: gradient-swipe 3s linear infinite;
+}
+
+#dev-credit a:hover {
+  text-decoration: underline;
+}
+
 
 /* ===================================================================
    4.0 PAGE SECTIONS

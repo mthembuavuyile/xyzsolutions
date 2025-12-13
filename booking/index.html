@@ -18,8 +18,8 @@
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous"
-    referrerpolicy="no-referrer" />
+    integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
 
@@ -27,34 +27,36 @@
   <link rel="stylesheet" href="booking.css">
 
   <style>
-  /* --- Chatbot Footer Integration --- */
-  
-  /* 1. Make the container fit into the footer column flow */
-  #chatbot-container {
-    display: block;
-    margin-top: 15px;
-  }
+    /* --- Chatbot Footer Integration --- */
 
-  /* 2. Customize the Button (Toggler) to sit like a static button */
-  #chatbot-container .chatbot-toggler {
-    position: static !important; /* Stop floating */
-    transform: none !important;
-    margin: 0 !important;
-    display: inline-flex !important;
-    align-items: center;
-    justify-content: center;
-    /* Optional: Add a label next to icon if needed, or keep as round button */
-  }
+    /* 1. Make the container fit into the footer column flow */
+    #chatbot-container {
+      display: block;
+      margin-top: 15px;
+    }
 
-  /* 3. Ensure the actual Chat Window opens as a popup (Fixed on screen), not inside the footer */
-  #chatbot-container .chatbot {
-    position: fixed !important; 
-    bottom: 20px !important;
-    right: 20px !important;
-    z-index: 99999 !important; /* Ensure it sits on top of everything */
-    transform: none !important;
-  }
-</style>
+    /* 2. Customize the Button (Toggler) to sit like a static button */
+    #chatbot-container .chatbot-toggler {
+      position: static !important;
+      /* Stop floating */
+      transform: none !important;
+      margin: 0 !important;
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      /* Optional: Add a label next to icon if needed, or keep as round button */
+    }
+
+    /* 3. Ensure the actual Chat Window opens as a popup (Fixed on screen), not inside the footer */
+    #chatbot-container .chatbot {
+      position: fixed !important;
+      bottom: 20px !important;
+      right: 20px !important;
+      z-index: 99999 !important;
+      /* Ensure it sits on top of everything */
+      transform: none !important;
+    }
+  </style>
 
 </head>
 
@@ -74,7 +76,6 @@
     <nav>
       <a href="../index.html">Home</a>
       <a href="../services.html">Services</a>
-      <a href="#">Quote</a>
       <a href="../index.html#about">About</a>
       <a href="../contact.html" class="cta-nav">Contact</a>
     </nav>
@@ -294,33 +295,29 @@
 
   <!-- Footer -->
   <footer>
-    <div class="footer-grid">
+    <div class="container footer-grid">
       <div class="footer-col">
         <h4>XYZSolutions</h4>
         <p>Premium, eco-friendly cleaning services for homes and businesses in Durban and Johannesburg.</p>
       </div>
-      
       <div class="footer-col">
         <h4>Quick Links</h4>
+
+        <a href="#"><strong>Book Now</strong></a>
         <a href="../services.html">Our Services</a>
-        <a href="../contact.html">Contact Us</a>
         <a href="../index.html#about">About Us</a>
+        <a href="../contact.html">Contact Us</a>
+        <a href="../faq.html">FAQs</a>
         <a href="#">Vacancies</a>
         <a href="../policy.html">Company Policy</a>
-        <a href="../faq.html">FAQs</a>
+
       </div>
-      
+
       <div class="footer-col">
         <h4>Contact</h4>
         <p><strong>Jhb:</strong> <a href="tel:+27680297313">+27 68 029 7313</a></p>
         <p><strong>Dbn:</strong> <a href="tel:+27622976614">+27 62 297 6614</a></p>
-        <p><a href="mailto:quotes@xyzsolutions.co.za">quotes@xyzsolutions.co.za</a></p>
-        
-        <!-- Chatbot Button Placed Here -->
-        <div style="margin-top: 15px;">
-            <p style="margin-bottom:5px; font-size: 0.9em; opacity: 0.7;">Chat with us:</p>
-            <div id="chatbot-container"></div>
-        </div>
+        <p><a href="mailto:info@xyzsolutions.co.za">info@xyzsolutions.co.za</a></p>
       </div>
 
       <div class="footer-col">
@@ -332,60 +329,60 @@
         </div>
       </div>
     </div>
-    
     <div class="footer-bottom">
       © 2025 XYZ Solutions & Projects (Pty) Ltd. All Rights Reserved.
     </div>
   </footer>
 
-<!-- Core Scripts -->
-<script src="script/main.js"></script>
-<script src="../js/main.js"></script>
+  <!-- Core Scripts -->
+  <script src="script/main.js"></script>
+  <script src="../js/main.js"></script>
 
-<!-- Application Logic -->
-<script src="script/pricing-data.js"></script>
-<script src="script/quote-engine.js"></script>
-<script src="../js/chatbot.js"></script>
+  <!-- Application Logic -->
+  <script src="script/pricing-data.js"></script>
+  <script src="script/quote-engine.js"></script>
+  <script src="../js/chatbot.js"></script>
 
-<!-- UI Enhancement: Back Button Logic -->
-<script>
-  const originalUpdateUI = QuoteApp.prototype.updateUI;
+  <!-- UI Enhancement: Back Button Logic -->
+  <script>
+    const originalUpdateUI = QuoteApp.prototype.updateUI;
 
-  QuoteApp.prototype.updateUI = function () {
-    originalUpdateUI.call(this);
+    QuoteApp.prototype.updateUI = function () {
+      originalUpdateUI.call(this);
 
-    const topBackBtn = document.getElementById('topBackBtn');
-    if (!topBackBtn) return;
+      const topBackBtn = document.getElementById('topBackBtn');
+      if (!topBackBtn) return;
 
-    if (this.state.step > 1) {
-      topBackBtn.classList.add('visible');
-    } else {
-      topBackBtn.classList.remove('visible');
-    }
-  };
-</script>
+      if (this.state.step > 1) {
+        topBackBtn.classList.add('visible');
+      } else {
+        topBackBtn.classList.remove('visible');
+      }
+    };
+  </script>
 
-<!-- Chatbot Loader -->
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const chatbotContainer = document.getElementById('chatbot-container');
-    if (!chatbotContainer) return;
+  <!-- Chatbot Loader -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const chatbotContainer = document.getElementById('chatbot-container');
+      if (!chatbotContainer) return;
 
-    fetch('../chatbot.html')
-      .then(res => {
-        if (!res.ok) throw new Error('Chatbot HTML not found');
-        return res.text();
-      })
-      .then(html => {
-        chatbotContainer.innerHTML = html;
+      fetch('../chatbot.html')
+        .then(res => {
+          if (!res.ok) throw new Error('Chatbot HTML not found');
+          return res.text();
+        })
+        .then(html => {
+          chatbotContainer.innerHTML = html;
 
-        if (typeof initializeChatbot === 'function') {
-          initializeChatbot();
-        }
-      })
-      .catch(err => console.error('Error loading chatbot:', err));
-  });
-</script>
+          if (typeof initializeChatbot === 'function') {
+            initializeChatbot();
+          }
+        })
+        .catch(err => console.error('Error loading chatbot:', err));
+    });
+  </script>
 
 </body>
+
 </html>
