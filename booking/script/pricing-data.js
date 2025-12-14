@@ -1,21 +1,79 @@
 /**
  * --------------------------------------------------------------------------
  * FILE 2: PRICING DATABASE (pricing-data.js)
- * Comprehensive list of all services, items, prices, and metadata.
  * --------------------------------------------------------------------------
  */
+
+// 1. DEFINE SHARED SERVICES FIRST
+// We define these outside the main object so we can reuse them without copying text.
+
+const SERVICE_KITCHEN = {
+    id: 'kit_appliances',
+    name: 'Oven, Hob & Extractor',
+    icon: 'fa-fire-burner',
+    callOut: 0,
+    minCharge: 950,
+    desc: 'Deep degreasing and cleaning.',
+    groups: [
+        {
+            name: 'Ovens',
+            items: [
+                { id: 'oven_s_std', name: 'Single Oven 60–80cm', price: 1450.00 },
+                { id: 'oven_s_lrg', name: 'Single Oven 90–110cm', price: 1650.00 },
+                { id: 'oven_d_std', name: 'Double Oven 60–80cm', price: 1950.00 },
+                { id: 'oven_d_lrg', name: 'Double Oven 90–110cm', price: 2250.00 }
+            ]
+        },
+        {
+            name: 'Hobs & Extractors',
+            items: [
+                { id: 'hob_std', name: 'Hob Standard 4 Plate', price: 750.00 },
+                { id: 'extractor', name: 'Extractor / Hood', price: 750.00 },
+                { id: 'filter_rep', name: 'Cotton Filter Replacement', price: 120.00 }
+            ]
+        },
+        {
+            name: 'Complete Stoves',
+            items: [
+                { id: 'stove_mod_std', name: 'Modern Complete Stove 60–80cm', price: 1950.00 },
+                { id: 'stove_mod_lrg', name: 'Modern Complete Stove 90–110cm', price: 2150.00 },
+                { id: 'stove_vintage', name: 'Vintage Complete Stove', price: 3250.00 }
+            ]
+        }
+    ]
+};
+
+const SERVICE_BRAAI = {
+    id: 'kit_braai',
+    name: 'Braai Cleaning',
+    icon: 'fa-fire',
+    callOut: 0,
+    minCharge: 950,
+    desc: 'Portable and Built-in Braai cleaning.',
+    groups: [
+        {
+            name: 'Units',
+            items: [
+                { id: 'braai_port', name: 'Portable Braai', price: 1550.00 },
+                { id: 'braai_built', name: 'Built-in Braai', price: 1750.00 }
+            ]
+        }
+    ]
+};
+
+// 2. MAIN DATABASE
 const PRICING_DB = {
     categories: [
         {
             id: 'RES',
             name: 'Residential & Upholstery',
             icon: 'fa-couch',
-            desc: 'Couches, Carpets, Curtains, Vehicles & General Upholstery'
+            desc: 'Couches, Carpets, Curtains, Kitchen & General'
         },
         {
             id: 'KITCHEN',
             name: 'Kitchen & Braai',
-            icon: 'fa-fire-burner', // Ensure you have FontAwesome 6 or use 'fa-burn'
+            icon: 'fa-fire-burner',
             desc: 'Ovens, Hobs, Extractors, and Braai cleaning'
         },
         {
@@ -36,17 +94,17 @@ const PRICING_DB = {
             icon: 'fa-window-maximize',
             desc: 'Comprehensive Window cleaning, Solar Panels & Balustrades'
         },
-        
     ],
 
     services: {
         // --- RESIDENTIAL / UPHOLSTERY ---
+        // Notice we list the standard items, then simple reference the variables we made above
         'RES': [
             {
-                id: 'res_upholstery', 
-                name: 'Couches & Chairs', 
-                icon: 'fa-chair', 
-                callOut: 0, 
+                id: 'res_upholstery',
+                name: 'Couches & Chairs',
+                icon: 'fa-chair',
+                callOut: 0,
                 minCharge: 950,
                 desc: 'Deep cleaning for couches, armchairs, and ottomans.',
                 groups: [
@@ -83,11 +141,17 @@ const PRICING_DB = {
                     }
                 ]
             },
+            // --- HERE IS THE FIX ---
+            // Instead of pasting the code, we reference the variables. 
+            // This makes them "Siblings" to 'res_upholstery'.
+            SERVICE_KITCHEN, 
+            SERVICE_BRAAI,
+            
             {
-                id: 'res_carpets', 
-                name: 'Loose Rugs & Mats', 
-                icon: 'fa-rug', 
-                callOut: 0, 
+                id: 'res_carpets',
+                name: 'Loose Rugs & Mats',
+                icon: 'fa-rug',
+                callOut: 0,
                 minCharge: 950,
                 desc: 'Cleaning of loose carpets, rugs, and mats.',
                 groups: [
@@ -102,10 +166,10 @@ const PRICING_DB = {
                 ]
             },
             {
-                id: 'res_vehicle', 
-                name: 'Vehicle Interiors', 
-                icon: 'fa-car', 
-                callOut: 0, 
+                id: 'res_vehicle',
+                name: 'Vehicle Interiors',
+                icon: 'fa-car',
+                callOut: 0,
                 minCharge: 950,
                 desc: 'Deep clean of vehicle upholstery and carpets.',
                 groups: [
@@ -121,10 +185,10 @@ const PRICING_DB = {
                 ]
             },
             {
-                id: 'res_curtains', 
-                name: 'Curtains & Blinds', 
-                icon: 'fa-layer-group', 
-                callOut: 0, 
+                id: 'res_curtains',
+                name: 'Curtains & Blinds',
+                icon: 'fa-layer-group',
+                callOut: 0,
                 minCharge: 950,
                 desc: 'Cleaning done while hanging (where applicable).',
                 groups: [
@@ -146,13 +210,21 @@ const PRICING_DB = {
             }
         ],
 
+        // --- KITCHEN & BRAAI CATEGORY ---
+        // We assume the user still wants a dedicated Kitchen category, 
+        // even though these items are now also in Residential.
+        'KITCHEN': [
+            SERVICE_KITCHEN,
+            SERVICE_BRAAI
+        ],
+
         // --- CORPORATE ---
         'CORP': [
             {
-                id: 'corp_general', 
-                name: 'Corporate & Office', 
-                icon: 'fa-building', 
-                callOut: 0, 
+                id: 'corp_general',
+                name: 'Corporate & Office',
+                icon: 'fa-building',
+                callOut: 0,
                 minCharge: 950,
                 desc: 'Offices, Hospitals, Schools, Warehousing.',
                 groups: [
@@ -174,69 +246,13 @@ const PRICING_DB = {
             }
         ],
 
-        // --- KITCHEN & BRAAI ---
-        'KITCHEN': [
-            {
-                id: 'kit_appliances',
-                name: 'Oven, Hob & Extractor',
-                icon: 'fa-fire-burner',
-                callOut: 0,
-                minCharge: 950,
-                desc: 'Deep degreasing and cleaning.',
-                groups: [
-                    {
-                        name: 'Ovens',
-                        items: [
-                            { id: 'oven_s_std', name: 'Single Oven 60–80cm', price: 1450.00 },
-                            { id: 'oven_s_lrg', name: 'Single Oven 90–110cm', price: 1650.00 },
-                            { id: 'oven_d_std', name: 'Double Oven 60–80cm', price: 1950.00 },
-                            { id: 'oven_d_lrg', name: 'Double Oven 90–110cm', price: 2250.00 }
-                        ]
-                    },
-                    {
-                        name: 'Hobs & Extractors',
-                        items: [
-                            { id: 'hob_std', name: 'Hob Standard 4 Plate', price: 750.00 },
-                            { id: 'extractor', name: 'Extractor / Hood', price: 750.00 },
-                            { id: 'filter_rep', name: 'Cotton Filter Replacement', price: 120.00 }
-                        ]
-                    },
-                    {
-                        name: 'Complete Stoves',
-                        items: [
-                            { id: 'stove_mod_std', name: 'Modern Complete Stove 60–80cm', price: 1950.00 },
-                            { id: 'stove_mod_lrg', name: 'Modern Complete Stove 90–110cm', price: 2150.00 },
-                            { id: 'stove_vintage', name: 'Vintage Complete Stove', price: 3250.00 }
-                        ]
-                    }
-                ]
-            },
-            {
-                id: 'kit_braai',
-                name: 'Braai Cleaning',
-                icon: 'fa-fire',
-                callOut: 0,
-                minCharge: 950,
-                desc: 'Portable and Built-in Braai cleaning.',
-                groups: [
-                    {
-                        name: 'Units',
-                        items: [
-                            { id: 'braai_port', name: 'Portable Braai', price: 1550.00 },
-                            { id: 'braai_built', name: 'Built-in Braai', price: 1750.00 }
-                        ]
-                    }
-                ]
-            }
-        ],
-
         // --- HOSPITALITY ---
         'HOSP': [
             {
-                id: 'hosp_fixed', 
-                name: 'Fixed Floor Spaces', 
-                icon: 'fa-kaaba', 
-                callOut: 0, 
+                id: 'hosp_fixed',
+                name: 'Fixed Floor Spaces',
+                icon: 'fa-kaaba',
+                callOut: 0,
                 minCharge: 950,
                 desc: 'Carpet or Tile cleaning for fixed rooms.',
                 groups: [
@@ -268,10 +284,10 @@ const PRICING_DB = {
                 ]
             },
             {
-                id: 'hosp_beds', 
-                name: 'Beds & Bedding', 
-                icon: 'fa-bed', 
-                callOut: 0, 
+                id: 'hosp_beds',
+                name: 'Beds & Bedding',
+                icon: 'fa-bed',
+                callOut: 0,
                 minCharge: 950,
                 desc: 'Mattress and frame cleaning.',
                 groups: [
@@ -297,10 +313,10 @@ const PRICING_DB = {
         // --- WINDOWS & SOLAR ---
         'SPEC': [
             {
-                id: 'spec_window', 
-                name: 'Windows & Glass', 
-                icon: 'fa-window-maximize', 
-                callOut: 0, 
+                id: 'spec_window',
+                name: 'Windows & Glass',
+                icon: 'fa-window-maximize',
+                callOut: 0,
                 minCharge: 950,
                 desc: 'Professional window cleaning per unit.',
                 groups: [
@@ -342,10 +358,10 @@ const PRICING_DB = {
                 ]
             },
             {
-                id: 'spec_solar', 
-                name: 'Solar & Panels', 
-                icon: 'fa-solar-panel', 
-                callOut: 0, 
+                id: 'spec_solar',
+                name: 'Solar & Panels',
+                icon: 'fa-solar-panel',
+                callOut: 0,
                 minCharge: 950,
                 desc: 'Solar panels and Balustrades.',
                 groups: [
@@ -358,8 +374,6 @@ const PRICING_DB = {
                     }
                 ]
             }
-        ],
-
-        
+        ]
     }
 };

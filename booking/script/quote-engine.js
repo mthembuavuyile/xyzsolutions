@@ -2,6 +2,7 @@
  * --------------------------------------------------------------------------
  * FILE 3: APPLICATION LOGIC (quote-engine.js)
  * The Engine: Handles state, calculations, and DOM manipulation.
+ * Updated: Supports Multi-Service Selection
  * --------------------------------------------------------------------------
  */
 class QuoteApp {
@@ -10,35 +11,37 @@ class QuoteApp {
             step: 1,
             region: null,
             category: null,
-            serviceId: null,
+            selectedServices: [], // Changed from single ID to Array
             items: {}, // { itemId: quantity }
             discountActive: false,
             totals: {
                 subtotal: 0,
                 callOut: 0,
                 discount: 0,
-                total: 0
+                total: 0,
+                minChargeApplied: false,
+                minChargeValue: 0
             }
         };
-                this.flatItemMap = new Map(); // Cache
-
+        this.flatItemMap = new Map(); // Cache for item lookups
     }
 
     init() {
-        this.cacheItems(); // Run once
-
+        this.cacheItems();
         this.renderCategories();
         this.updateSummary();
+        
         // Generate random reference
         const refEl = document.getElementById('quote-ref');
         if(refEl) refEl.innerText = 'Q-' + Math.floor(1000 + Math.random() * 9000);
     }
+
     cacheItems() {
         Object.values(PRICING_DB.services).forEach(cat => {
             cat.forEach(svc => {
                 svc.groups.forEach(grp => {
                     grp.items.forEach(itm => {
-                        this.flatItemMap.set(itm.id, itm);
+                        this.flatItemMap.set(itm.id, { ...itm, serviceName: svc.name });
                     });
                 });
             });
@@ -55,16 +58,30 @@ class QuoteApp {
 
     setCategory(catId, element) {
         this.state.category = catId;
+        this.state.selectedServices = []; // Reset services if category changes
+        
+        // UI Updates
         document.querySelectorAll('#category-grid .selection-card').forEach(el => el.classList.remove('selected'));
         element.classList.add('selected');
+        
         this.renderServices(catId);
     }
 
-    setService(serviceId, element) {
-        this.state.serviceId = serviceId;
-        document.querySelectorAll('#service-type-grid .selection-card').forEach(el => el.classList.remove('selected'));
-        element.classList.add('selected');
-        this.renderItems(serviceId);
+    // NEW: Toggle logic for multi-selection
+    toggleService(serviceId, element) {
+        const index = this.state.selectedServices.indexOf(serviceId);
+        
+        if (index > -1) {
+            // Deselect
+            this.state.selectedServices.splice(index, 1);
+            element.classList.remove('selected');
+        } else {
+            // Select
+            this.state.selectedServices.push(serviceId);
+            element.classList.add('selected');
+        }
+
+        // We do NOT auto-advance step here anymore, user must click Next
     }
 
     nextStep() {
@@ -73,12 +90,19 @@ class QuoteApp {
             if (!this.state.region) return alert('Please select a Region.');
             if (!this.state.category) return alert('Please select a Category.');
         }
+        
         if (this.state.step === 2) {
-            if (!this.state.serviceId) return alert('Please select a Service Type.');
+            if (this.state.selectedServices.length === 0) {
+                return alert('Please select at least one Service Type.');
+            }
+            // Prepare Step 3 rendering based on all selected services
+            this.renderItems(); 
         }
+        
         if (this.state.step === 3) {
             if (this.state.totals.total === 0) return alert('Please add items to your quote.');
         }
+        
         if (this.state.step === 4) {
             return this.submitQuote();
         }
@@ -99,7 +123,7 @@ class QuoteApp {
         const currentStep = document.getElementById(`step-${this.state.step}`);
         if(currentStep) currentStep.classList.add('active');
         
-        // Update Progress
+        // Update Progress Indicators
         for(let i=1; i<=4; i++) {
             const el = document.getElementById(`indicator-${i}`);
             if(el) {
@@ -139,7 +163,6 @@ class QuoteApp {
                 <div class="card-content">
                     <i class="fas ${cat.icon} card-icon"></i>
                     <span class="card-title">${cat.name}</span>
-                    <!-- Removed style="display:none;" below -->
                     <span class="card-desc">${cat.desc}</span> 
                 </div>
                 <div class="check-mark"><i class="fas fa-check"></i></div>
@@ -153,46 +176,61 @@ class QuoteApp {
         const services = PRICING_DB.services[catId] || [];
         
         grid.innerHTML = services.map(svc => `
-            <div class="selection-card" onclick="app.setService('${svc.id}', this)">
+            <div class="selection-card" onclick="app.toggleService('${svc.id}', this)">
                 <i class="fas ${svc.icon} card-icon"></i>
                 <span class="card-title">${svc.name}</span>
                 <div class="tag tag-blue" style="margin:5px 0">Min: R${svc.minCharge}</div>
                 <span class="card-desc">${svc.desc}</span>
+                <div class="check-mark"><i class="fas fa-check"></i></div>
             </div>
         `).join('');
     }
 
-    renderItems(serviceId) {
-        // Find service in DB (iterate categories)
-        let serviceData = null;
-        Object.values(PRICING_DB.services).forEach(list => {
-            const found = list.find(s => s.id === serviceId);
-            if (found) serviceData = found;
-        });
-
-        if (!serviceData) return;
-
+    // Updated: Renders groups for ALL selected services
+    renderItems() {
         const container = document.getElementById('items-container');
         if(!container) return;
+        
+        container.innerHTML = ''; // Clear previous
 
-        container.innerHTML = serviceData.groups.map(group => `
-            <div class="item-group">
-                <div class="group-title">${group.name}</div>
-                ${group.items.map(item => `
-                    <div class="item-row">
-                        <div class="item-info">
-                            <span class="item-name">${item.name}</span>
-                            <span class="item-price">R${item.price.toFixed(2)}</span>
+        const categoryServices = PRICING_DB.services[this.state.category];
+        
+        // Filter DB services to only those selected
+        const activeServices = categoryServices.filter(s => this.state.selectedServices.includes(s.id));
+
+        if (activeServices.length === 0) return;
+
+        let html = '';
+
+        activeServices.forEach(service => {
+            // Add a Service Header to separate sections
+            html += `
+            <div class="service-section-header">
+                <h3><i class="fas ${service.icon}"></i> ${service.name}</h3>
+            </div>`;
+
+            service.groups.forEach(group => {
+                html += `
+                <div class="item-group">
+                    <div class="group-title">${group.name}</div>
+                    ${group.items.map(item => `
+                        <div class="item-row">
+                            <div class="item-info">
+                                <span class="item-name">${item.name}</span>
+                                <span class="item-price">R${item.price.toFixed(2)}</span>
+                            </div>
+                            <div class="item-controls">
+                                <button class="qty-btn" onclick="app.updateQty('${item.id}', -1)">-</button>
+                                <div class="qty-display" id="qty-${item.id}">${this.state.items[item.id] || 0}</div>
+                                <button class="qty-btn" onclick="app.updateQty('${item.id}', 1)">+</button>
+                            </div>
                         </div>
-                        <div class="item-controls">
-                            <button class="qty-btn" onclick="app.updateQty('${item.id}', -1)">-</button>
-                            <div class="qty-display" id="qty-${item.id}">${this.state.items[item.id] || 0}</div>
-                            <button class="qty-btn" onclick="app.updateQty('${item.id}', 1, ${item.price})">+</button>
-                        </div>
-                    </div>
-                `).join('')}
-            </div>
-        `).join('');
+                    `).join('')}
+                </div>`;
+            });
+        });
+
+        container.innerHTML = html;
     }
 
     // --- LOGIC & CALCULATION ---
@@ -217,44 +255,33 @@ class QuoteApp {
 
     calculateTotals() {
         let subtotal = 0;
-        
-        // Find current service definition for MinCharge and CallOut
-        let serviceDef = null;
-        if (this.state.serviceId) {
-            Object.values(PRICING_DB.services).forEach(list => {
-                const found = list.find(s => s.id === this.state.serviceId);
-                if (found) serviceDef = found;
-            });
-        }
+        let maxCallOut = 0;
+        let maxMinCharge = 300; // Global floor default
 
-        // Iterate all items to calc subtotal
-        // We need to find the price of the item from the DB
-        const allItemsFlat = [];
-        Object.values(PRICING_DB.services).forEach(cat => {
-            cat.forEach(svc => {
-                svc.groups.forEach(grp => {
-                    grp.items.forEach(itm => allItemsFlat.push(itm));
-                });
-            });
-        });
-
+        // 1. Calculate Subtotal (Loop through active items)
         Object.keys(this.state.items).forEach(itemId => {
             const qty = this.state.items[itemId];
-            const itemDef = allItemsFlat.find(i => i.id === itemId);
-            if (itemDef && qty > 0) {
-                subtotal += (itemDef.price * qty);
+            if(qty > 0) {
+                const itemDef = this.flatItemMap.get(itemId);
+                if(itemDef) {
+                    subtotal += (itemDef.price * qty);
+                }
             }
         });
 
-        let callOut = 0;
-        let minCharge = 300; // Global floor
-        
-        if (serviceDef) {
-            callOut = serviceDef.callOut;
-            if (serviceDef.minCharge) minCharge = serviceDef.minCharge;
-        }
+        // 2. Calculate Service Fees (Callout & MinCharge)
+        // Logic: We take the HIGHEST callout and HIGHEST minCharge 
+        // among the selected services to ensure coverage.
+        const categoryServices = PRICING_DB.services[this.state.category] || [];
+        const activeServices = categoryServices.filter(s => this.state.selectedServices.includes(s.id));
 
-        let gross = subtotal + callOut;
+        activeServices.forEach(svc => {
+            if(svc.callOut > maxCallOut) maxCallOut = svc.callOut;
+            if(svc.minCharge > maxMinCharge) maxMinCharge = svc.minCharge;
+        });
+
+        // 3. Totals
+        let gross = subtotal + maxCallOut;
         let discountAmount = 0;
 
         if (this.state.discountActive) {
@@ -262,18 +289,18 @@ class QuoteApp {
             gross -= discountAmount;
         }
 
-        // Min Charge Logic
-        const minChargeApplied = gross < minCharge && gross > 0;
-        if (minChargeApplied) gross = minCharge;
+        // 4. Min Charge Check
+        const minChargeApplied = gross < maxMinCharge && gross > 0;
+        if (minChargeApplied) gross = maxMinCharge;
 
-        // Update State
+        // 5. Update State
         this.state.totals = {
             subtotal,
-            callOut,
+            callOut: maxCallOut,
             discount: discountAmount,
             total: gross,
             minChargeApplied,
-            minChargeValue: minCharge
+            minChargeValue: maxMinCharge
         };
 
         this.updateSummary();
@@ -294,32 +321,25 @@ class QuoteApp {
         if (this.state.totals.callOut > 0) {
             html += `
                 <div class="summary-item">
-                    <span>Call-Out Fee</span>
+                    <span>Standard Call-Out</span>
                     <span>R${this.state.totals.callOut.toFixed(2)}</span>
                 </div>`;
         }
 
         // Items
-        const allItemsFlat = [];
-        Object.values(PRICING_DB.services).forEach(cat => {
-            cat.forEach(svc => {
-                svc.groups.forEach(grp => {
-                    grp.items.forEach(itm => allItemsFlat.push(itm));
-                });
-            });
-        });
-
         let hasItems = false;
         Object.keys(this.state.items).forEach(itemId => {
             const qty = this.state.items[itemId];
             if (qty > 0) {
                 hasItems = true;
-                const def = allItemsFlat.find(i => i.id === itemId);
-                html += `
-                <div class="summary-item">
-                    <span>${def.name} <b style="color:var(--primary)">x${qty}</b></span>
-                    <span>R${(def.price * qty).toFixed(2)}</span>
-                </div>`;
+                const def = this.flatItemMap.get(itemId);
+                if(def) {
+                    html += `
+                    <div class="summary-item">
+                        <span>${def.name} <b style="color:var(--primary)">x${qty}</b></span>
+                        <span>R${(def.price * qty).toFixed(2)}</span>
+                    </div>`;
+                }
             }
         });
 
@@ -380,9 +400,7 @@ class QuoteApp {
         const ref = document.getElementById('quote-ref') ? document.getElementById('quote-ref').innerText : 'REF';
 
         // 3. Prepare the Item List for the Email
-        // We use the flatItemMap (cached in init) to look up names
-        let itemsSummary = "";
-        let itemsHtml = "<ul>"; // We can send HTML to Web3Forms
+        let itemsHtml = "<ul>";
         
         Object.keys(this.state.items).forEach(itemId => {
             const qty = this.state.items[itemId];
@@ -390,8 +408,8 @@ class QuoteApp {
                 const itemDef = this.flatItemMap.get(itemId);
                 if (itemDef) {
                     const lineTotal = itemDef.price * qty;
-                    const line = `${itemDef.name} (x${qty}) - R${lineTotal.toFixed(2)}`;
-                    itemsSummary += line + "\n";
+                    // Format: [Service Name] Item Name (xQty)
+                    const line = `[${itemDef.serviceName || 'General'}] ${itemDef.name} (x${qty}) - R${lineTotal.toFixed(2)}`;
                     itemsHtml += `<li>${line}</li>`;
                 }
             }
@@ -416,19 +434,20 @@ class QuoteApp {
             // --- Quote Specs ---
             region: this.state.region,
             service_category: this.state.category,
-            service_type: this.state.serviceId,
+            // Join all selected service IDs for the record
+            service_types: this.state.selectedServices.join(', '),
             
             // --- Financials ---
             subtotal: `R${this.state.totals.subtotal.toFixed(2)}`,
             call_out_fee: `R${this.state.totals.callOut.toFixed(2)}`,
             discount_applied: this.state.discountActive ? "Yes (25% Contract)" : "No",
             discount_amount: `-R${this.state.totals.discount.toFixed(2)}`,
-            min_charge_applied: this.state.totals.minChargeApplied ? "Yes" : "No",
+            min_charge_applied: this.state.totals.minChargeApplied ? `Yes (R${this.state.totals.minChargeValue})` : "No",
             
             // --- FINAL TOTAL ---
             ESTIMATED_TOTAL: `R${this.state.totals.total.toFixed(2)}`,
 
-            // --- Item Breakdown (formatted as HTML for the email body) ---
+            // --- Item Breakdown ---
             selected_items: itemsHtml
         };
 
@@ -446,10 +465,7 @@ class QuoteApp {
             const result = await response.json();
 
             if (result.success) {
-                // Success Action
                 alert(`Success! Quote ${ref} has been sent. We will contact you shortly.`);
-                // Optional: Redirect to a thank you page
-                // window.location.href = "/thank-you.html";
                 window.location.reload(); 
             } else {
                 throw new Error(result.message || "Form submission failed");
@@ -457,8 +473,6 @@ class QuoteApp {
         } catch (error) {
             console.error(error);
             alert("There was an error sending your quote. Please try again or contact us directly.");
-            
-            // Reset button
             btn.innerHTML = originalText;
             btn.disabled = false;
         }
