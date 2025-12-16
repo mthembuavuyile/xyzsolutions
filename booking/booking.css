@@ -7,6 +7,7 @@
 /* --- 1. THEME VARIABLES & ANIMATIONS --- */
 :root {
   /* Overriding or inheriting from main.css */
+  /* secondary is green from main */
   --primary: #0284c7;       /* Professional Deep Sky Blue */
   --primary-light: #e0f2fe; /* Very light blue for backgrounds */
   --ink: #0f172a;     /* Dark Slate */
