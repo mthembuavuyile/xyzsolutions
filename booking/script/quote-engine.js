@@ -345,19 +345,23 @@ class QuoteApp {
             return;
         }
 
-        // Generate Item List HTML for Email
-        let itemsHtml = "<ul>";
+        // --- GENERATE LIST TEXT ---
+        let itemsListText = "";
+        
         Object.keys(this.state.items).forEach(itemId => {
             const qty = this.state.items[itemId];
             if (qty > 0) {
                 const itemDef = this.flatItemMap.get(itemId);
                 if (itemDef) {
                     const lineTotal = itemDef.price * qty;
-                    itemsHtml += `<li>[${itemDef.serviceName}] ${itemDef.name} (x${qty}) - ${CONFIG.CURRENCY}${lineTotal.toFixed(2)}</li>`;
+                    // Adds a bullet point and new line for email formatting
+                    itemsListText += `• [${itemDef.serviceName}] ${itemDef.name} (x${qty}) - ${CONFIG.CURRENCY}${lineTotal.toFixed(2)}\n`;
                 }
             }
         });
-        itemsHtml += "</ul>";
+        
+        // Use a fallback if empty
+        if(itemsListText === "") itemsListText = "No specific items selected.";
 
         const formData = {
             access_key: CONFIG.WEB3_KEY,
@@ -381,14 +385,14 @@ class QuoteApp {
             subtotal: `${CONFIG.CURRENCY}${this.state.totals.subtotal.toFixed(2)}`,
             discount_amount: `${CONFIG.CURRENCY}${this.state.totals.discount.toFixed(2)}`,
             min_charge_applied: this.state.totals.minChargeApplied ? "Yes" : "No",
-            ESTIMATED_TOTAL: `${CONFIG.CURRENCY}${this.state.totals.total.toFixed(2)}`,
+            estimated_total: `${CONFIG.CURRENCY}${this.state.totals.total.toFixed(2)}`,
 
-            // Breakdown
-            selected_items: itemsHtml
+            // Breakdown - FIXED: Using the text variable, not the undefined HTML variable
+            selected_items: itemsListText
         };
 
         try {
-            await fetch("https://api.web3forms.com/submit", {
+            const response = await fetch("https://api.web3forms.com/submit", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -396,8 +400,18 @@ class QuoteApp {
                 },
                 body: JSON.stringify(formData)
             });
-            alert(`Success! Quote ${ref} has been sent.`);
-            window.location.reload();
+
+            const result = await response.json();
+
+            // Check if Web3Forms actually returned a success status (200)
+            if (response.ok) {
+                alert(`Success! Quote ${ref} has been sent.`);
+                window.location.reload();
+            } else {
+                console.error("Form error:", result);
+                throw new Error(result.message || "Submission failed");
+            }
+            
         } catch (error) {
             console.error(error);
             alert("Error sending quote. Please check your internet connection.");
