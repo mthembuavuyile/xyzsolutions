@@ -182,29 +182,49 @@ class QuoteApp {
     }
 
     updateUI() {
-        // 1. Handle Step Visibility
+        // 1. Handle Step Visibility (Existing code)
         document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active'));
         const currentStep = document.getElementById(`step-${this.state.step}`);
         if (currentStep) currentStep.classList.add('active');
 
-        // 2. Update Bottom Buttons
+        // --- ADD THIS NEW SECTION BELOW ---
+        // 2. Update Progress Indicators (The Fix)
+        for (let i = 1; i <= 4; i++) {
+            const indicator = document.getElementById(`indicator-${i}`);
+            if (indicator) {
+                // Remove both classes to reset
+                indicator.classList.remove('active', 'completed');
+
+                // If this step is passed, mark as completed
+                if (i < this.state.step) {
+                    indicator.classList.add('completed');
+                }
+                // If this is the current step, mark as active
+                else if (i === this.state.step) {
+                    indicator.classList.add('active');
+                }
+            }
+        }
+        // ----------------------------------
+
+        // 3. Update Bottom Buttons (Existing code)
         const nextBtn = document.getElementById('nextBtn');
         if (nextBtn) {
             nextBtn.innerText = this.state.step === 4 ? 'Submit Quote' : 'Next Step';
             nextBtn.className = this.state.step === 4 ? 'btn btn-submit' : 'btn btn-primary';
         }
 
-        // 3. Handle Top Back Button Visibility
+        // 4. Handle Top Back Button Visibility (Existing code)
         const topBackBtn = document.getElementById('topBackBtn');
         if (topBackBtn) {
             if (this.state.step > 1) {
-                topBackBtn.classList.add('visible'); // Show on Step 2, 3, 4
+                topBackBtn.classList.add('visible'); 
             } else {
-                topBackBtn.classList.remove('visible'); // Hide on Step 1
+                topBackBtn.classList.remove('visible'); 
             }
         }
 
-        // 4. Scroll to top
+        // 5. Scroll to top (Existing code)
         window.scrollTo(0, 0);
     }
 
