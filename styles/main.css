@@ -377,11 +377,15 @@ section {
   border-color: var(--secondary);
 }
 
-/* --- 2.5 Testimonial Cards --- */
-.reviews-grid {
+/* ===================================================================
+   REVISED TESTIMONIALS SLIDER
+=================================================================== */
+
+.reviews-slider {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
+  padding: 1rem 0;
 }
 
 .review {
@@ -391,6 +395,10 @@ section {
   border: 2px solid #e8e8e8;
   border-radius: var(--radius);
   transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%; /* Ensures cards are same height */
 }
 
 .review:hover {
@@ -408,13 +416,84 @@ section {
 .review p {
   font-style: italic;
   color: var(--dark);
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
 .review-author {
-  font-weight: 600;
-  font-size: 0.95rem;
+  font-weight: 700;
+  font-size: 0.9rem;
   color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.swipe-indicator {
+  display: none; /* Hidden on desktop */
+}
+
+/* ===================================================================
+   MOBILE HORIZONTAL SLIDER LOGIC
+   (Applies to tablets and phones)
+=================================================================== */
+
+@media (max-width: 992px) {
+  
+  .reviews-slider {
+    display: flex; /* Switch from Grid to Flex */
+    overflow-x: auto; /* Enable horizontal scroll */
+    scroll-snap-type: x mandatory; /* Force cards to snap into place */
+    gap: 1.5rem;
+    padding-bottom: 2rem; /* Space for scrollbar */
+    padding-left: 5%; /* Align first card with layout */
+    padding-right: 5%; /* See edge of last card */
+    
+    /* Hide scrollbar for cleaner look */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE 10+ */
+    
+    /* Ensure container breaks out of parent padding to reach screen edges */
+    margin-left: -5%;
+    width: 110%; 
+  }
+
+  .reviews-slider::-webkit-scrollbar { 
+    display: none; /* Chrome/Safari */
+  }
+
+  .review {
+    /* Fixed width to ensure next card peeks through */
+    min-width: 85%; 
+    flex: 0 0 85%;
+    
+    scroll-snap-align: center; /* Snap card to center of screen */
+    
+    /* Reset hover transform on mobile to prevent glitching while scrolling */
+    transform: none !important; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  }
+
+  /* Show a subtle hint to swipe */
+  .swipe-indicator {
+    display: block;
+    text-align: center;
+    color: var(--gray);
+    font-size: 0.85rem;
+    margin-top: -1rem;
+    opacity: 0.7;
+    animation: bounceRight 2s infinite;
+  }
+  
+  .swipe-indicator i {
+    margin-right: 5px;
+  }
+}
+
+@keyframes bounceRight {
+  0%, 20%, 50%, 80%, 100% {transform: translateX(0);}
+  40% {transform: translateX(5px);}
+  60% {transform: translateX(3px);}
 }
 
 
