@@ -91,7 +91,6 @@
 
     <!-- MAIN WIZARD AREA -->
     <main class="wizard-container">
-
       <div class="quote-header">
         <button type="button" class="top-back-btn" id="topBackBtn" onclick="app.prevStep()">
           <i class="fas fa-arrow-left"></i>
@@ -109,20 +108,16 @@
       <!-- Steps Indicator -->
       <div class="progress-track">
         <div class="step-item active" id="indicator-1">
-          <div class="step-circle">1</div>
-          <span class="step-label">Service</span>
+          <div class="step-circle">1</div><span class="step-label">Service</span>
         </div>
         <div class="step-item" id="indicator-2">
-          <div class="step-circle">2</div>
-          <span class="step-label">Type</span>
+          <div class="step-circle">2</div><span class="step-label">Type</span>
         </div>
         <div class="step-item" id="indicator-3">
-          <div class="step-circle">3</div>
-          <span class="step-label">Details</span>
+          <div class="step-circle">3</div><span class="step-label">Details</span>
         </div>
         <div class="step-item" id="indicator-4">
-          <div class="step-circle">4</div>
-          <span class="step-label">Book</span>
+          <div class="step-circle">4</div><span class="step-label">Book</span>
         </div>
       </div>
 
@@ -133,31 +128,26 @@
           <div class="step-heading">Where & What?</div>
           <p class="step-sub">Select your region and the type of service you require.</p>
 
-          <!-- Region Selection -->
           <div class="input-group">
-            <label class="input-label">1. Service Region</label>
+            <label class="input-label label-highlight">1. Service Region</label>
             <div class="option-grid">
 
-              <!-- Gauteng -->
-              <div class="selection-card" onclick="app.setRegion('JHB', this)">
+              <div class="selection-card region-card" onclick="app.setRegion('JHB', this)">
                 <div class="card-content">
                   <i class="fas fa-city card-icon"></i>
                   <span class="card-title">Gauteng (Johannesburg)</span>
-                  <span class="card-desc">
-                    Johannesburg, Pretoria, Sandton, Alberton, Randburg, Westonaria, Lenasia & surrounding areas
-                  </span>
+                  <span class="card-desc">Johannesburg, Pretoria, Sandton, Alberton, Randburg, Westonaria, Lenasia &
+                    surrounding areas</span>
                 </div>
                 <div class="check-mark"><i class="fas fa-check"></i></div>
               </div>
 
-              <!-- KwaZulu-Natal -->
-              <div class="selection-card" onclick="app.setRegion('KZN', this)">
+              <div class="selection-card region-card" onclick="app.setRegion('KZN', this)">
                 <div class="card-content">
                   <i class="fas fa-umbrella-beach card-icon"></i>
                   <span class="card-title">KwaZulu-Natal (Durban)</span>
-                  <span class="card-desc">
-                    Durban North, Umhlanga, Ballito, Morningside, Musgrave, La Lucia, Hillcrest & surrounding areas
-                  </span>
+                  <span class="card-desc"> Durban North, Umhlanga, Ballito, Morningside, Musgrave, La Lucia, Hillcrest &
+                    surrounding areas</span>
                 </div>
                 <div class="check-mark"><i class="fas fa-check"></i></div>
               </div>
@@ -165,15 +155,13 @@
             </div>
           </div>
 
-          <!-- Category Selection -->
           <div class="input-group">
-            <label class="input-label">2. Service Category</label>
+            <label class="input-label label-highlight">2. Service Category</label>
             <div class="option-grid" id="category-grid">
               <!-- JS Injects Cards Here -->
             </div>
           </div>
         </div>
-
 
         <!-- STEP 2: SPECIFIC SERVICE TYPE -->
         <div class="form-step" id="step-2">
@@ -188,15 +176,13 @@
         <div class="form-step" id="step-3">
           <div class="step-heading">Customize Your Quote</div>
           <p class="step-sub">Add items to your basket to calculate the price.</p>
-
           <div id="items-container">
             <!-- Populated via JS -->
           </div>
-
           <div class="input-group" style="margin-top: 2rem;">
-            <label class="input-label">Special Requirements or Access Details</label>
+            <label class="input-label">Special Requirements</label>
             <textarea class="form-control" id="special-req" rows="3"
-              placeholder="e.g. Key under mat, need extra long ladder, aggressive dog..."></textarea>
+              placeholder="e.g. Key under mat, need extra long ladder..."></textarea>
           </div>
         </div>
 
@@ -239,9 +225,8 @@
               <input type="checkbox" id="contract-discount" onchange="app.toggleDiscount()">
               Apply Monthly Contract Discount (25% Off)
             </label>
-            <p style="font-size:0.85rem; color:var(--gray); margin-left:24px; margin-top:4px;">
-              Valid for recurring services booked for 6+ months.
-            </p>
+            <p style="font-size:0.85rem; color:var(--gray); margin-left:24px; margin-top:4px;">Valid for recurring
+              services booked for 6+ months.</p>
           </div>
         </div>
 
@@ -254,24 +239,16 @@
       </form>
     </main>
 
-    <!-- SIDEBAR SUMMARY (Desktop) -->
+    <!-- SIDEBAR SUMMARY -->
     <aside class="summary-sidebar">
       <div class="summary-header">
         <h2>Quote Estimate</h2>
         <span class="ref-num">Ref #<span id="quote-ref">PENDING</span></span>
       </div>
-
       <div class="min-charge-notice" id="min-charge-notice">
         <i class="fas fa-info-circle"></i> Minimum call-out charge of R300 applies.
       </div>
-
-      <div class="summary-list" id="summary-list">
-        <div style="text-align: center; color: #aaa; padding-top: 2rem;">
-          <i class="fas fa-calculator" style="font-size: 2rem; margin-bottom: 1rem;"></i>
-          <p>Select items to see breakdown</p>
-        </div>
-      </div>
-
+      <div class="summary-list" id="summary-list"></div>
       <div class="summary-total">
         <div>
           <div class="total-label">Estimated Total</div>
@@ -292,17 +269,19 @@
     </div>
 
   </div>
-
   <!-- Footer -->
   <footer>
     <div class="container footer-grid">
       <div class="footer-col">
         <h4>XYZSolutions</h4>
-        <p>Premium, eco-friendly cleaning services for homes and businesses in Durban and Johannesburg.</p>
+        <p>
+          Premium, eco-friendly cleaning services for homes and businesses
+          in Durban and Johannesburg.
+        </p>
       </div>
+
       <div class="footer-col">
         <h4>Quick Links</h4>
-
         <a href="#"><strong>Book Now</strong></a>
         <a href="../services.html">Our Services</a>
         <a href="../index.html#about">About Us</a>
@@ -310,7 +289,6 @@
         <a href="../faq.html">FAQs</a>
         <a href="#">Vacancies</a>
         <a href="../policy.html">Company Policy</a>
-
       </div>
 
       <div class="footer-col">
@@ -329,6 +307,7 @@
         </div>
       </div>
     </div>
+
     <div class="footer-bottom">
       © 2025 XYZ Solutions & Projects (Pty) Ltd. All Rights Reserved.
     </div>
@@ -339,27 +318,10 @@
   <script src="../js/main.js"></script>
 
   <!-- Application Logic -->
+  <script src="script/config.js"></script>
   <script src="script/pricing-data.js"></script>
   <script src="script/quote-engine.js"></script>
   <script src="../js/chatbot.js"></script>
-
-  <!-- UI Enhancement: Back Button Logic -->
-  <script>
-    const originalUpdateUI = QuoteApp.prototype.updateUI;
-
-    QuoteApp.prototype.updateUI = function () {
-      originalUpdateUI.call(this);
-
-      const topBackBtn = document.getElementById('topBackBtn');
-      if (!topBackBtn) return;
-
-      if (this.state.step > 1) {
-        topBackBtn.classList.add('visible');
-      } else {
-        topBackBtn.classList.remove('visible');
-      }
-    };
-  </script>
 
   <!-- Chatbot Loader -->
   <script>
@@ -374,7 +336,6 @@
         })
         .then(html => {
           chatbotContainer.innerHTML = html;
-
           if (typeof initializeChatbot === 'function') {
             initializeChatbot();
           }
