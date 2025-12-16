@@ -9,14 +9,12 @@
 
   <meta property="og:url" content="https://xyzsolutions.co.za/booking/" />
 
-  <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet">
 
-  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -62,7 +60,6 @@
 
 <body>
 
-  <!-- Header -->
   <header>
     <a href="index.html" class="logo">
       <img src="/images/logo.jpg" alt="XYZ Solutions Logo – Professional Cleaning and Projects">
@@ -89,7 +86,6 @@
 
   <div class="app-wrapper">
 
-    <!-- MAIN WIZARD AREA -->
     <main class="wizard-container">
       <div class="quote-header">
         <button type="button" class="top-back-btn" id="topBackBtn" onclick="app.prevStep()">
@@ -105,7 +101,6 @@
         </div>
       </div>
 
-      <!-- Steps Indicator -->
       <div class="progress-track">
         <div class="step-item active" id="indicator-1">
           <div class="step-circle">1</div><span class="step-label">Service</span>
@@ -123,7 +118,6 @@
 
       <form id="quoteForm" onsubmit="return false;">
 
-        <!-- STEP 1: REGION & CATEGORY -->
         <div class="form-step active" id="step-1">
           <div class="step-heading">Where & What?</div>
           <p class="step-sub">Select your region and the type of service you require.</p>
@@ -158,27 +152,22 @@
           <div class="input-group">
             <label class="input-label label-highlight">2. Service Category</label>
             <div class="option-grid" id="category-grid">
-              <!-- JS Injects Cards Here -->
-            </div>
+              </div>
           </div>
         </div>
 
-        <!-- STEP 2: SPECIFIC SERVICE TYPE -->
         <div class="form-step" id="step-2">
           <div class="step-heading">Select Service Package</div>
           <p class="step-sub">Choose the specific package that best fits your needs.</p>
           <div class="option-grid" id="service-type-grid">
-            <!-- Populated via JS -->
-          </div>
+            </div>
         </div>
 
-        <!-- STEP 3: ITEM SELECTION -->
         <div class="form-step" id="step-3">
           <div class="step-heading">Customize Your Quote</div>
           <p class="step-sub">Add items to your basket to calculate the price.</p>
           <div id="items-container">
-            <!-- Populated via JS -->
-          </div>
+            </div>
           <div class="input-group" style="margin-top: 2rem;">
             <label class="input-label">Special Requirements</label>
             <textarea class="form-control" id="special-req" rows="3"
@@ -186,7 +175,6 @@
           </div>
         </div>
 
-        <!-- STEP 4: DETAILS & SUBMIT -->
         <div class="form-step" id="step-4">
           <div class="step-heading">Finalize Booking</div>
           <p class="step-sub">Enter your contact details to receive this formal quote.</p>
@@ -230,7 +218,6 @@
           </div>
         </div>
 
-        <!-- Form Navigation -->
         <div class="wizard-nav">
           <button type="button" class="btn btn-secondary" id="prevBtn" onclick="app.prevStep()">Back</button>
           <button type="button" class="btn btn-primary" id="nextBtn" onclick="app.nextStep()">Next Step</button>
@@ -239,7 +226,6 @@
       </form>
     </main>
 
-    <!-- SIDEBAR SUMMARY -->
     <aside class="summary-sidebar">
       <div class="summary-header">
         <h2>Quote Estimate</h2>
@@ -258,18 +244,44 @@
       </div>
     </aside>
 
-    <!-- MOBILE SUMMARY BAR -->
     <div class="mobile-summary-bar">
-      <div>
-        <span style="font-size: 0.8rem; color: #888; display: block;">Total Estimate</span>
+      <div onclick="app.toggleMobileSummary()" style="cursor: pointer; flex-grow: 1;">
+        <span style="font-size: 0.75rem; color: #64748b; display: flex; align-items: center; gap: 5px;">
+          View Breakdown <i class="fas fa-chevron-up" id="summary-chevron"></i>
+        </span>
         <span class="total" id="mobile-total">R0.00</span>
       </div>
-      <button class="btn btn-primary" style="padding: 0.6rem 1.5rem; font-size: 0.9rem;" onclick="app.nextStep()"
+      <button class="btn btn-primary" style="padding: 0.6rem 1.5rem;" onclick="app.nextStep()"
         id="mobile-next-btn">Next</button>
     </div>
 
+    <div id="mobile-summary-modal" class="mobile-modal">
+      <div class="modal-header">
+        <h3>Quote Summary</h3>
+        <button onclick="app.toggleMobileSummary()" class="close-modal-btn"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="modal-content">
+        <div class="receipt-card">
+          <div class="receipt-header">
+            <img src="/images/logo.jpg" alt="XYZ" style="height: 40px; margin-bottom: 10px;">
+            <p>Ref: <span id="mobile-ref-display" style="font-weight: 700; color: var(--primary);">PENDING</span></p>
+          </div>
+
+          <div id="mobile-item-list" class="receipt-items">
+            </div>
+
+          <div class="receipt-total-row">
+            <span>Total Estimate</span>
+            <span id="mobile-modal-total">R0.00</span>
+          </div>
+
+          <p class="screenshot-hint"><i class="fas fa-camera"></i> Take a screenshot of this page for your records.</p>
+        </div>
+      </div>
+    </div>
+
   </div>
-  <!-- Footer -->
   <footer>
     <div class="container footer-grid">
       <div class="footer-col">
@@ -315,17 +327,16 @@
     </div>
   </footer>
 
-  <!-- Core Scripts -->
-  <script src="script/main.js"></script>
-  <script src="../js/main.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/chatbot.js"></script>
 
-  <!-- Application Logic -->
-  <script src="script/config.js"></script>
-  <script src="script/pricing-data.js"></script>
-  <script src="script/quote-engine.js"></script>
-  <script src="../js/chatbot.js"></script>
+<script src="script/config.js"></script>
+<script src="script/categories.js"></script>
+<script src="script/services.js"></script>
+<script src="script/engine.js"></script>
+<script src="script/main.js"></script>
 
-  <!-- Chatbot Loader -->
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const chatbotContainer = document.getElementById('chatbot-container');

@@ -281,38 +281,63 @@ class QuoteApp {
     }
 
     updateSummary() {
-        const list = document.getElementById('summary-list');
+        const list = document.getElementById('summary-list'); // Desktop Sidebar
+        const mobileList = document.getElementById('mobile-item-list'); // NEW: Mobile Modal List
+        
         const totalDisp = document.getElementById('total-display');
-        const mobileTotal = document.getElementById('mobile-total');
+        const mobileTotal = document.getElementById('mobile-total'); // Bottom Bar
+        const mobileModalTotal = document.getElementById('mobile-modal-total'); // NEW: Modal Total
+        
         const notice = document.getElementById('min-charge-notice');
 
-        if (!list) return;
-
         let html = '';
+        
+        // Loop through items
         Object.keys(this.state.items).forEach(itemId => {
             const qty = this.state.items[itemId];
             if (qty > 0) {
                 const def = this.flatItemMap.get(itemId);
+                // Create HTML for the item row
                 html += `
-                <div class="summary-item" style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                    <span>${def.name} x${qty}</span>
+                <div class="summary-item">
+                    <span>${def.name} <strong style="color:var(--primary)">x${qty}</strong></span>
                     <span>${CONFIG.CURRENCY}${(def.price * qty).toFixed(2)}</span>
                 </div>`;
             }
         });
 
-        totalDisp.innerText = `${CONFIG.CURRENCY}${this.state.totals.total.toFixed(2)}`;
-        if (mobileTotal) {
-            mobileTotal.innerText = `${CONFIG.CURRENCY}${this.state.totals.total.toFixed(2)}`;
-        }
-
+        // Add Discount Row if applicable
         if (this.state.totals.discount > 0) {
-            html += `<div style="color:green; display:flex; justify-content:space-between;"><span>Discount (25%)</span><span>-${CONFIG.CURRENCY}${this.state.totals.discount.toFixed(2)}</span></div>`;
+            html += `<div class="summary-item" style="color:green; font-weight:600;">
+                        <span>Contract Discount (25%)</span>
+                        <span>-${CONFIG.CURRENCY}${this.state.totals.discount.toFixed(2)}</span>
+                     </div>`;
+        }
+        
+        // Add Min Charge Notice to list if applicable
+        if (this.state.totals.minChargeApplied) {
+             html += `<div class="summary-item" style="color:#f59e0b; font-size:0.8rem; font-style:italic;">
+                        <span>Min Call-out Adj.</span>
+                        <span>Adjusted to ${CONFIG.CURRENCY}${CONFIG.BASE_MIN_CHARGE}</span>
+                     </div>`;
         }
 
-        list.innerHTML = html || '<p style="color:#999; text-align:center">No items added</p>';
-        totalDisp.innerText = `${CONFIG.CURRENCY}${this.state.totals.total.toFixed(2)}`;
+        const noItemsHtml = '<p style="color:#999; text-align:center; font-size:0.9rem; padding:1rem;">No items selected yet.</p>';
 
+        // 1. Update Desktop Sidebar
+        if (list) list.innerHTML = html || noItemsHtml;
+        
+        // 2. Update Mobile Modal List (NEW)
+        if (mobileList) mobileList.innerHTML = html || noItemsHtml;
+
+        // 3. Update Money Displays
+        const formattedTotal = `${CONFIG.CURRENCY}${this.state.totals.total.toFixed(2)}`;
+        
+        if(totalDisp) totalDisp.innerText = formattedTotal;
+        if(mobileTotal) mobileTotal.innerText = formattedTotal;
+        if(mobileModalTotal) mobileModalTotal.innerText = formattedTotal;
+
+        // 4. Update Min Charge Notice (Desktop)
         if (notice) {
             if (this.state.totals.minChargeApplied) {
                 notice.style.display = 'block';
@@ -417,6 +442,23 @@ class QuoteApp {
             alert("Error sending quote. Please check your internet connection.");
             btn.innerHTML = originalText;
             btn.disabled = false;
+        }
+    }
+    toggleMobileSummary() {
+        const modal = document.getElementById('mobile-summary-modal');
+        const chevron = document.getElementById('summary-chevron');
+        
+        if (modal.classList.contains('open')) {
+            modal.classList.remove('open');
+            if(chevron) chevron.className = 'fas fa-chevron-up';
+        } else {
+            modal.classList.add('open');
+            if(chevron) chevron.className = 'fas fa-chevron-down';
+            
+            // Sync Ref Number
+            const refText = document.getElementById('quote-ref').innerText;
+            const mobileRef = document.getElementById('mobile-ref-display');
+            if(mobileRef) mobileRef.innerText = refText;
         }
     }
 }
