@@ -1,11 +1,12 @@
 /* ===================================================================
    TABLE OF CONTENTS
    1.0 Variables & Resets
-   2.0 Reusable Components (Buttons, Cards, Pricing)
-   3.0 Layout & Navigation (Header, Footer)
-   4.0 Page Sections (Hero, About)
-   5.0 Chatbot Widget
-   6.0 Responsive Styles (Media Queries)
+   2.0 Reusable Components (Buttons, Headings)
+   3.0 UI Components (Cards, Pricing, Vision, Testimonials)
+   4.0 Layout & Navigation (Header, Footer)
+   5.0 Page Sections (Hero, About)
+   6.0 Chatbot Widget
+   7.0 Global Responsive Styles (Media Queries)
 =================================================================== */
 
 /* ===================================================================
@@ -75,9 +76,8 @@ section {
   display: none;
 }
 
-
 /* ===================================================================
-   2.0 REUSABLE COMPONENTS
+   2.0 REUSABLE COMPONENTS (BUTTONS, HEADINGS)
 =================================================================== */
 
 /* --- 2.1 Headings --- */
@@ -159,102 +159,198 @@ section {
   display: none !important;
 }
 
+/* Generic Button System (Legacy/Compatibility) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.1rem 2.8rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: center;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:hover {
+  background: var(--secondary);
+  transform: translateY(-5px);
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 2px solid var(--gray);
+  color: var(--gray);
+}
+
+.btn-secondary:hover {
+  border-color: var(--dark);
+  color: var(--dark);
+}
+
 /* ===================================================================
-   2.3 SERVICE CARDS (HOME PAGE - NO IMAGES)
+   3.0 UI COMPONENTS (CARDS, PRICING, VISION, TESTIMONIALS)
 =================================================================== */
+
+/* --- 3.1 Service Cards --- */
+
+/* --- New Services List Style --- */
+.services-list-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two columns */
+  gap: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.service-list-item {
+  display: flex;
+  align-items: center;
+  background: var(--white);
+  padding: 1.5rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(0,0,0,0.05);
+  transition: var(--transition);
+}
+
+.service-list-item:hover {
+  border-color: var(--primary);
+  background: #f0f7ff;
+  transform: translateX(10px);
+}
+
+.service-icon-small {
+  width: 50px;
+  height: 50px;
+  background: var(--primary);
+  color: white;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1.25rem;
+  flex-shrink: 0;
+}
+
+.service-icon-small .material-icons-outlined {
+  font-size: 1.8rem;
+}
+
+.service-text h3 {
+  font-size: 1.1rem;
+  margin-bottom: 2px;
+  color: var(--dark);
+}
+
+.service-text p {
+  font-size: 0.9rem;
+  color: var(--gray);
+  margin: 0;
+}
+
+/* --- New Corporate Vision/Mission Style --- */
+.vm-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin: 4rem auto;
+}
+
+.vm-corporate-card {
+  position: relative;
+  background: var(--white);
+  padding: 3rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  border-top: 4px solid var(--primary);
+}
+
+.vm-corporate-card.mission {
+  border-top-color: var(--secondary);
+}
+
+.vm-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  background: #f0f0f0;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+
+.vm-corporate-card h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: var(--dark);
+}
+
+.professional-list {
+  list-style: none;
+}
+
+.professional-list li {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background: var(--secondary);
+  border-radius: 50%;
+  margin-top: 8px;
+  flex-shrink: 0;
+}
+
+.vm-abstract-icon {
+  position: absolute;
+  bottom: -20px;
+  right: -10px;
+  opacity: 0.05;
+}
+
+.vm-abstract-icon .material-icons-outlined {
+  font-size: 8rem;
+}
+
+/* Responsive fixes */
+@media (max-width: 850px) {
+  .services-list-container, .vm-wrapper {
+    grid-template-columns: 1fr;
+  }
+  .service-list-item:hover {
+    transform: translateY(-5px);
+  }
+}
+
+/*which of the following is now redundant?*/
+
 
 .services-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
-  padding: 1rem 0; /* Prevents shadow clipping */
+  padding: 1rem 0;
 }
 
-.service-card {
-  position: relative;
-  background: var(--white);
-  border-radius: var(--radius);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); /* Soft, modern shadow */
-  text-align: center;
-  overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncy transition */
-  padding: 3rem 2rem 2.5rem; /* Spacious padding */
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid rgba(0,0,0,0.03);
-}
 
-/* Colorful Top Border Line */
-.service-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 5px;
-  background: linear-gradient(90deg, var(--primary), var(--secondary));
-  transform: scaleX(0); /* Hidden by default */
-  transform-origin: left;
-  transition: transform 0.4s ease;
-  z-index: 1;
-}
 
-/* Hover Effects */
-.service-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(0, 119, 190, 0.15); /* Blue-tinted shadow */
-}
-
-.service-card:hover::before {
-  transform: scaleX(1); /* Reveal top border */
-}
-
-/* --- Icon Styling --- */
-.service-card .icon-wrapper {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 80px;
-  height: 80px;
-  margin: 0 auto 1.5rem;
-  background: rgba(0, 119, 190, 0.08); /* Very light blue background */
-  border-radius: 50%;
-  color: var(--primary);
-  transition: all 0.3s ease;
-}
-
-.service-card .material-icons-outlined {
-  font-size: 2.5rem;
-  transition: all 0.3s ease;
-}
-
-/* Icon Hover State */
-.service-card:hover .icon-wrapper {
-  background: var(--primary);
-  color: var(--white);
-  transform: scale(1.1) rotate(5deg);
-  box-shadow: 0 8px 20px rgba(0, 119, 190, 0.3);
-}
-
-/* --- Typography --- */
-.service-card h3 {
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: var(--dark);
-  margin-bottom: 1rem;
-  letter-spacing: -0.5px;
-}
-
-.service-card p {
-  font-size: 1rem;
-  color: var(--gray);
-  line-height: 1.6;
-  margin-bottom: 0; /* Remove bottom margin to align flex items */
-  flex-grow: 1; /* Pushes content to fill height if needed */
-}
-
-/* --- 2.4 Pricing Cards --- */
+/* --- 3.2 Pricing Cards --- */
 .pricing-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -377,10 +473,7 @@ section {
   border-color: var(--secondary);
 }
 
-/* ===================================================================
-   REVISED TESTIMONIALS SLIDER
-=================================================================== */
-
+/* --- 3.4 Testimonials Slider --- */
 .reviews-slider {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -398,7 +491,7 @@ section {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%; /* Ensures cards are same height */
+  height: 100%;
 }
 
 .review:hover {
@@ -430,51 +523,37 @@ section {
 }
 
 .swipe-indicator {
-  display: none; /* Hidden on desktop */
+  display: none;
 }
 
-/* ===================================================================
-   MOBILE HORIZONTAL SLIDER LOGIC
-   (Applies to tablets and phones)
-=================================================================== */
-
+/* Mobile Horizontal Slider Logic (Scoped to Testimonials) */
 @media (max-width: 992px) {
-  
   .reviews-slider {
-    display: flex; /* Switch from Grid to Flex */
-    overflow-x: auto; /* Enable horizontal scroll */
-    scroll-snap-type: x mandatory; /* Force cards to snap into place */
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
     gap: 1.5rem;
-    padding-bottom: 2rem; /* Space for scrollbar */
-    padding-left: 5%; /* Align first card with layout */
-    padding-right: 5%; /* See edge of last card */
-    
-    /* Hide scrollbar for cleaner look */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none;  /* IE 10+ */
-    
-    /* Ensure container breaks out of parent padding to reach screen edges */
+    padding-bottom: 2rem;
+    padding-left: 5%;
+    padding-right: 5%;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     margin-left: -5%;
     width: 110%; 
   }
 
   .reviews-slider::-webkit-scrollbar { 
-    display: none; /* Chrome/Safari */
+    display: none; 
   }
 
   .review {
-    /* Fixed width to ensure next card peeks through */
     min-width: 85%; 
     flex: 0 0 85%;
-    
-    scroll-snap-align: center; /* Snap card to center of screen */
-    
-    /* Reset hover transform on mobile to prevent glitching while scrolling */
+    scroll-snap-align: center;
     transform: none !important; 
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
   }
 
-  /* Show a subtle hint to swipe */
   .swipe-indicator {
     display: block;
     text-align: center;
@@ -496,12 +575,11 @@ section {
   60% {transform: translateX(3px);}
 }
 
-
 /* ===================================================================
-   3.0 LAYOUT & NAVIGATION
+   4.0 LAYOUT & NAVIGATION (HEADER, FOOTER)
 =================================================================== */
 
-/* --- 3.1 Header --- */
+/* --- 4.1 Header --- */
 header {
   position: fixed;
   top: 0;
@@ -612,7 +690,7 @@ nav a.active::after {
   transition: var(--transition);
 }
 
-/* --- 3.2 Footer --- */
+/* --- 4.2 Footer --- */
 footer {
   padding: 5rem 5% 2rem;
   background: #111;
@@ -676,7 +754,6 @@ footer {
   border-top: 1px solid #333;
 }
 
-/* --- Developer Footer Credit --- */
 #dev-credit {
   font-size: 0.85rem;
   color: #504d6d;
@@ -685,10 +762,10 @@ footer {
 #dev-credit a {
   text-decoration: none;
   background: linear-gradient(90deg, #6a5acd, #00c6ff, #6a5acd);
-  background-size: 200% auto;        /* wider gradient for motion */
+  background-size: 200% auto;
   color: transparent;
   background-clip: text;
-  -webkit-background-clip: text;     /* Safari fix */
+  -webkit-background-clip: text;
   animation: gradient-swipe 3s linear infinite;
 }
 
@@ -696,12 +773,11 @@ footer {
   text-decoration: underline;
 }
 
-
 /* ===================================================================
-   4.0 PAGE SECTIONS
+   5.0 PAGE SECTIONS (HERO, ABOUT)
 =================================================================== */
 
-/* --- 4.1 Hero & Page Headers --- */
+/* --- 5.1 Hero & Page Headers --- */
 .page-header {
   position: relative;
   display: flex;
@@ -752,7 +828,7 @@ footer {
 
 .hero {
   min-height: calc(100vh - 70px);
-  background-image: url('../images/xyzsol.jpeg'); /* Ensure path is correct */
+  background-image: url('../images/xyzsol.jpeg');
 }
 
 .hero::before {
@@ -764,7 +840,7 @@ footer {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- 4.2 About Section --- */
+/* --- 5.2 About Section --- */
 #about {
   background: var(--light);
 }
@@ -802,9 +878,8 @@ footer {
   box-shadow: var(--shadow-hover);
 }
 
-
 /* ===================================================================
-   5.0 CHATBOT WIDGET
+   6.0 CHATBOT WIDGET
 =================================================================== */
 .chatbot-toggler {
   position: fixed;
@@ -935,34 +1010,28 @@ footer {
   40% { transform: scale(1); opacity: 1; }
 }
 
-
 /* ===================================================================
-   6.0 RESPONSIVE STYLES
+   7.0 GLOBAL RESPONSIVE STYLES
 =================================================================== */
 
-/* --- 6.1 Tablet (max-width: 992px) --- */
+/* --- 7.1 Tablet (max-width: 992px) --- */
 @media (max-width: 992px) {
-  /* Burger Icon */
   .burger {
     display: flex;
     z-index: 1001;
   }
 
-  /* Mobile Navigation Container */
   nav {
     position: absolute;
     top: 100%;
     left: 0;
     width: 100%;
     background: white;
-    /* Flex Column for 'Row' look */
     display: flex;
     flex-direction: column;
     align-items: stretch;
     padding: 0;
     box-shadow: 0 15px 20px rgba(0, 0, 0, 0.1);
-    
-    /* Animation States */
     transform-origin: top;
     transform: translateY(-20px) scaleY(0.9);
     opacity: 0;
@@ -970,14 +1039,12 @@ footer {
     transition: var(--transition);
   }
 
-  /* Active State */
   nav.active {
     transform: translateY(0) scaleY(1);
     opacity: 1;
     pointer-events: auto;
   }
 
-  /* Links as Rows */
   nav a {
     display: block;
     width: 100%;
@@ -997,7 +1064,6 @@ footer {
     display: none;
   }
 
-  /* CTA Button inside Nav */
   .cta-nav {
     margin: 1.5rem 5%;
     width: 90%;
@@ -1008,7 +1074,6 @@ footer {
     border-radius: var(--radius-sm);
   }
 
-  /* Section Layouts */
   .about-content,
   .contact-grid {
     grid-template-columns: 1fr;
@@ -1019,35 +1084,31 @@ footer {
   }
 }
 
-/* --- 6.2 Mobile (max-width: 768px) --- */
+/* --- 7.2 Mobile (max-width: 768px) --- */
 @media (max-width: 768px) {
-  /* Header & Padding */
   header { height: 60px; }
   main { padding-top: 60px; }
   section { padding: 4rem 5%; }
 
-  /* Typography Scale */
   .section-title { font-size: 2rem; }
   .page-header h1 { font-size: 2.5rem; }
   .page-header p { font-size: 1.15rem; }
 
-  /* Hero */
   .hero {
     min-height: 70vh;
     padding: 2rem 1.5rem;
   }
 
-  /* Buttons */
   .cta-btn {
     display: block;
     width: 100%;
     margin: 0.8rem 0;
   }
+
   .cta-btn.secondary-outline {
     margin-left: 0;
   }
 
-  /* Service Cards */
   .service-card-image { height: 160px; }
   .service-card .material-icons-outlined {
     width: 60px;
@@ -1057,55 +1118,14 @@ footer {
     margin-top: -2.5rem;
   }
 
-  /* Grids */
   .services-grid,
   .pricing-grid,
   .reviews-grid {
     grid-template-columns: 1fr;
   }
 
-  /* Contact (Placeholder for standard grid logic) */
   .contact-grid { gap: 2rem; }
   .contact-info { margin-bottom: 2rem; }
   .input-group { grid-template-columns: 1fr; }
   form { padding: 2rem 1.5rem; }
-}
-
-
-/* Replace .cta-btn with a more generic system */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.1rem 2.8rem;
-  font-size: 1.1rem;
-  font-weight: 700;
-  border: none;
-  border-radius: 50px; /* OR var(--radius) depending on preference */
-  cursor: pointer;
-  transition: var(--transition);
-  text-align: center;
-  text-decoration: none;
-}
-
-.btn-primary {
-  background: var(--primary);
-  color: white;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-}
-
-.btn-primary:hover {
-  background: var(--secondary);
-  transform: translateY(-5px);
-}
-
-.btn-secondary {
-  background: transparent;
-  border: 2px solid var(--gray);
-  color: var(--gray);
-}
-
-.btn-secondary:hover {
-  border-color: var(--dark);
-  color: var(--dark);
 }
