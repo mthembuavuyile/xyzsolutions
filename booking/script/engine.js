@@ -32,7 +32,8 @@ class QuoteApp {
         SERVICES_MASTER.forEach(svc => {
             svc.groups.forEach(grp => {
                 grp.items.forEach(itm => {
-                    this.flatItemMap.set(itm.id, { ...itm,
+                    this.flatItemMap.set(itm.id, {
+                        ...itm,
                         serviceName: svc.name
                     });
                 });
@@ -182,49 +183,50 @@ class QuoteApp {
     }
 
     updateUI() {
-        // 1. Handle Step Visibility (Existing code)
+        // 1. Handle Step Visibility
         document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active'));
         const currentStep = document.getElementById(`step-${this.state.step}`);
         if (currentStep) currentStep.classList.add('active');
 
-        // --- ADD THIS NEW SECTION BELOW ---
-        // 2. Update Progress Indicators (The Fix)
+        // 2. Update Progress Indicators
         for (let i = 1; i <= 4; i++) {
             const indicator = document.getElementById(`indicator-${i}`);
             if (indicator) {
-                // Remove both classes to reset
                 indicator.classList.remove('active', 'completed');
-
-                // If this step is passed, mark as completed
                 if (i < this.state.step) {
                     indicator.classList.add('completed');
-                }
-                // If this is the current step, mark as active
-                else if (i === this.state.step) {
+                } else if (i === this.state.step) {
                     indicator.classList.add('active');
                 }
             }
         }
-        // ----------------------------------
 
-        // 3. Update Bottom Buttons (Existing code)
+        // 3. Update Bottom Buttons (Synchronizing Desktop AND Mobile)
         const nextBtn = document.getElementById('nextBtn');
+        const mobileNextBtn = document.getElementById('mobile-next-btn');
+
         if (nextBtn) {
             nextBtn.innerText = this.state.step === 4 ? 'Submit Quote' : 'Next Step';
             nextBtn.className = this.state.step === 4 ? 'btn btn-submit' : 'btn btn-primary';
         }
 
-        // 4. Handle Top Back Button Visibility (Existing code)
+        if (mobileNextBtn) {
+            // Also update the mobile sticky button text based on the step
+            mobileNextBtn.innerText = this.state.step === 4 ? 'Submit' : 'Next';
+            mobileNextBtn.className = this.state.step === 4 ? 'btn btn-submit' : 'btn btn-primary';
+        }
+
+        // 4. Handle Top Back Button Visibility
         const topBackBtn = document.getElementById('topBackBtn');
         if (topBackBtn) {
             if (this.state.step > 1) {
-                topBackBtn.classList.add('visible'); 
+                topBackBtn.classList.add('visible');
             } else {
-                topBackBtn.classList.remove('visible'); 
+                topBackBtn.classList.remove('visible');
             }
         }
 
-        // 5. Scroll to top (Existing code)
+        // 5. Scroll to top
         window.scrollTo(0, 0);
     }
 
@@ -283,15 +285,15 @@ class QuoteApp {
     updateSummary() {
         const list = document.getElementById('summary-list'); // Desktop Sidebar
         const mobileList = document.getElementById('mobile-item-list'); // NEW: Mobile Modal List
-        
+
         const totalDisp = document.getElementById('total-display');
         const mobileTotal = document.getElementById('mobile-total'); // Bottom Bar
         const mobileModalTotal = document.getElementById('mobile-modal-total'); // NEW: Modal Total
-        
+
         const notice = document.getElementById('min-charge-notice');
 
         let html = '';
-        
+
         // Loop through items
         Object.keys(this.state.items).forEach(itemId => {
             const qty = this.state.items[itemId];
@@ -313,10 +315,10 @@ class QuoteApp {
                         <span>-${CONFIG.CURRENCY}${this.state.totals.discount.toFixed(2)}</span>
                      </div>`;
         }
-        
+
         // Add Min Charge Notice to list if applicable
         if (this.state.totals.minChargeApplied) {
-             html += `<div class="summary-item" style="color:#f59e0b; font-size:0.8rem; font-style:italic;">
+            html += `<div class="summary-item" style="color:#f59e0b; font-size:0.8rem; font-style:italic;">
                         <span>Min Call-out Adj.</span>
                         <span>Adjusted to ${CONFIG.CURRENCY}${CONFIG.BASE_MIN_CHARGE}</span>
                      </div>`;
@@ -326,16 +328,16 @@ class QuoteApp {
 
         // 1. Update Desktop Sidebar
         if (list) list.innerHTML = html || noItemsHtml;
-        
+
         // 2. Update Mobile Modal List (NEW)
         if (mobileList) mobileList.innerHTML = html || noItemsHtml;
 
         // 3. Update Money Displays
         const formattedTotal = `${CONFIG.CURRENCY}${this.state.totals.total.toFixed(2)}`;
-        
-        if(totalDisp) totalDisp.innerText = formattedTotal;
-        if(mobileTotal) mobileTotal.innerText = formattedTotal;
-        if(mobileModalTotal) mobileModalTotal.innerText = formattedTotal;
+
+        if (totalDisp) totalDisp.innerText = formattedTotal;
+        if (mobileTotal) mobileTotal.innerText = formattedTotal;
+        if (mobileModalTotal) mobileModalTotal.innerText = formattedTotal;
 
         // 4. Update Min Charge Notice (Desktop)
         if (notice) {
@@ -350,134 +352,183 @@ class QuoteApp {
 
     // --- SUBMISSION ---
     async submitQuote() {
-    const btn = document.getElementById('nextBtn');
-    const originalText = btn.innerText;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-    btn.disabled = true;
+        const btn = document.getElementById('nextBtn');
+        const mobileBtn = document.getElementById('mobile-next-btn');
 
-    const name = document.getElementById('contact-name').value;
-    const email = document.getElementById('contact-email').value;
-    const phone = document.getElementById('contact-phone').value;
-    const addr = document.getElementById('property-address').value;
-    const date = document.getElementById('booking-date').value;
-    const notes = document.getElementById('special-req') ? document.getElementById('special-req').value : '';
-    const ref = document.getElementById('quote-ref') ? document.getElementById('quote-ref').innerText : 'REF';
+        const originalText = btn.innerText;
+        const originalMobileText = mobileBtn ? mobileBtn.innerText : '';
 
-    if (!name || !email || !phone || !addr) {
-        alert("Please fill in all required contact fields.");
-        btn.innerHTML = originalText;
-        btn.disabled = false;
-        return;
-    }
+        // Indicate Sending Status
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+        btn.disabled = true;
 
-    // --- GENERATE LIST TEXT ---
-    let itemsListText = "";
-
-    Object.keys(this.state.items).forEach(itemId => {
-        const qty = this.state.items[itemId];
-        if (qty > 0) {
-            const itemDef = this.flatItemMap.get(itemId);
-            if (itemDef) {
-                const lineTotal = itemDef.price * qty;
-                itemsListText += `• [${itemDef.serviceName}] ${itemDef.name} (x${qty}) - ${CONFIG.CURRENCY}${lineTotal.toFixed(2)}\n`;
-            }
+        if (mobileBtn) {
+            mobileBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            mobileBtn.disabled = true;
         }
-    });
 
-    if (itemsListText === "") itemsListText = "No specific items selected.";
+        const name = document.getElementById('contact-name').value;
+        const email = document.getElementById('contact-email').value;
+        const phone = document.getElementById('contact-phone').value;
+        const addr = document.getElementById('property-address').value;
+        const date = document.getElementById('booking-date').value;
+        const notes = document.getElementById('special-req') ? document.getElementById('special-req').value : '';
+        const ref = document.getElementById('quote-ref') ? document.getElementById('quote-ref').innerText : 'REF';
 
-    const formData = {
-        access_key: CONFIG.WEB3_KEY,
-        subject: `New Quote: ${ref} from ${name}`,
-        from_name: "Quote Engine",
+        if (!name || !email || !phone || !addr) {
+            alert("Please fill in all required contact fields.");
+            btn.innerHTML = originalText;
+            btn.disabled = false;
 
-        // Customer Info
-        reference_number: ref,
-        customer_name: name,
-        customer_email: email,
-        customer_phone: phone,
-        property_address: addr,
-        preferred_date: date,
-        special_notes: notes,
+            if (mobileBtn) {
+                mobileBtn.innerHTML = originalMobileText;
+                mobileBtn.disabled = false;
+            }
+            return;
+        }
 
-        // Quote Data
-        region: this.state.region,
-        service_tags: this.state.activeTags.join(', '),
+        // --- GENERATE LIST TEXT ---
+        let itemsListText = "";
 
-        // Financials
-        subtotal: `${CONFIG.CURRENCY}${this.state.totals.subtotal.toFixed(2)}`,
-        discount_amount: `${CONFIG.CURRENCY}${this.state.totals.discount.toFixed(2)}`,
-        min_charge_applied: this.state.totals.minChargeApplied ? "Yes" : "No",
-        estimated_total: `${CONFIG.CURRENCY}${this.state.totals.total.toFixed(2)}`,
-
-        // Breakdown
-        selected_items: itemsListText
-    };
-
-    try {
-        const response = await fetch("https://api.web3forms.com/submit", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json"
-            },
-            body: JSON.stringify(formData)
+        Object.keys(this.state.items).forEach(itemId => {
+            const qty = this.state.items[itemId];
+            if (qty > 0) {
+                const itemDef = this.flatItemMap.get(itemId);
+                if (itemDef) {
+                    const lineTotal = itemDef.price * qty;
+                    itemsListText += `• [${itemDef.serviceName}] ${itemDef.name} (x${qty}) - ${CONFIG.CURRENCY}${lineTotal.toFixed(2)}\n`;
+                }
+            }
         });
 
-        const result = await response.json();
+        if (itemsListText === "") itemsListText = "No specific items selected.";
 
-        if (response.ok) {
-            // --- SUCCESS UI UPDATE ---
+        const formData = {
+            access_key: CONFIG.WEB3_KEY,
+            subject: `New Quote: ${ref} from ${name}`,
+            from_name: "Quote Engine",
 
-            // 1. Update modal title
-            document.getElementById('modal-title').innerText = "Booking Submitted!";
+            // Customer Info
+            reference_number: ref,
+            customer_name: name,
+            customer_email: email,
+            customer_phone: phone,
+            property_address: addr,
+            preferred_date: date,
+            special_notes: notes,
 
-            // 2. Inject bank details from CONFIG
-            document.getElementById('bank-name').innerText = CONFIG.BANK_DETAILS.bank;
-            document.getElementById('bank-acc').innerText = CONFIG.BANK_DETAILS.accountNumber;
-            document.getElementById('bank-code').innerText = CONFIG.BANK_DETAILS.branchCode;
-            document.getElementById('bank-type').innerText = CONFIG.BANK_DETAILS.accountType;
-            document.getElementById('pop-email').innerText = CONFIG.BANK_DETAILS.emailPOP;
+            // Quote Data
+            region: this.state.region,
+            service_tags: this.state.activeTags.join(', '),
 
-            // 3. Show payment instructions
-            document.getElementById('payment-instructions').style.display = 'block';
+            // Financials
+            subtotal: `${CONFIG.CURRENCY}${this.state.totals.subtotal.toFixed(2)}`,
+            discount_amount: `${CONFIG.CURRENCY}${this.state.totals.discount.toFixed(2)}`,
+            min_charge_applied: this.state.totals.minChargeApplied ? "Yes" : "No",
+            estimated_total: `${CONFIG.CURRENCY}${this.state.totals.total.toFixed(2)}`,
 
-            // 4. Open modal
-            const modal = document.getElementById('mobile-summary-modal');
-            modal.classList.add('open');
+            // Breakdown
+            selected_items: itemsListText
+        };
 
-            // 5. Update button state
-            btn.innerHTML = 'Booking Confirmed';
-            btn.className = 'btn btn-success';
+        try {
+            const response = await fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json"
+                },
+                body: JSON.stringify(formData)
+            });
 
-            alert(`Quote ${ref} sent! Please follow the payment instructions to finalize your booking.`);
-        } else {
-            console.error("Form error:", result);
-            throw new Error(result.message || "Submission failed");
+            const result = await response.json();
+
+            if (response.ok) {
+                // --- SUCCESS UI UPDATE ---
+
+                // 1. Update modal title
+                document.getElementById('modal-title').innerText = "Booking Submitted!";
+
+                // 2. Inject bank details from CONFIG (Mobile)
+                document.getElementById('bank-name').innerText = CONFIG.BANK_DETAILS.bank;
+                document.getElementById('bank-acc').innerText = CONFIG.BANK_DETAILS.accountNumber;
+                document.getElementById('bank-code').innerText = CONFIG.BANK_DETAILS.branchCode;
+                document.getElementById('bank-type').innerText = CONFIG.BANK_DETAILS.accountType;
+                document.getElementById('pop-email').innerText = CONFIG.BANK_DETAILS.emailPOP;
+
+                // 3. Show payment instructions (Mobile)
+                document.getElementById('payment-instructions').style.display = 'block';
+
+                // 4. Inject and show payment instructions (Desktop)
+                const desktopPayment = document.getElementById('payment-instructions-desktop');
+                if (desktopPayment) {
+                    document.getElementById('bank-name-desktop').innerText = CONFIG.BANK_DETAILS.bank;
+                    document.getElementById('bank-acc-desktop').innerText = CONFIG.BANK_DETAILS.accountNumber;
+                    document.getElementById('bank-code-desktop').innerText = CONFIG.BANK_DETAILS.branchCode;
+                    document.getElementById('bank-type-desktop').innerText = CONFIG.BANK_DETAILS.accountType;
+                    document.getElementById('pop-email-desktop').innerText = CONFIG.BANK_DETAILS.emailPOP;
+                    desktopPayment.style.display = 'block';
+                }
+
+                // 5. Open mobile modal
+                const modal = document.getElementById('mobile-summary-modal');
+                if (modal) modal.classList.add('open');
+
+                // 6. Finalize Button States to mark process as ended
+                if (typeof btn !== 'undefined' && btn) {
+                    btn.innerHTML = '<i class="fas fa-check"></i> Booking Confirmed';
+                    btn.className = 'btn btn-success';
+                    btn.disabled = true;
+                }
+
+                if (typeof mobileBtn !== 'undefined' && mobileBtn) {
+                    mobileBtn.innerHTML = '<i class="fas fa-check"></i> Confirmed';
+                    mobileBtn.className = 'btn btn-success';
+                    mobileBtn.disabled = true;
+                }
+
+                // 7. Hide "Back" button to enforce process completion
+                const prevBtn = document.getElementById('prevBtn');
+                if (prevBtn) prevBtn.style.display = 'none';
+
+                alert(`Quote ${ref} sent! Please follow the payment instructions to finalize your booking.`);
+            } else {
+                console.error("Form error:", result);
+                throw new Error(result.message || "Submission failed");
+            }
+
+        } catch (error) {
+            console.error(error);
+            alert("Error sending quote. Please check your internet connection.");
+
+            // Revert button states on failure
+            if (typeof btn !== 'undefined' && btn) {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+
+            if (typeof mobileBtn !== 'undefined' && mobileBtn) {
+                mobileBtn.innerHTML = originalMobileText;
+                mobileBtn.disabled = false;
+            }
         }
-
-    } catch (error) {
-        console.error(error);
-        alert("Error sending quote. Please check your internet connection.");
-        btn.innerHTML = originalText;
-        btn.disabled = false;
     }
-}
+
     toggleMobileSummary() {
         const modal = document.getElementById('mobile-summary-modal');
         const chevron = document.getElementById('summary-chevron');
-        
+
         if (modal.classList.contains('open')) {
             modal.classList.remove('open');
-            if(chevron) chevron.className = 'fas fa-chevron-up';
+            if (chevron) chevron.className = 'fas fa-chevron-up';
         } else {
             modal.classList.add('open');
-            if(chevron) chevron.className = 'fas fa-chevron-down';
-            
+            if (chevron) chevron.className = 'fas fa-chevron-down';
+
             // Sync Ref Number
             const refText = document.getElementById('quote-ref').innerText;
             const mobileRef = document.getElementById('mobile-ref-display');
-            if(mobileRef) mobileRef.innerText = refText;
+            if (mobileRef) mobileRef.innerText = refText;
         }
     }
 }

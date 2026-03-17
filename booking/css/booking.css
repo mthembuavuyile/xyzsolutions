@@ -780,6 +780,20 @@ body {
   font-style: italic;
 }
 
+/* --- BUTTON STATES FOR SUBMISSION COMPLETION --- */
+.btn-success {
+  background: #10b981 !important; /* Emerald green */
+  color: white !important;
+  box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2) !important;
+  cursor: default !important;
+  pointer-events: none; /* Prevents user from clicking again */
+}
+
+.btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 /* Adjust Desktop: Hide this modal on large screens */
 @media (min-width: 1024px) {
   #mobile-summary-modal { display: none !important; }

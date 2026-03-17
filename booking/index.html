@@ -242,6 +242,27 @@
         </div>
         <div class="total-amount" id="total-display">R0.00</div>
       </div>
+
+      <!-- NEW: Desktop Banking Details Section (Hidden until Submit) -->
+      <div id="payment-instructions-desktop"
+        style="display:none; margin-top: 20px; border-top: 2px dashed var(--border); padding-top: 15px;">
+        <h4 style="color: var(--primary); font-size: 1rem; margin-bottom: 10px;">Next Steps: Secure Your Booking</h4>
+        <p style="font-size: 0.85rem; margin-bottom: 10px; color: var(--text-muted);">
+          Please pay the amount above into the account below. Use your <strong>Ref Number</strong> as payment reference.
+        </p>
+
+        <div class="bank-details-box"
+          style="background: #f8fafc; padding: 12px; border-radius: 8px; font-size: 0.85rem; border: 1px solid #e2e8f0;">
+          <p><strong>Bank:</strong> <span id="bank-name-desktop"></span></p>
+          <p><strong>Account:</strong> <span id="bank-acc-desktop"></span></p>
+          <p><strong>Code:</strong> <span id="bank-code-desktop"></span></p>
+          <p><strong>Type:</strong> <span id="bank-type-desktop"></span></p>
+        </div>
+
+        <p style="font-size: 0.85rem; margin-top: 10px; color: #b45309; font-weight: 600;">
+          <i class="fas fa-envelope"></i> Email POP to: <span id="pop-email-desktop"></span>
+        </p>
+      </div>
     </aside>
 
     <div class="mobile-summary-bar">
