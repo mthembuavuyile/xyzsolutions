@@ -350,100 +350,119 @@ class QuoteApp {
 
     // --- SUBMISSION ---
     async submitQuote() {
-        const btn = document.getElementById('nextBtn');
-        const originalText = btn.innerText;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-        btn.disabled = true;
+    const btn = document.getElementById('nextBtn');
+    const originalText = btn.innerText;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+    btn.disabled = true;
 
-        const name = document.getElementById('contact-name').value;
-        const email = document.getElementById('contact-email').value;
-        const phone = document.getElementById('contact-phone').value;
-        const addr = document.getElementById('property-address').value;
-        const date = document.getElementById('booking-date').value;
-        const notes = document.getElementById('special-req') ? document.getElementById('special-req').value : '';
-        const ref = document.getElementById('quote-ref') ? document.getElementById('quote-ref').innerText : 'REF';
+    const name = document.getElementById('contact-name').value;
+    const email = document.getElementById('contact-email').value;
+    const phone = document.getElementById('contact-phone').value;
+    const addr = document.getElementById('property-address').value;
+    const date = document.getElementById('booking-date').value;
+    const notes = document.getElementById('special-req') ? document.getElementById('special-req').value : '';
+    const ref = document.getElementById('quote-ref') ? document.getElementById('quote-ref').innerText : 'REF';
 
-        if (!name || !email || !phone || !addr) {
-            alert("Please fill in all required contact fields.");
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-            return;
-        }
-
-        // --- GENERATE LIST TEXT ---
-        let itemsListText = "";
-        
-        Object.keys(this.state.items).forEach(itemId => {
-            const qty = this.state.items[itemId];
-            if (qty > 0) {
-                const itemDef = this.flatItemMap.get(itemId);
-                if (itemDef) {
-                    const lineTotal = itemDef.price * qty;
-                    // Adds a bullet point and new line for email formatting
-                    itemsListText += `• [${itemDef.serviceName}] ${itemDef.name} (x${qty}) - ${CONFIG.CURRENCY}${lineTotal.toFixed(2)}\n`;
-                }
-            }
-        });
-        
-        // Use a fallback if empty
-        if(itemsListText === "") itemsListText = "No specific items selected.";
-
-        const formData = {
-            access_key: CONFIG.WEB3_KEY,
-            subject: `New Quote: ${ref} from ${name}`,
-            from_name: "Quote Engine",
-
-            // Customer Info
-            reference_number: ref,
-            customer_name: name,
-            customer_email: email,
-            customer_phone: phone,
-            property_address: addr,
-            preferred_date: date,
-            special_notes: notes,
-
-            // Quote Data
-            region: this.state.region,
-            service_tags: this.state.activeTags.join(', '),
-
-            // Financials
-            subtotal: `${CONFIG.CURRENCY}${this.state.totals.subtotal.toFixed(2)}`,
-            discount_amount: `${CONFIG.CURRENCY}${this.state.totals.discount.toFixed(2)}`,
-            min_charge_applied: this.state.totals.minChargeApplied ? "Yes" : "No",
-            estimated_total: `${CONFIG.CURRENCY}${this.state.totals.total.toFixed(2)}`,
-
-            // Breakdown - FIXED: Using the text variable, not the undefined HTML variable
-            selected_items: itemsListText
-        };
-
-        try {
-            const response = await fetch("https://api.web3forms.com/submit", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json"
-                },
-                body: JSON.stringify(formData)
-            });
-
-            const result = await response.json();
-
-            // Check if Web3Forms actually returned a success status (200)
-            if (response.ok) {
-                alert(`Success! Quote ${ref} has been sent.`);
-                window.location.reload();
-            } else {
-                console.error("Form error:", result);
-                throw new Error(result.message || "Submission failed");
-            }
-            
-        } catch (error) {
-            console.error(error);
-            alert("Error sending quote. Please check your internet connection.");
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-        }
+    if (!name || !email || !phone || !addr) {
+        alert("Please fill in all required contact fields.");
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+        return;
     }
+
+    // --- GENERATE LIST TEXT ---
+    let itemsListText = "";
+
+    Object.keys(this.state.items).forEach(itemId => {
+        const qty = this.state.items[itemId];
+        if (qty > 0) {
+            const itemDef = this.flatItemMap.get(itemId);
+            if (itemDef) {
+                const lineTotal = itemDef.price * qty;
+                itemsListText += `• [${itemDef.serviceName}] ${itemDef.name} (x${qty}) - ${CONFIG.CURRENCY}${lineTotal.toFixed(2)}\n`;
+            }
+        }
+    });
+
+    if (itemsListText === "") itemsListText = "No specific items selected.";
+
+    const formData = {
+        access_key: CONFIG.WEB3_KEY,
+        subject: `New Quote: ${ref} from ${name}`,
+        from_name: "Quote Engine",
+
+        // Customer Info
+        reference_number: ref,
+        customer_name: name,
+        customer_email: email,
+        customer_phone: phone,
+        property_address: addr,
+        preferred_date: date,
+        special_notes: notes,
+
+        // Quote Data
+        region: this.state.region,
+        service_tags: this.state.activeTags.join(', '),
+
+        // Financials
+        subtotal: `${CONFIG.CURRENCY}${this.state.totals.subtotal.toFixed(2)}`,
+        discount_amount: `${CONFIG.CURRENCY}${this.state.totals.discount.toFixed(2)}`,
+        min_charge_applied: this.state.totals.minChargeApplied ? "Yes" : "No",
+        estimated_total: `${CONFIG.CURRENCY}${this.state.totals.total.toFixed(2)}`,
+
+        // Breakdown
+        selected_items: itemsListText
+    };
+
+    try {
+        const response = await fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json"
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            // --- SUCCESS UI UPDATE ---
+
+            // 1. Update modal title
+            document.getElementById('modal-title').innerText = "Booking Submitted!";
+
+            // 2. Inject bank details from CONFIG
+            document.getElementById('bank-name').innerText = CONFIG.BANK_DETAILS.bank;
+            document.getElementById('bank-acc').innerText = CONFIG.BANK_DETAILS.accountNumber;
+            document.getElementById('bank-code').innerText = CONFIG.BANK_DETAILS.branchCode;
+            document.getElementById('bank-type').innerText = CONFIG.BANK_DETAILS.accountType;
+            document.getElementById('pop-email').innerText = CONFIG.BANK_DETAILS.emailPOP;
+
+            // 3. Show payment instructions
+            document.getElementById('payment-instructions').style.display = 'block';
+
+            // 4. Open modal
+            const modal = document.getElementById('mobile-summary-modal');
+            modal.classList.add('open');
+
+            // 5. Update button state
+            btn.innerHTML = 'Booking Confirmed';
+            btn.className = 'btn btn-success';
+
+            alert(`Quote ${ref} sent! Please follow the payment instructions to finalize your booking.`);
+        } else {
+            console.error("Form error:", result);
+            throw new Error(result.message || "Submission failed");
+        }
+
+    } catch (error) {
+        console.error(error);
+        alert("Error sending quote. Please check your internet connection.");
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+    }
+}
     toggleMobileSummary() {
         const modal = document.getElementById('mobile-summary-modal');
         const chevron = document.getElementById('summary-chevron');

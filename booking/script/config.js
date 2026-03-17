@@ -7,6 +7,16 @@ const CONFIG = {
     // API Keys
     WEB3_KEY: "9d215b07-c824-40ed-a51e-aa79fd714e28",
 
-    // The text that replaces the badges
+    // Bank / Payment Details
+    BANK_DETAILS: {
+        bank: "FNB / Standard Bank", // Update this
+        accountName: "XYZ Solutions & Projects",
+        accountNumber: "1234567890", // Update this
+        branchCode: "250655",
+        accountType: "Business Cheque",
+        emailPOP: "bookings@xyzsolutions.co.za"
+    },
+
+    // UI Text
     DISCLAIMER_TEXT: `<i class="fas fa-info-circle"></i> Note: A standard minimum call-out fee of R950 applies to all bookings.`
 };

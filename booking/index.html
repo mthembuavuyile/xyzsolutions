@@ -22,7 +22,7 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
 
   <link rel="stylesheet" href="../styles/main.css">
-  <link rel="stylesheet" href="booking.css">
+  <link rel="stylesheet" href="css/booking.css">
 
   <style>
     /* --- Chatbot Footer Integration --- */
@@ -152,7 +152,7 @@
           <div class="input-group">
             <label class="input-label label-highlight">2. Service Category</label>
             <div class="option-grid" id="category-grid">
-              </div>
+            </div>
           </div>
         </div>
 
@@ -160,14 +160,14 @@
           <div class="step-heading">Select Service Package</div>
           <p class="step-sub">Choose the specific package that best fits your needs.</p>
           <div class="option-grid" id="service-type-grid">
-            </div>
+          </div>
         </div>
 
         <div class="form-step" id="step-3">
           <div class="step-heading">Customize Your Quote</div>
           <p class="step-sub">Add items to your basket to calculate the price.</p>
           <div id="items-container">
-            </div>
+          </div>
           <div class="input-group" style="margin-top: 2rem;">
             <label class="input-label">Special Requirements</label>
             <textarea class="form-control" id="special-req" rows="3"
@@ -257,7 +257,7 @@
 
     <div id="mobile-summary-modal" class="mobile-modal">
       <div class="modal-header">
-        <h3>Quote Summary</h3>
+        <h3 id="modal-title">Quote Summary</h3>
         <button onclick="app.toggleMobileSummary()" class="close-modal-btn"><i class="fas fa-times"></i></button>
       </div>
 
@@ -268,15 +268,41 @@
             <p>Ref: <span id="mobile-ref-display" style="font-weight: 700; color: var(--primary);">PENDING</span></p>
           </div>
 
-          <div id="mobile-item-list" class="receipt-items">
-            </div>
+          <div id="mobile-item-list" class="receipt-items"></div>
 
           <div class="receipt-total-row">
             <span>Total Estimate</span>
             <span id="mobile-modal-total">R0.00</span>
           </div>
 
-          <p class="screenshot-hint"><i class="fas fa-camera"></i> Take a screenshot of this page for your records.</p>
+          <!-- NEW: Banking Details Section (Hidden until Submit) -->
+          <div id="payment-instructions"
+            style="display:none; margin-top: 20px; border-top: 2px dashed #eee; padding-top: 15px;">
+            <h4 style="color: var(--primary); font-size: 1rem; margin-bottom: 10px;">Next Steps: Secure Your Booking
+            </h4>
+            <p style="font-size: 0.85rem; margin-bottom: 10px; color: #444;">
+              Please pay the amount above into the account below. Use your <strong>Ref Number</strong> as payment
+              reference.
+            </p>
+
+            <div class="bank-details-box"
+              style="background: #f8fafc; padding: 12px; border-radius: 8px; font-size: 0.85rem; border: 1px solid #e2e8f0;">
+              <p><strong>Bank:</strong> <span id="bank-name"></span></p>
+              <p><strong>Account:</strong> <span id="bank-acc"></span></p>
+              <p><strong>Code:</strong> <span id="bank-code"></span></p>
+              <p><strong>Type:</strong> <span id="bank-type"></span></p>
+            </div>
+
+            <p style="font-size: 0.85rem; margin-top: 10px; color: #b45309; font-weight: 600;">
+              <i class="fas fa-envelope"></i> Email POP to: <span id="pop-email"></span>
+            </p>
+          </div>
+
+          <p class="screenshot-hint" style="margin-top:20px;"><i class="fas fa-camera"></i> Take a screenshot of this
+            for your records.</p>
+            <p style="text-align: center; font-size: 0.85rem; margin-top: 15px; color: #64748b;">
+            Have questions about your quote? Visit our <a href="/faq.html" style="color: var(--primary); text-decoration: underline;">FAQ page</a>.
+          </p>
         </div>
       </div>
     </div>
@@ -327,14 +353,14 @@
     </div>
   </footer>
 
-<script src="../js/main.js"></script>
-<script src="../js/chatbot.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/chatbot.js"></script>
 
-<script src="script/config.js"></script>
-<script src="script/categories.js"></script>
-<script src="script/services.js"></script>
-<script src="script/engine.js"></script>
-<script src="script/main.js"></script>
+  <script src="script/config.js"></script>
+  <script src="script/categories.js"></script>
+  <script src="script/services.js"></script>
+  <script src="script/engine.js"></script>
+  <script src="script/main.js"></script>
 
 
   <script>
