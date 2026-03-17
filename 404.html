@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Page not found - XYZSolutions." />
+    <title>404 - Page Not Found | XYZSolutions</title>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="styles/main.css">
+
+    <!-- Specific 404 Styles -->
+    <style>
+        .error-page {
+            min-height: calc(100vh - 70px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(248, 249, 251, 1), rgba(0, 119, 190, 0.05));
+            padding: 4rem 5%;
+        }
+
+        .error-content {
+            max-width: 600px;
+            animation: fadeUp 0.8s ease-out;
+        }
+
+        .error-icon {
+            font-size: 5rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            animation: sweep 2s infinite ease-in-out;
+            display: inline-block;
+        }
+
+        .error-code {
+            font-size: clamp(6rem, 15vw, 10rem);
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            text-shadow: 4px 4px 0px rgba(0, 184, 148, 0.15);
+            letter-spacing: -2px;
+        }
+
+        .error-title {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .error-message {
+            color: var(--gray);
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Small animation for the broom icon */
+        @keyframes sweep {
+
+            0%,
+            100% {
+                transform: rotate(-10deg);
+            }
+
+            50% {
+                transform: rotate(10deg) translateX(5px);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .error-title {
+                font-size: 1.5rem;
+            }
+
+            .error-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .error-actions a {
+                width: 100%;
+                margin-left: 0 !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- DRY Header Injection -->
+    <header id="header-placeholder"></header>
+
+    <main>
+        <section class="error-page">
+            <div class="error-content">
+                <!-- Cleaning Icon -->
+                <span class="material-icons-outlined error-icon">cleaning_services</span>
+
+                <h1 class="error-code">404</h1>
+                <h2 class="error-title">Oops! This page was wiped clean.</h2>
+                <p class="error-message">
+                    We can't seem to find the page you're looking for. It might have been moved, deleted, or perhaps it
+                    never existed. Let's get you back to a spotless place.
+                </p>
+
+                <div class="error-actions">
+                    <a href="index.html" class="cta-btn primary-accent">Back to Homepage</a>
+                    <a href="contact.html" class="cta-btn secondary-outline"
+                        style="color: var(--primary); border-color: var(--primary);">Contact Us</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- DRY Footer Injection -->
+    <footer id="footer-placeholder"></footer>
+
+    <!-- Chatbot -->
+    <div id="chatbot-container"></div>
+
+    <!-- Main JavaScript -->
+    <script src="js/main.js" defer></script>
+    <script src="js/chatbot.js" defer></script>
+
+</body>
+
+</html>
