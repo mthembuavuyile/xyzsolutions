@@ -1055,10 +1055,11 @@ footer {
     color: var(--dark);
   }
 
-  nav a:hover, nav a.active {
-    background-color: #f8f9fb;
-    color: var(--primary);
-  }
+  nav a:not(.cta-nav):hover, 
+nav a:not(.cta-nav).active {
+  background-color: #f8f9fb;
+  color: var(--primary);
+}
 
   nav a::after {
     display: none;
